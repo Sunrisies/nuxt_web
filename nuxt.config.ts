@@ -9,4 +9,5 @@ export default defineNuxtConfig({
       tailwindcss(),
     ],
   },
+  modules: ['@nuxt/ui']
 })
