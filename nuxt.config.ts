@@ -6,8 +6,11 @@ export default defineNuxtConfig({
   css: ['./app/assets/css/tailwind.css', './app/assets/css/main.css'],
   vite: {
     plugins: [
-      tailwindcss(),
+      tailwindcss()
     ],
   },
-  modules: ['@nuxt/ui']
+  modules: ['@nuxt/ui', '@nuxt/fonts'],
+  fonts: {
+    provider: "local"
+  },
 })

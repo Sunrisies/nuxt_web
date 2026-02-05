@@ -10,6 +10,7 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/fonts": "0.13.0",
     "@nuxt/ui": "^4.4.0",
     "@tailwindcss/vite": "^4.1.18",
     "lucide-vue-next": "^0.563.0",
@@ -17,5 +18,8 @@
     "tailwindcss": "^4.1.18",
     "vue": "^3.5.27",
     "vue-router": "^4.6.4"
+  },
+  "devDependencies": {
+    "sass-embedded": "^1.97.3"
   }
 }

@@ -1,3 +1,6 @@
 @import 'tailwindcss';
 @import '@nuxt/ui';
 @config '../../../tailwind.config.ts';
+@theme static {
+  --font-sans: 'Cascadia Code', sans-serif;
+}
