@@ -8,9 +8,34 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss()
     ],
+    build: {
+      rollupOptions: {
+        external: [],
+        output: {
+          manualChunks: {
+            // 确保 @vueuse 被打包进单独的 chunk
+            'vueuse': ['@vueuse/core']
+          }
+        }
+      }
+    }
+
   },
   modules: ['@nuxt/ui', '@nuxt/fonts'],
   fonts: {
     provider: "local"
   },
+  icon: {
+    customCollections: [
+      {
+        prefix: 'custom',
+        dir: "./app/assets/icons"
+      }
+    ]
+  },
+  nitro: {
+    externals: {
+      external: []
+    }
+  }
 })

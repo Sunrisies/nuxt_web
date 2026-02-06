@@ -1,26 +1,10 @@
 <template>
-  <div class="relative transition-all duration-1500  hover:scale-120 hover:rotate-360">
-    <div 
-      v-if="loading"
-      :class="skeletonClasses"
-    ></div>
-    
-    <div 
-      v-else
-      :class="avatarClasses"
-      @click="handleClick"
-    >
-      <img 
-        v-if="imageSrc"
-        :src="imageSrc"
-        :alt="alt"
-        class="w-full h-full object-cover"
-        @error="handleImageError"
-      />
-      <div 
-        v-else
-        :class="fallbackClasses"
-      >
+  <div class="relative transition-all duration-1500 hover:scale-120 hover:rotate-360">
+    <div v-if="loading" :class="skeletonClasses"></div>
+
+    <div v-else :class="avatarClasses" @click="handleClick">
+      <img v-if="imageSrc" :src="imageSrc" :alt="alt" class="w-full h-full object-cover" @error="handleImageError" />
+      <div v-else :class="fallbackClasses">
         {{ fallbackText }}
       </div>
     </div>
@@ -38,7 +22,7 @@ const props = defineProps({
   },
   src: {
     type: String,
-    default: '/blog.png'
+    default: '/blog.webp'
   },
   alt: {
     type: String,
@@ -63,29 +47,23 @@ const emit = defineEmits(['click', 'error'])
 const imageError = ref(false)
 
 const sizeClasses = {
-  16: "xs:w-12 xs:h-12 tb:w-16 tb:h-16 pc:w-20 pc:h-20",
-  24: "xs:w-20 xs:h-20 tb:w-24 tb:h-24 pc:w-32 pc:h-32",
-  32: "xs:w-28 xs:h-28 tb:w-32 tb:h-32 pc:w-40 pc:h-40",
-  40: "xs:w-32 xs:h-32 tb:w-40 tb:h-40 pc:w-48 pc:h-48",
-  48: "xs:w-40 xs:h-40 tb:w-48 tb:h-48 pc:w-64 pc:h-64",
-  64: "xs:w-56 xs:h-56 tb:w-64 tb:h-64 pc:w-80 pc:h-80",
-  80: "xs:w-72 xs:h-72 tb:w-80 tb:h-80 pc:w-96 pc:h-96",
-  96: "xs:w-88 xs:h-88 tb:w-96 tb:h-96 pc:w-128 pc:h-128",
+  16: 'xs:w-12 xs:h-12 tb:w-16 tb:h-16 pc:w-20 pc:h-20',
+  24: 'xs:w-20 xs:h-20 tb:w-24 tb:h-24 pc:w-32 pc:h-32',
+  32: 'xs:w-28 xs:h-28 tb:w-32 tb:h-32 pc:w-40 pc:h-40',
+  40: 'xs:w-32 xs:h-32 tb:w-40 tb:h-40 pc:w-48 pc:h-48',
+  48: 'xs:w-40 xs:h-40 tb:w-48 tb:h-48 pc:w-64 pc:h-64',
+  64: 'xs:w-56 xs:h-56 tb:w-64 tb:h-64 pc:w-80 pc:h-80',
+  80: 'xs:w-72 xs:h-72 tb:w-80 tb:h-80 pc:w-96 pc:h-96',
+  96: 'xs:w-88 xs:h-88 tb:w-96 tb:h-96 pc:w-128 pc:h-128'
 }
 
 const skeletonClasses = computed(() => {
-  const base = [
-    'animate-pulse',
-    'bg-gray-200',
-    'dark:bg-gray-700',
-    'rounded-full',
-    sizeClasses[props.size] || sizeClasses[16]
-  ]
-  
+  const base = ['animate-pulse', 'bg-gray-200', 'dark:bg-gray-700', 'rounded-full', sizeClasses[props.size] || sizeClasses[16]]
+
   if (props.bordered) {
     base.push('border-4 border-gray-300 dark:border-gray-600')
   }
-  
+
   return base.join(' ')
 })
 

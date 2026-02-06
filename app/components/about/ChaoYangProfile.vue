@@ -3,28 +3,15 @@
     <!-- Hero Section -->
     <div class="text-center mb-12">
       <div class="relative inline-block mb-6">
-        <!-- <UAvatar 
-          size="md"
-          src="/blog.png" 
-          alt="朝阳" 
-          class="border-4 border-white dark:border-gray-900"
-        /> -->
-
-        <Avatar :size="48" src="/blog.png" alt="自定义头像" />
-        <div
-          class="absolute -bottom-2 -right-1 bg-primary text-primary-foreground rounded-full p-2"
-        >
+        <Avatar :size="48" src="/blog.webp" alt="自定义头像" />
+        <div class="absolute -bottom-2 -right-1 bg-primary text-primary-foreground rounded-full p-2">
           <Icon name="lucide:code" class="h-4 w-4" />
         </div>
       </div>
       <h1 class="text-4xl font-bold mb-2">朝阳</h1>
-      <p class="text-xl text-muted-foreground mb-4">
-        全栈开发工程师 & 代码农夫
-      </p>
+      <p class="text-xl text-muted-foreground mb-4">全栈开发工程师 & 代码农夫</p>
 
-      <div
-        class="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground"
-      >
+      <div class="flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
         <div class="flex items-center gap-1">
           <Icon name="lucide:map-pin" class="h-4 w-4" />
           <span>北京, 中国</span>
@@ -101,14 +88,12 @@
 
       <div class="mt-6 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg">
         <h3 class="text-lg font-medium mb-2">我的座右铭</h3>
-        <blockquote class="text-muted-foreground italic">
-          代码如诗，架构如画。用心编写每一行代码，用爱构建每一个系统。
-        </blockquote>
+        <blockquote class="text-muted-foreground italic">代码如诗，架构如画。用心编写每一行代码，用爱构建每一个系统。</blockquote>
       </div>
     </UCard>
   </div>
 </template>
 
 <script setup>
-const avatarUrl = "/avatar.png"; // 替换为实际的头像URL
+const avatarUrl = '/avatar.png' // 替换为实际的头像URL
 </script>
