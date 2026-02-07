@@ -35,7 +35,7 @@ const route = useRoute()
 
 const items = computed<NavigationMenuItem[]>(() => [
   { label: 'Home', to: '/' },
-  // { label: '文章', to: '/blog/1' },
+  { label: '文章', to: '/blog/1' },
   // { label: '时光轴', to: '/timeline' },
   // {
   //   label: '影像长廊',
