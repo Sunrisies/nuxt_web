@@ -35,15 +35,15 @@ const route = useRoute()
 
 const items = computed<NavigationMenuItem[]>(() => [
   { label: 'Home', to: '/' },
-  { label: '文章', to: '/blog/1' },
-  { label: '时光轴', to: '/timeline' },
-  {
-    label: '影像长廊',
-    to: '/album'
-  },
-  { label: '音乐库', to: '/music-player' },
-  { label: '第三方库', to: '/libraries' },
-  { label: '资源库', to: '/chat' },
+  // { label: '文章', to: '/blog/1' },
+  // { label: '时光轴', to: '/timeline' },
+  // {
+  //   label: '影像长廊',
+  //   to: '/album'
+  // },
+  // { label: '音乐库', to: '/music-player' },
+  // { label: '第三方库', to: '/libraries' },
+  // { label: '资源库', to: '/chat' },
   { label: '关于', to: '/about' }
 ])
 

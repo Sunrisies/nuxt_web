@@ -37,6 +37,6 @@ export default defineNuxtConfig({
     externals: {
       external: []
     },
-    preset: "bun"
-  }
+  },
+
 })

@@ -28,17 +28,22 @@
           <div class="flex flex-col gap-3">
             <h4 class="text-sm font-semibold text-center">探索</h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
-              <NuxtLink href="/blog/1" class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
+              <NuxtLink class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
+              <NuxtLink class="hover:text-foreground transition-colors"> 标签云 </NuxtLink>
+              <NuxtLink class="hover:text-foreground transition-colors"> 文章归档 </NuxtLink>
+              <!-- <NuxtLink href="/blog/1" class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
               <NuxtLink href="/tags" class="hover:text-foreground transition-colors"> 标签云 </NuxtLink>
-              <NuxtLink href="/archives" class="hover:text-foreground transition-colors"> 文章归档 </NuxtLink>
+              <NuxtLink href="/archives" class="hover:text-foreground transition-colors"> 文章归档 </NuxtLink> -->
             </div>
           </div>
 
           <div class="flex flex-col gap-3">
             <h4 class="text-sm font-semibold text-center">支持</h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
-              <NuxtLink href="/about" class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink>
-              <NuxtLink href="/api/rss" class="hover:text-foreground transition-colors"> RSS订阅 </NuxtLink>
+              <!-- <NuxtLink href="/about" class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink> -->
+              <!-- <NuxtLink href="/api/rss" class="hover:text-foreground transition-colors"> RSS订阅 </NuxtLink> -->
+              <NuxtLink class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink>
+              <NuxtLink class="hover:text-foreground transition-colors"> RSS订阅 </NuxtLink>
               <NuxtLink
                 href="https://github.com/yourusername/blog"
                 target="_blank"
@@ -59,11 +64,12 @@
               rel="noreferrer"
               class="h-9 w-9 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-200"
             >
-             <UIcon name="i-custom-github" class="h-4 w-4"/>
+              <UIcon name="i-custom-github" class="h-4 w-4" />
               <span class="sr-only">GitHub</span>
             </NuxtLink>
+            <!-- href="/api/rss" -->
+
             <NuxtLink
-              href="/api/rss"
               class="h-9 w-9 rounded-full bg-muted flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200"
             >
               <svg
