@@ -18,8 +18,9 @@ interface ApiResponse<T = any> {
 
 export const http = async <T = any>(obj: HttpParams): Promise<T> => {
     try {
+        console.log(process.env, '111111111111111111111111111111111111111111111')
         const response = await $fetch<ApiResponse<T>>(obj.url, {
-            baseURL: process.env.API_BASE || BASEURL,
+            baseURL: process.env.NUXT_PUBLIC_API_BASE || BASEURL,
             onRequest: (res) => {
                 console.log(res, '请求成功')
             },

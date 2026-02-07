@@ -41,19 +41,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-// import type { Metadata, PaginatedResponseDto, ResponseDto } from '../../types/api'
+import { ref } from 'vue'
 import type { IBlog, Tag } from '@/types/blog'
-// import Http from '../utils/services/request'
-
-// 组件
-// import SentencesCarousel from '@/components/home/SentencesCarousel.vue'
-// import BlogPostCard from '@/components/home/BlogPostCard.vue'
-// import ProfileCard from '@/components/home/ProfileCard.vue'
-// import RecentPostsList from '@/components/home/RecentPostsList.vue'
-// import TagCloud from '@/components/home/TagCloud.vue'
-// import ScrollToTopButton from '@/components/ScrollToTopButton.vue'
-
+import { http } from '~/composables/http'
 // 元数据
 useHead({
   title: '朝阳的码农札记 | 全栈开发者的技术分享与经验总结',
@@ -158,24 +148,30 @@ const blogs = ref<IBlog[]>([])
 const tags = ref<Tag[]>([])
 
 // API 函数
-// const getPostApi = async (slug: number) => {
-//   const { data } = await Http.get(`v1/posts?page=${slug}&limit=12`)
-//   return data
-// }
+const getPostApi = async () => {
+  const { data } = await useAsyncData('posts', () =>
+    http({
+      url: `/v1/posts?page=1&limit=12`
+    })
+  )
+  return data.value || []
+}
 
-// const getTags = async () => {
-//   const response = await Http.get('v1/tags/count')
-//   return response.data
-// }
+const getTags = async () => {
+  const { data } = await useAsyncData('tagsCount', () =>
+    http({
+      url: '/v1/tags/count'
+    })
+  )
+  return data.value || []
+}
 
 // 获取数据
-onMounted(async () => {
-  // try {
-  //   const [postsResponse, tagsResponse] = await Promise.all([getPostApi(1), getTags()])
-  //   blogs.value = postsResponse.data
-  //   tags.value = tagsResponse.data
-  // } catch (error) {
-  //   console.error('获取数据失败:', error)
-  // }
-})
+try {
+  const [postsResponse, tagsResponse] = await Promise.all([getPostApi(), getTags()])
+  blogs.value = postsResponse.data
+  tags.value = tagsResponse
+} catch (error) {
+  console.error('获取数据失败:', error)
+}
 </script>
