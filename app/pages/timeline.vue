@@ -22,7 +22,7 @@
         <div v-else-if="articles.length > 0">
           <div v-for="article in articles" :key="article.uuid || article.id" class="mb-8 relative w-full">
             <!-- 时间轴节点 -->
-            <div class="absolute -left-[25px] md:-left-[41px] w-5 h-5 bg-background border-2 border-primary rounded-full" />
+            <div class="absolute -left-6.25 md:-left-10.25 w-5 h-5 bg-background border-2 border-primary rounded-full" />
 
             <!-- 文章卡片 -->
             <div class="group block p-4 md:p-6 bg-card hover:bg-accent rounded-lg transition-colors duration-200">

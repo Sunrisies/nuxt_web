@@ -25,4 +25,4 @@ export interface Tag {
     name: string
     count: number
 }
-export type warehouseType = (string | number)[][]
+export type warehouseType = [string, number][]
