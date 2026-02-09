@@ -5,6 +5,15 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ['./app/assets/css/tailwind.css', './app/assets/css/main.css'],
   vite: {
+    optimizeDeps: {
+      include: [
+        "@nuxt/ui > prosemirror-state",
+        "@nuxt/ui > prosemirror-transform",
+        "@nuxt/ui > prosemirror-model",
+        "@nuxt/ui > prosemirror-view",
+        "@nuxt/ui > prosemirror-gapcursor",
+      ],
+    },
     plugins: [
       tailwindcss()
     ],
@@ -49,7 +58,10 @@ export default defineNuxtConfig({
   },
   eslint: {
     config: {
-      stylistic: true // <---
+      stylistic: {
+        commaDangle: "never",
+        braceStyle: "1tbs",
+      }
     }
   }
 })
