@@ -11,58 +11,8 @@
         </div>
       </div>
 
-      <!-- 时光轴内容 -->
-      <div class="relative border-l-2 border-primary/30 pl-4 md:pl-7.5 ml-2 md:ml-10">
-        <!-- 加载状态 -->
-        <div v-if="loading" class="flex justify-center py-12">
-          <UISpinner class="w-8 h-8" />
-        </div>
-
-        <!-- 文章列表 -->
-        <div v-else-if="articles.length > 0">
-          <div v-for="article in articles" :key="article.uuid || article.id" class="mb-8 relative w-full">
-            <!-- 时间轴节点 -->
-            <div class="absolute -left-6.25 md:-left-10.25 w-5 h-5 bg-background border-2 border-primary rounded-full" />
-
-            <!-- 文章卡片 -->
-            <div class="group block p-4 md:p-6 bg-card hover:bg-accent rounded-lg transition-colors duration-200">
-              <!-- 日期 -->
-              <time class="text-sm text-muted-foreground mb-2 block">
-                {{ formatDate(article.publish_time) }}
-              </time>
-
-              <!-- 文章标题 -->
-              <h2 class="text-xl font-semibold mb-2 group-hover:text-primary transition-colors">
-                <NuxtLink :to="`/article/${article.uuid}`" class="hover:underline">
-                  {{ article.title }}
-                </NuxtLink>
-              </h2>
-
-              <!-- 文章描述 -->
-              <p class="text-muted-foreground line-clamp-2">
-                {{ article.description }}
-              </p>
-
-              <!-- 标签 -->
-              <div class="flex flex-wrap gap-2 mt-3">
-                <span
-                  v-for="tag in article.tags"
-                  :key="tag.id"
-                  class="px-2 py-1 text-xs bg-secondary text-secondary-foreground rounded-full"
-                >
-                  #{{ tag.name }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- 空状态 -->
-        <div v-else class="text-center py-12 text-muted-foreground">
-          <UIcon name="i-heroicons-document-text" class="w-12 h-12 mx-auto mb-4" />
-          <p>暂无文章</p>
-        </div>
-      </div>
+      <!-- 使用 NuxtUI 的 UChangelogVersions 组件 -->
+      <UChangelogVersions :versions="versions"> </UChangelogVersions>
     </div>
 
     <!-- 回到顶部按钮 -->
@@ -72,6 +22,7 @@
 
 <script setup lang="ts">
 import type { IArticle } from '@/types/article'
+import type { ChangelogVersionProps } from '@nuxt/ui'
 // import type { warehouseType } from '@/types/blog'
 export type warehouseType = (string | number)[][]
 // 元数据配置
@@ -195,6 +146,40 @@ const formatDate = (dateString: string) => {
 // onMounted(async () => {
 await Promise.all([getTimelineArticles(), getWarehouse()])
 loading.value = false
+// 格式化相对时间函数
+const formatTimeAgo = (dateString: string | Date) => {
+  const date = new Date(dateString)
+  const now = new Date()
+  const diffMs = now.getTime() - date.getTime()
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+
+  if (diffDays === 0) return '今天'
+  if (diffDays === 1) return '昨天'
+  if (diffDays < 7) return `${diffDays} 天前`
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} 周前`
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)} 个月前`
+  return `${Math.floor(diffDays / 365)} 年前`
+}
+
+// 将文章数据转换为 UChangelogVersions 需要的格式
+const versions = computed<ChangelogVersionProps[]>(() => {
+  return articles.value.map((article) => ({
+    // 组件内置属性
+    title: article.title, // 会在 #title 插槽中被覆盖，但保留以供组件内部使用
+    description: article.description, // 会在 #description 插槽中被覆盖
+    date: article.publish_time, // 重要：组件会据此排序
+    to: `/article/${article.uuid}`, // 用于生成链接
+    // 你需要的自定义数据
+    views: article.views || 0,
+    tags: article.tags || [],
+    // 可以在这里配置组件的一些UI属性
+    ui: {
+      // 例如自定义容器类
+      container: 'gap-8!'
+    }
+  }))
+})
+
 // })
 </script>
 
