@@ -40,22 +40,18 @@
 </template>
 
 <script setup lang="ts">
-// import { parseMarkdown } from '@nuxtjs/mdc/runtime'
+import type { IArticle } from '~/types/article'
+
 const route = useRoute()
-const article = ref(null)
-// const getArticle = async () => {
+const article = ref<IArticle | null>(null)
 const { data } = await useAsyncData(`article-${route.params.slug}`, () =>
     http({
         url: `/v1/posts/${route.params.slug}`
     })
 )
-console.log(data.value, 'data')
 article.value = data.value || {}
 const ast = await parseMarkdown(data.value?.content || '')
-// console.log(ast, 'ast-------')
-// }
 
-// getArticle()
 </script>
 
 <style lang="scss" scoped></style>

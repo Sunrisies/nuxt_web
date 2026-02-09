@@ -1,6 +1,7 @@
 <script setup lang="ts">
-const route = useRoute()
-const posts = ref([])
+import type { IBlog } from '~/types/blog'
+
+const posts = ref<IBlog[]>([])
 // API 函数
 const getPostApi = async () => {
   const { data } = await useAsyncData('blogs', () =>
@@ -43,29 +44,16 @@ try {
 
     <UPageBody>
       <UBlogPosts>
-        <UBlogPost
-          v-for="(post, index) in posts"
-          :key="post.uuid"
-          :to="post.path"
-          :title="post.title"
-          :description="post.description"
-          :image="post.image"
-          :date="
-            new Date(post.date).toLocaleDateString('zh-CN', {
-              year: 'numeric',
-              month: 'long',
-              day: 'numeric'
-            })
-          "
-          :authors="post.authors"
-          :badge="post.badge"
-          :orientation="index === 0 ? 'horizontal' : 'vertical'"
-          :class="[index === 0 && 'col-span-full']"
-          variant="naked"
-          :ui="{
+        <UBlogPost v-for="(post, index) in posts" :key="post.uuid" :to="post.path" :title="post.title"
+          :description="post.description" :image="post.image" :date="new Date(post.date).toLocaleDateString('zh-CN', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+            " :authors="post.authors" :badge="post.badge" :orientation="index === 0 ? 'horizontal' : 'vertical'"
+          :class="[index === 0 && 'col-span-full']" variant="naked" :ui="{
             description: 'line-clamp-2'
-          }"
-        />
+          }" />
       </UBlogPosts>
     </UPageBody>
   </UContainer>

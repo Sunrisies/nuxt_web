@@ -1,10 +1,6 @@
 <template>
-  <!-- <div class="w-full bg-white rounded-lg shadow-lg border border-gray-200 p-4 mt-4">
-    <VChart v-if="chartOptions" :option="chartOptions" :autoresize="true" style="height: 176px" />
-  </div> -->
   <div
-    class="w-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 mt-4 transition-all duration-300"
-  >
+    class="w-full bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-200 dark:border-gray-800 p-6 mt-4 transition-all duration-300">
     <!-- 自定义标题和统计信息 -->
     <div class="flex justify-between items-center mb-4">
       <div>
@@ -15,7 +11,8 @@
       </div>
       <div class="flex items-center space-x-2">
         <span class="text-sm text-gray-600 dark:text-gray-300">{{ getCurrentYear }} 年</span>
-        <UIcon name="i-heroicons-information-circle" class="w-5 h-5 text-gray-400 cursor-help" @click="showStats = !showStats" />
+        <UIcon name="i-heroicons-information-circle" class="w-5 h-5 text-gray-400 cursor-help"
+          @click="showStats = !showStats" />
       </div>
     </div>
 
@@ -24,15 +21,8 @@
       <div v-if="loading" class="absolute inset-0 flex items-center justify-center">
         <UISpinner class="w-8 h-8 text-primary" />
       </div>
-      <VChart
-        v-else
-        :option="chartOptions"
-        :autoresize="true"
-        class="w-full h-full"
-        @click="handleCellClick"
-        @mouseover="handleMouseOver"
-        @mouseout="handleMouseOut"
-      />
+      <VChart v-else :option="chartOptions" :autoresize="true" class="w-full h-full" @click="handleCellClick"
+        @mouseover="handleMouseOver" @mouseout="handleMouseOut" />
     </div>
 
     <!-- 图例 -->
@@ -40,7 +30,8 @@
       <div class="flex items-center space-x-2">
         <span class="text-xs text-gray-500 dark:text-gray-400">较少</span>
         <div class="flex space-x-1">
-          <div v-for="color in colorGradient" :key="color" class="w-4 h-3 rounded-sm" :style="{ backgroundColor: color }" />
+          <div v-for="color in colorGradient" :key="color" class="w-4 h-3 rounded-sm"
+            :style="{ backgroundColor: color }" />
         </div>
         <span class="text-xs text-gray-500 dark:text-gray-400">较多</span>
       </div>
@@ -49,7 +40,8 @@
 
     <!-- 统计详情卡片 -->
     <Transition name="fade">
-      <div v-if="showStats" class="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+      <div v-if="showStats"
+        class="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         <div class="grid grid-cols-2 gap-4">
           <div class="text-center">
             <div class="text-2xl font-bold text-primary">{{ getTotalArticles }}</div>
@@ -327,6 +319,7 @@ const chartOptions = computed(() => {
 :deep(.echarts-tooltip span) {
   color: inherit !important;
 }
+
 /* 添加一些额外的样式 */
 :deep(.echarts-heatmap-cell) {
   transition: all 0.2s ease;
