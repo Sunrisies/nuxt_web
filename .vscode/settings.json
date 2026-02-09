@@ -15,5 +15,6 @@
             "(?:'|\"|`)([^']*)(?:'|\"|`)"
         ]
     ],
-    "Codegeex.CommitMessageStyle": "ConventionalCommits"
+    "Codegeex.CommitMessageStyle": "ConventionalCommits",
+    "eslint.useFlatConfig": true
 }

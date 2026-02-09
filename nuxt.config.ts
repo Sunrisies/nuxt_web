@@ -21,7 +21,7 @@ export default defineNuxtConfig({
     }
 
   },
-  modules: ['@nuxt/ui', '@nuxt/fonts'],
+  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxt/eslint'],
   fonts: {
     provider: "local"
   },
@@ -47,4 +47,9 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api',
     },
   },
+  eslint: {
+    config: {
+      stylistic: true // <---
+    }
+  }
 })

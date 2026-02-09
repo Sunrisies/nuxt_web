@@ -7,9 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "dependencies": {
+    "@nuxt/eslint": "^1.14.0",
     "@nuxt/fonts": "0.13.0",
     "@nuxt/ui": "^4.4.0",
     "@tailwindcss/vite": "^4.1.18",
