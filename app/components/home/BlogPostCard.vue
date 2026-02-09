@@ -1,7 +1,13 @@
 <template>
-  <UCard class="group overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 p-0" :ui="{ body: { padding: 'p-5' } }">
+  <UCard
+    class="group overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 p-0"
+    :ui="{ body: { padding: 'p-5' } }"
+  >
     <div class="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-      <UIcon name="i-heroicons-calendar" class="h-3 w-3" />
+      <UIcon
+        name="i-heroicons-calendar"
+        class="h-3 w-3"
+      />
       <time :datetime="formattedDate">{{ formattedDate }}</time>
     </div>
 
@@ -14,10 +20,18 @@
       </NuxtLink>
     </h3>
 
-    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">{{ blog.description }}</p>
+    <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">
+      {{ blog.description }}
+    </p>
 
     <div class="mt-4 flex flex-wrap gap-2">
-      <UBadge v-for="tag in blog.tags" :key="tag.id" variant="subtle" color="gray" class="font-normal">
+      <UBadge
+        v-for="tag in blog.tags"
+        :key="tag.id"
+        variant="subtle"
+        color="gray"
+        class="font-normal"
+      >
         {{ tag.name }}
       </UBadge>
     </div>
@@ -25,8 +39,8 @@
 </template>
 
 <script setup lang="ts">
-import type { IBlog } from '@/types/blog'
-import { formatChineseDateTime } from '../../utils/data'
+import type { IBlog } from "@/types/blog"
+import { formatChineseDateTime } from "../../utils/data"
 
 const props = defineProps<{
   blog: IBlog

@@ -8,14 +8,14 @@ const config = {
       center: true,
       padding: "1rem",
       screens: {
-        "2xl": "1400px",
-      },
+        "2xl": "1400px"
+      }
     },
     screens: {
       // ← 覆盖默认断点，只留三套
       xs: "375px", // 移动端（最小常见屏）
       tb: "768px", // 平板
-      pc: "1280px", // PC
+      pc: "1280px" // PC
     },
     extend: {
       width: {
@@ -24,10 +24,10 @@ const config = {
         384: "24rem",
         448: "28rem",
         512: "32rem",
-        640: "40rem",
-      },
-    },
-  },
+        640: "40rem"
+      }
+    }
+  }
   // plugins: [typography],
-};
-export default config;
+}
+export default config

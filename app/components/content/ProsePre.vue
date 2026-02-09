@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { codeToHtml } from 'shiki'
+import { codeToHtml } from "shiki"
+
 const props = defineProps({
   code: {
     type: String,
-    default: ''
+    default: ""
   },
   language: {
     type: String,
@@ -27,21 +28,24 @@ const props = defineProps({
   }
 })
 const html = await codeToHtml(props.code, {
-  lang: 'javascript',
-  theme: 'dracula'
+  lang: "javascript",
+  theme: "dracula"
 })
 </script>
+
 <template>
   <div class="">
-    <div class="bg-gray-900 text-gray-500 text-xs border-b border-gray-700 px-3 py-1 rounded-tl-md rounded-tr-md">sunrise</div>
-    <pre v-html="html"></pre>
+    <div class="bg-gray-900 text-gray-500 text-xs border-b border-gray-700 px-3 py-1 rounded-tl-md rounded-tr-md">
+      sunrise
+    </div>
+    <pre v-html="html" />
   </div>
 </template>
+
 <style scoped lang="scss">
-@reference "~/assets/css/main.css";
 :deep(pre) {
   pre {
-  @apply px-5 py-3 rounded-bl-md rounded-br-md overflow-x-auto;
+    @apply px-5 py-3 rounded-bl-md rounded-br-md overflow-x-auto;
   }
 }
 pre code .line {

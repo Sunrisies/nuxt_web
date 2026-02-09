@@ -7,10 +7,10 @@
 </template>
 
 <script setup lang="ts">
-defineNuxtPlugin(async (nuxtApp) => {
+defineNuxtPlugin(async () => {
   const config = useRuntimeConfig()
-  console.log('Runtime Config:', config)
-  console.log('API Base:', config.public.apiBase)
+  console.log("Runtime Config:", config)
+  console.log("API Base:", config.public.apiBase)
 })
 </script>
 

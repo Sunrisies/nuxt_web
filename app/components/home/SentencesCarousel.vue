@@ -1,5 +1,8 @@
 <template>
-  <div class="mb-6 text-lg text-muted-foreground cursor-pointer relative h-20" @click="handleClick">
+  <div
+    class="mb-6 text-lg text-muted-foreground cursor-pointer relative h-20"
+    @click="handleClick"
+  >
     <p
       v-for="(text, index) in sentences"
       :key="index"
@@ -12,9 +15,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from "vue"
 
-const sentences = ['代码如诗,', '架构如画,', '用心编写每一行代码,', '用爱构建每一个系统']
+const sentences = ["代码如诗,", "架构如画,", "用心编写每一行代码,", "用爱构建每一个系统"]
 
 const currentIndex = ref(0)
 let timer: ReturnType<typeof setInterval> | null = null

@@ -14,19 +14,21 @@
 
           <p class="text-center md:text-left text-sm text-muted-foreground leading-relaxed">
             分享前沿技术、开发经验与编程心得
-            <br />
+            <br>
             探索数字世界的无限可能
           </p>
 
           <div class="flex items-center gap-2 text-xs text-muted-foreground bg-muted/50 px-3 py-1.5 rounded-full">
-            <div class="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></div>
+            <div class="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
             <span>已稳定运行 {{ duration }}</span>
           </div>
         </div>
 
         <div class="flex sm:flex-row gap-6 sm:gap-10">
           <div class="flex flex-col gap-3">
-            <h4 class="text-sm font-semibold text-center">探索</h4>
+            <h4 class="text-sm font-semibold text-center">
+              探索
+            </h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
               <NuxtLink class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
               <NuxtLink class="hover:text-foreground transition-colors"> 标签云 </NuxtLink>
@@ -38,7 +40,9 @@
           </div>
 
           <div class="flex flex-col gap-3">
-            <h4 class="text-sm font-semibold text-center">支持</h4>
+            <h4 class="text-sm font-semibold text-center">
+              支持
+            </h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
               <!-- <NuxtLink href="/about" class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink> -->
               <!-- <NuxtLink href="/api/rss" class="hover:text-foreground transition-colors"> RSS订阅 </NuxtLink> -->
@@ -64,7 +68,10 @@
               rel="noreferrer"
               class="h-9 w-9 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-200"
             >
-              <UIcon name="i-custom-github" class="h-4 w-4" />
+              <UIcon
+                name="i-custom-github"
+                class="h-4 w-4"
+              />
               <span class="sr-only">GitHub</span>
             </NuxtLink>
             <!-- href="/api/rss" -->
@@ -83,7 +90,11 @@
               >
                 <path d="M4 11a9 9 0 0 1 9 9" />
                 <path d="M4 4a16 16 0 0 1 16 16" />
-                <circle cx="5" cy="19" r="1" />
+                <circle
+                  cx="5"
+                  cy="19"
+                  r="1"
+                />
               </svg>
               <span class="sr-only">RSS</span>
             </NuxtLink>
@@ -100,7 +111,13 @@
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <rect
+                  width="20"
+                  height="16"
+                  x="2"
+                  y="4"
+                  rx="2"
+                />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
               </svg>
               <span class="sr-only">Email</span>
@@ -139,7 +156,7 @@
 </template>
 
 <script setup lang="ts">
-const SITE_START_TIME = new Date('2024-01-01T00:00:00') // 替换为你的网站上线时间
+const SITE_START_TIME = new Date("2024-01-01T00:00:00") // 替换为你的网站上线时间
 
 function getDuration() {
   const now = new Date()
@@ -150,7 +167,7 @@ function getDuration() {
   const seconds = Math.floor((diff / 1000) % 60)
   return `${days}天${hours}小时${minutes}分${seconds}秒`
 }
-const duration = ref('')
+const duration = ref("")
 const timer = ref<ReturnType<typeof setInterval> | null>(null)
 onMounted(() => {
   timer.value = setInterval(() => {

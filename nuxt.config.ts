@@ -1,9 +1,24 @@
-import tailwindcss from "@tailwindcss/vite";
+import tailwindcss from "@tailwindcss/vite"
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2025-07-15',
+  modules: ["@nuxt/ui", "@nuxt/fonts", "@nuxt/eslint", "@nuxtjs/mdc", "@nuxt/content"],
   devtools: { enabled: true },
-  css: ['./app/assets/css/tailwind.css', './app/assets/css/main.css'],
+  css: ["./app/assets/css/tailwind.css", "./app/assets/css/main.css"],
+  runtimeConfig: {
+    // Private keys are only available on the server
+    apiSecret: "123",
+
+    // Public keys that are exposed to the client
+    public: {
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || "/api"
+    }
+  },
+  compatibilityDate: "2025-07-15",
+  nitro: {
+    externals: {
+      external: []
+    }
+  },
   vite: {
     optimizeDeps: {
       include: [
@@ -11,57 +26,40 @@ export default defineNuxtConfig({
         "@nuxt/ui > prosemirror-transform",
         "@nuxt/ui > prosemirror-model",
         "@nuxt/ui > prosemirror-view",
-        "@nuxt/ui > prosemirror-gapcursor",
-      ],
+        "@nuxt/ui > prosemirror-gapcursor"
+      ]
     },
-    plugins: [
-      tailwindcss()
-    ],
+    plugins: [tailwindcss()],
     build: {
       rollupOptions: {
         external: [],
         output: {
           manualChunks: {
             // 确保 @vueuse 被打包进单独的 chunk
-            'vueuse': ['@vueuse/core']
+            vueuse: ["@vueuse/core"]
           }
         }
       }
     }
-
   },
-  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxt/eslint', '@nuxtjs/mdc', '@nuxt/content'],
+  eslint: {
+    config: {
+      stylistic: {
+        quotes: "double",
+        commaDangle: "never",
+        braceStyle: "1tbs"
+      }
+    }
+  },
   fonts: {
     provider: "local"
   },
   icon: {
     customCollections: [
       {
-        prefix: 'custom',
+        prefix: "custom",
         dir: "./app/assets/icons"
       }
     ]
-  },
-  nitro: {
-    externals: {
-      external: []
-    },
-  },
-  runtimeConfig: {
-    // Private keys are only available on the server
-    apiSecret: '123',
-
-    // Public keys that are exposed to the client
-    public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || '/api',
-    },
-  },
-  eslint: {
-    config: {
-      stylistic: {
-        commaDangle: "never",
-        braceStyle: "1tbs",
-      }
-    }
-  },
+  }
 })

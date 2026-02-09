@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="scroll-progress-bar"
     :class="[
       'fixed left-0 w-full h-1.5 bg-gray-200 dark:bg-gray-700 z-[60] shadow-lg transition-opacity duration-300',
@@ -10,13 +10,13 @@
       class="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 shadow-md"
       :style="{ width: `${scrollProgress}%` }"
     >
-      <div class="h-full w-full bg-white opacity-30 animate-pulse"></div>
+      <div class="h-full w-full bg-white opacity-30 animate-pulse" />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from "vue"
 
 const scrollProgress = ref(0)
 const isVisible = ref(false)
@@ -52,14 +52,14 @@ const initScrollProgress = () => {
 onMounted(() => {
   // 初始化
   initScrollProgress()
-  
+
   // 添加滚动事件监听
-  window.addEventListener('scroll', handleScroll, { passive: true })
+  window.addEventListener("scroll", handleScroll, { passive: true })
 })
 
 onUnmounted(() => {
   // 移除滚动事件监听
-  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener("scroll", handleScroll)
 })
 </script>
 
