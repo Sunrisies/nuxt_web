@@ -30,7 +30,7 @@ export default defineNuxtConfig({
     }
 
   },
-  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxt/eslint'],
+  modules: ['@nuxt/ui', '@nuxt/fonts', '@nuxt/eslint', '@nuxtjs/mdc', '@nuxt/content'],
   fonts: {
     provider: "local"
   },
@@ -63,5 +63,5 @@ export default defineNuxtConfig({
         braceStyle: "1tbs",
       }
     }
-  }
+  },
 })
