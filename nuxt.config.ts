@@ -2,7 +2,13 @@ import tailwindcss from "@tailwindcss/vite"
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   modules: ["@nuxt/ui", "@nuxt/fonts", "@nuxt/eslint", "@nuxtjs/mdc", "@nuxt/content"],
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+
+    timeline: {
+      enabled: true
+    }
+  },
   css: ["./app/assets/css/tailwind.css", "./app/assets/css/main.css"],
   runtimeConfig: {
     // Private keys are only available on the server
@@ -10,7 +16,7 @@ export default defineNuxtConfig({
 
     // Public keys that are exposed to the client
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || "/api"
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000/api" : "/api")
     }
   },
   compatibilityDate: "2025-07-15",

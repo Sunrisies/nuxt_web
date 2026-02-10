@@ -1,9 +1,7 @@
 <template>
   <div class="space-y-8">
     <div class="text-center">
-      <h2 class="text-3xl font-bold mb-4">
-        代码农夫笔记
-      </h2>
+      <h2 class="text-3xl font-bold mb-4">代码农夫笔记</h2>
       <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
         记录我在软件开发路上的思考、学习和成长。这里有技术教程、开发心得、学习笔记，以及我对技术趋势的观察和思考。
       </p>
@@ -19,18 +17,13 @@
       >
         <div class="flex items-center gap-3 mb-3">
           <div class="p-2 bg-primary/10 rounded-lg">
-            <Icon
-              :name="category.icon"
-              class="h-5 w-5 text-primary"
-            />
+            <Icon :name="category.icon" class="h-5 w-5 text-primary" />
           </div>
           <div>
             <h3 class="font-semibold text-lg">
               {{ category.title }}
             </h3>
-            <p class="text-sm text-gray-500">
-              {{ category.count }} 篇文章
-            </p>
+            <p class="text-sm text-gray-500">{{ category.count }} 篇文章</p>
           </div>
         </div>
         <p class="text-sm text-gray-600 dark:text-gray-400">
@@ -42,9 +35,7 @@
     <!-- Recent Notes -->
     <UCard>
       <template #header>
-        <h2 class="text-xl font-semibold">
-          最新笔记
-        </h2>
+        <h2 class="text-xl font-semibold">最新笔记</h2>
       </template>
 
       <div class="space-y-6">
@@ -55,19 +46,13 @@
         >
           <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
             <div class="flex items-center gap-2">
-              <UBadge
-                color="blue"
-                variant="outline"
-              >
+              <UBadge color="blue" variant="outline">
                 {{ note.category?.name }}
               </UBadge>
-              <span class="text-sm text-gray-500">{{ note?.readTime || '未知' }}</span>
+              <span class="text-sm text-gray-500">{{ note?.readTime || "未知" }}</span>
             </div>
             <div class="flex items-center gap-1 text-sm text-gray-500">
-              <Icon
-                name="lucide:calendar"
-                class="h-3 w-3"
-              />
+              <Icon name="lucide:calendar" class="h-3 w-3" />
               <span>{{ formatDateForDisplay(note.publish_time) }}</span>
             </div>
           </div>
@@ -98,17 +83,9 @@
         </div>
 
         <div class="text-center pt-4">
-          <UButton
-            to="/blog/1"
-            variant="solid"
-            color="primary"
-            class="group"
-          >
+          <UButton to="/blog/1" variant="solid" color="primary" class="group">
             查看所有笔记
-            <Icon
-              name="lucide:arrow-right"
-              class="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1"
-            />
+            <Icon name="lucide:arrow-right" class="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
           </UButton>
         </div>
       </div>
@@ -178,8 +155,9 @@ const fetchPosts = async () => {
     loading.value = false
   }
 }
+console.log("请求数据111222")
 
-onMounted(() => {
-  fetchPosts()
-})
+// onMounted(() => {
+//   fetchPosts()
+// })
 </script>

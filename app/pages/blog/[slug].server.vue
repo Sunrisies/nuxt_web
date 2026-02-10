@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { IBlog } from "~/types/blog"
 
+console.log("打印数据")
 const posts = ref<IBlog[]>([])
 // API 函数
 const getPostApi = async () => {
@@ -18,7 +19,7 @@ const page = {
 try {
   const response = await getPostApi()
   // 转换数据格式
-  posts.value = response.data.map(post => ({
+  posts.value = response.data.map((post) => ({
     path: `/posts/${post.uuid}`, // 生成文章路径
     title: post.title,
     description: post.description,
@@ -40,10 +41,7 @@ try {
 
 <template>
   <UContainer>
-    <UPageHeader
-      v-bind="page"
-      class="py-[50px]"
-    />
+    <UPageHeader v-bind="page" class="py-[50px]" />
 
     <UPageBody>
       <UBlogPosts>

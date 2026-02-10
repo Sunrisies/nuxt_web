@@ -1,5 +1,5 @@
 // //全局基础URL
-const BASEURL: string = "http:://127.0.0.1:3000/api" // 全局后台服务器请求地址
+const BASEURL: string = "http://127.0.0.1:3000/api" // 全局后台服务器请求地址
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"
 // //定义ts变量类型接口
 interface HttpParams<T = any> {
@@ -18,6 +18,12 @@ interface ApiResponse<T = any> {
 
 export const http = async <T = any>(obj: HttpParams): Promise<T> => {
   try {
+    defineNuxtPlugin(async () => {
+      const config = useRuntimeConfig()
+      console.log("Runtime Config:", config)
+      console.log("API Base:", config.public.apiBase)
+    })
+    console.log(process.env.NUXT_PUBLIC_API_BASE, "请求参数------------------------------------")
     const response = await $fetch<ApiResponse<T>>(obj.url, {
       baseURL: process.env.NUXT_PUBLIC_API_BASE || BASEURL,
       onRequest: (res) => {

@@ -2,17 +2,15 @@
   <UHeader>
     <template #title>
       <div class="flex items-center gap-2 mr-4">
-        <NuxtLink href="/" class="flex items-center gap-2">
+        <NuxtLink href="/" class="flex items-center gap-2" external>
           <span class="text-lg font-bold">中文博客</span>
         </NuxtLink>
       </div>
-      <Logo class="h-6 w-auto" />
     </template>
 
     <UNavigationMenu :items="items" />
 
     <template #right>
-      <!-- <UColorModeButton @click="handleTheme" /> -->
       <ThemeToggle />
       <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
         <UButton
@@ -29,12 +27,16 @@
 </template>
 
 <script setup lang="ts">
-import type { NavigationMenuItem } from "@nuxt/ui"
-
 const route = useRoute()
 
-const items = computed<NavigationMenuItem[]>(() => [
-  { label: "Home", to: "/" },
+const items = [
+  {
+    label: "Home",
+    to: "/",
+    onSelect: () => {
+      console.log("点击日期")
+    }
+  },
   { label: "文章", to: "/blog/1" },
   { label: "时光轴", to: "/timeline" },
   // {
@@ -45,10 +47,9 @@ const items = computed<NavigationMenuItem[]>(() => [
   // { label: '第三方库', to: '/libraries' },
   // { label: '资源库', to: '/chat' },
   { label: "关于", to: "/about" }
-])
-
-const handleTheme = (e) => {
-  e.preventDefault()
+]
+const handleSelect = (e) => {
+  // e.preventDefault()
   // 阻止事件
 
   console.log(e, "2131212")
