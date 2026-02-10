@@ -22,6 +22,10 @@ export default defineNuxtConfig({
       apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000/api" : "/api")
     }
   },
+  routeRules: {
+    // 为 404 页面启用静态生成
+    "/404": { static: true }
+  },
   compatibilityDate: "2025-07-15",
   nitro: {
     externals: {

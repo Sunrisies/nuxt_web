@@ -1,8 +1,8 @@
 <template>
   <footer class="w-full border-t bg-linear-to-b from-background to-muted/20 mt-auto">
-    <div class="container flex flex-col items-center gap-6 py-8 pc:py-6">
-      <div class="flex flex-col md:flex-row items-center justify-between w-full gap-6">
-        <div class="flex flex-col items-center md:items-start gap-4 max-w-md">
+    <div class="container flex flex-col items-center xs:gap-2 gap-6 xs:py-2 pc:py-6">
+      <div class="flex flex-col md:flex-row items-center justify-between w-full xs:gap-1 gap-3">
+        <div class="flex flex-col items-center md:items-start xs:gap-2 gap-4 max-w-md">
           <div class="flex items-center gap-3">
             <div class="h-8 w-8 rounded-full bg-primary flex items-center justify-center">
               <span class="text-primary-foreground font-bold text-sm">博</span>
@@ -12,7 +12,7 @@
 
           <p class="text-center md:text-left text-sm text-muted-foreground leading-relaxed">
             分享前沿技术、开发经验与编程心得
-            <br />
+            <br class="xs:hidden" />
             探索数字世界的无限可能
           </p>
 
@@ -105,7 +105,7 @@
             </NuxtLink>
           </div>
 
-          <div class="text-xs text-muted-foreground text-center md:text-right">
+          <div class="text-xs text-muted-foreground text-center md:text-right xs:flex xs:gap-2">
             <p>有想法？欢迎交流</p>
             <p>3266420686@qq.com</p>
           </div>
