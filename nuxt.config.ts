@@ -9,6 +9,9 @@ export default defineNuxtConfig({
       enabled: true
     }
   },
+  app: {
+    pageTransition: { name: "page", mode: "out-in" }
+  },
   css: ["./app/assets/css/tailwind.css", "./app/assets/css/main.css"],
   runtimeConfig: {
     // Private keys are only available on the server
