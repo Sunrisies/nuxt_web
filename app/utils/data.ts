@@ -9,22 +9,27 @@ export const formatChineseDateTime = (dateString: string): string => {
   return `${year}年${month}月${day}日 ${hours}:${minutes}`
 }
 
+
 export const formatDateForDisplay = (dateString: string): string => {
   try {
-    const date = new Date(dateString)
+    const date = new Date(dateString);
+    // 检查是否有效日期
     if (isNaN(date.getTime())) {
-      return dateString
+      return dateString;
     }
-    const timer = date.toLocaleDateString("zh-CN", {
+    // 使用 toLocaleString 同时显示日期和时间
+    return date.toLocaleString("zh-CN", {
       year: "numeric",
       month: "long",
       day: "numeric",
-      weekday: "long"
-    })
-    console.log(timer, "------------------")
-    return timer
+      weekday: "long",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false, // 24小时制
+    });
   } catch (error) {
-    console.error(error)
-    return dateString
+    console.error(error);
+    return dateString;
   }
-}
+};

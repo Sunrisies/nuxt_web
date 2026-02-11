@@ -44,12 +44,16 @@
           :key="note.id"
           class="border-b border-gray-200 dark:border-gray-700 last:border-0 pb-6 last:pb-0 group"
         >
-          <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2">
+          <div
+            class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-2 mb-2"
+          >
             <div class="flex items-center gap-2">
               <UBadge color="blue" variant="outline">
                 {{ note.category?.name }}
               </UBadge>
-              <span class="text-sm text-gray-500">{{ note?.readTime || "未知" }}</span>
+              <span class="text-sm text-gray-500">{{
+                note?.readTime || "未知"
+              }}</span>
             </div>
             <div class="flex items-center gap-1 text-sm text-gray-500">
               <Icon name="lucide:calendar" class="h-3 w-3" />
@@ -85,7 +89,10 @@
         <div class="text-center pt-4">
           <UButton to="/blog/1" variant="solid" color="primary" class="group">
             查看所有笔记
-            <Icon name="lucide:arrow-right" class="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1" />
+            <Icon
+              name="lucide:arrow-right"
+              class="h-4 w-4 ml-2 transition-transform group-hover:translate-x-1"
+            />
           </UButton>
         </div>
       </div>
@@ -94,70 +101,69 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted } from "vue";
 
-const blogs = ref([])
-const loading = ref(false)
+const blogs = ref([]);
+const loading = ref(false);
 
 const noteCategories = [
   {
     icon: "lucide:code-2",
     title: "技术教程",
     description: "详细的技术教程和实践指南",
-    count: 24
+    count: 24,
   },
   {
     icon: "lucide:lightbulb",
     title: "开发心得",
     description: "开发过程中的思考和总结",
-    count: 18
+    count: 18,
   },
   {
     icon: "lucide:book-open",
     title: "学习笔记",
     description: "技术书籍和课程的学习记录",
-    count: 12
-  }
-]
+    count: 12,
+  },
+];
 
 const navigateToCategory = (category) => {
-  navigateTo(`/blog?category=${encodeURIComponent(category)}`)
-}
+  navigateTo(`/blog?category=${encodeURIComponent(category)}`);
+};
 
 const navigateToPost = (postId) => {
-  navigateTo(`/blog/${postId}`)
-}
+  navigateTo(`/blog/${postId}`);
+};
 
 const navigateToTag = (tagName) => {
-  navigateTo(`/blog?tag=${encodeURIComponent(tagName)}`)
-}
+  navigateTo(`/blog?tag=${encodeURIComponent(tagName)}`);
+};
 
 const fetchPosts = async () => {
   try {
-    loading.value = true
-    // 这里使用您的 HTTP 服务或 Nuxt 3 的 useFetch
-    const { data, error } = await useFetch("/api/posts?page=1&limit=5")
+    loading.value = true;
+    const { data } = await useAsyncData("blogs", () =>
+      http({
+        url: `/v1/posts?page=1&limit=5`,
+      }),
+    );
 
-    if (error.value) {
-      throw error.value
-    }
-
-    blogs.value = data.value?.data || []
+    blogs.value = data.value.data || [];
   } catch (error) {
-    console.error("Failed to fetch posts:", error)
+    console.error("Failed to fetch posts:", error);
     // 使用 NuxtUI 的通知
     useToast().add({
       title: "加载失败",
       description: "无法加载博客文章，请稍后重试",
-      color: "red"
-    })
+      color: "red",
+    });
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
-console.log("请求数据111222")
+};
+console.log("请求数据111222");
 
 // onMounted(() => {
-//   fetchPosts()
+  fetchPosts()
 // })
 </script>
