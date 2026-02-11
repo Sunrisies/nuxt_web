@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<!-- <script setup lang="ts">
 import type { IBlog } from "~/types/blog"
 
 console.log("打印数据")
@@ -71,4 +71,66 @@ try {
       </UBlogPosts>
     </UPageBody>
   </UContainer>
+</template> -->
+
+<template>
+  <div>
+    <BlogDetail
+      :blog="blog"
+      :pagination="pagination"
+      :categories="categories"
+      :id="Number(id)"
+    />
+    <ScrollToTopButton />
+  </div>
 </template>
+
+<script setup lang="ts">
+import type { CategoriesType, IBlog } from "~/types/blog";
+
+const route = useRoute();
+const id = route.params.id as string;
+
+// 获取客户端 headers（服务端渲染时转发必要的头信息）
+// const headers = process.server
+//   ? useRequestHeaders(["cookie", "user-agent"])
+//   : {};
+
+// 并行获取分类和文章数据
+const [{ data: postRes }, { data: categoriesRes }] = await Promise.all([
+  useAsyncData(`post-${id}`, () =>
+    // $fetch<{ data: IBlog[]; pagination: { total: number; limit: number } }>(
+    //   `/api/article?page=${id}&limit=8`,
+    //   { headers }
+    // )
+    http({
+      url: `/v1/posts?page=1&limit=8`,
+    }),
+  ),
+  useAsyncData(
+    "categories",
+    () =>
+      http({
+        url: "/api/categories",
+      }),
+    // $fetch<{ data: CategoriesType[] }>("/api/categories", { headers }),
+  ),
+]);
+// const blog = postRes.value.data.map((post) => ({
+//   path: `/posts/${post.uuid}`, // 生成文章路径
+//   title: post.title,
+//   description: post.description,
+//   image: post.cover, // cover 映射到 image
+//   date: post.publish_time, // 使用 publish_time 作为日期
+//   authors: [post.author], // 将 author 转换为数组
+//   badge: post.is_top ? "置顶" : post.category.name, // 根据是否置顶显示不同的徽章
+//   // 可以添加其他需要的字段
+//   views: post.views,
+//   category: post.category,
+//   tags: post.tags,
+// }));
+// 提取数据
+const blog = postRes.value?.data ?? [];
+const pagination = postRes.value?.pagination ?? { total: 0, limit: 8 };
+const categories = categoriesRes.value?.data ?? [];
+</script>
