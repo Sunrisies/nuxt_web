@@ -23,14 +23,32 @@
 
     <h2 class="text-2xl font-semibold mb-2">最新文章</h2>
 
-    <!-- 文章卡片网格 -->
-    <div class="grid grid-cols-1 md:grid-cols-2 pc:grid-cols-4 gap-6">
-    <UBlogPost
-    title="Introducing Nuxt Icon v1"
-    description="Discover Nuxt Icon v1 - a modern, versatile, and customizable icon solution for your Nuxt projects."
-    date="2024-11-25"
-  />
-    </div>
+
+  <UBlogPosts class="flex w-full flex-col gap-8 lg:gap-y-16 sm:grid sm:grid-cols-2 pc:grid-cols-4">
+        <UBlogPost
+          v-for="(post, index) in blogs"
+          :key="post.uuid"
+          :to="post.path"
+          :title="post.title"
+          :description="post.description"
+          :image="post.image"
+          :date="
+            new Date(post.date).toLocaleDateString('zh-CN', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })
+          "
+          :authors="post.authors"
+          :badge="post.badge"
+          :orientation="index === 0 ? 'horizontal' : 'vertical'"
+          :class="[index === 0 && 'col-span-full']"
+          :ui="{
+            description: 'line-clamp-2'
+          }"
+        />
+      </UBlogPosts>
+    <!-- </div> -->
 
     <!-- 移动端：加载更多（滚动触发） -->
     <div
@@ -61,14 +79,14 @@ import type { CategoriesType, IBlog } from '~/types/blog'
 import { useIntersectionObserver } from '@vueuse/core'
 
 const props = defineProps<{
-  blog: IBlog[]
+  blogs: IBlog[]
   categories: CategoriesType[]
   pagination: { total: number; limit: number }
   id: number
 }>()
 
 // 状态
-const newArticles = ref<IBlog[]>(props.blog)
+const newArticles = ref<IBlog[]>(props.blogs)
 const currentPage = ref(props.id)
 const selectedCategory = ref('')
 const selectedTag = ref('')
