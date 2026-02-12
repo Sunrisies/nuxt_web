@@ -118,12 +118,6 @@ const tagOptions = [
   { label: 'Next.js', value: 'nextjs' }
 ]
 
-// 格式化日期
-const formatDate = (dateStr: string) => {
-  // 使用原工具函数，这里简化处理
-  return dateStr.split('T')[0]
-}
-
 // ---------- 加载更多（移动端） ----------
 const loadMoreTrigger = ref<HTMLElement | null>(null)
 

@@ -17,6 +17,7 @@
     "@nuxt/fonts": "0.13.0",
     "@nuxt/image": "2.0.0",
     "@nuxt/ui": "^4.4.0",
+    "@nuxtjs/device": "4.0.0",
     "@nuxtjs/mdc": "^0.20.1",
     "@tailwindcss/vite": "^4.1.18",
     "@vueuse/core": "^14.2.0",
