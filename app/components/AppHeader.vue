@@ -2,9 +2,11 @@
   <UHeader>
     <template #title>
       <div class="flex items-center gap-2 mr-4">
-        <NuxtLink href="/" class="flex items-center gap-2" external>
-          <span class="text-lg font-bold">中文博客</span>
-        </NuxtLink>
+        <ClientOnly fallback-tag="span" fallback="Loading comments...">
+          <NuxtLink href="/" class="flex items-center gap-2" external>
+            <span class="text-lg font-bold">中文博客</span>
+          </NuxtLink>
+        </ClientOnly>
       </div>
     </template>
 
@@ -27,15 +29,15 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute()
+const route = useRoute();
 
 const items = [
   {
     label: "Home",
     to: "/",
     onSelect: () => {
-      console.log("点击日期")
-    }
+      console.log("点击日期");
+    },
   },
   { label: "文章", to: "/blog/1" },
   { label: "时光轴", to: "/timeline" },
@@ -46,14 +48,14 @@ const items = [
   // { label: '音乐库', to: '/music-player' },
   // { label: '第三方库', to: '/libraries' },
   // { label: '资源库', to: '/chat' },
-  { label: "关于", to: "/about" }
-]
+  { label: "关于", to: "/about" },
+];
 const handleSelect = (e) => {
   // e.preventDefault()
   // 阻止事件
 
-  console.log(e, "2131212")
-}
+  console.log(e, "2131212");
+};
 </script>
 
 <style lang="scss" scoped></style>

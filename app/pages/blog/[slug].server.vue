@@ -1,11 +1,11 @@
 <template>
   <div>
-    <!-- <BlogDetail
+    <BlogDetail
       :blogs="blogs"
       :pagination="pagination"
       :categories="categories"
       :id="Number(id)"
-    /> -->
+    />
     
       
     <ScrollToTopButton />
@@ -15,19 +15,20 @@
 <script setup lang="ts">
 import type { CategoriesType, IBlog } from "~/types/blog";
 const route = useRoute();
-const id = route.params.id as string;
+console.log(route.params,'---------------',route.query)
+const id = route.params.slug as string;
 // 获取客户端 headers（服务端渲染时转发必要的头信息）
 // const headers = process.server
 //   ? useRequestHeaders(["cookie", "user-agent"])
 //   : {};
 
 // 仅在服务端获取 headers
-console.log(useDevice(),'=========')
+console.log(useDevice(),'=========',id)
 // 并行获取分类和文章数据
 const [{ data: postRes }, { data: categoriesRes }] = await Promise.all([
   useAsyncData(`post-${id}`, () =>
     http({
-      url: `/v1/posts?page=1&limit=9`,
+      url: `/v1/posts?page=${id}&limit=9`,
     }),
   ),
   useAsyncData(
