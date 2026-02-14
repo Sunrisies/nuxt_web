@@ -9,5 +9,7 @@
       <slot />
     </main>
     <AppFooter />
+    <ScrollToTopButton />
+
   </div>
 </template>

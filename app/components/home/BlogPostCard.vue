@@ -29,7 +29,7 @@
         v-for="tag in blog.tags"
         :key="tag.id"
         variant="subtle"
-        color="gray"
+        color="primary"
         class="font-normal"
       >
         {{ tag.name }}

@@ -8,7 +8,6 @@
       :id="Number(id)"
     />
 
-    <ScrollToTopButton />
   </div>
 </template>
 
@@ -61,7 +60,7 @@ if (postError.value) {
 }
 console.log(tagsRes.value, "-------------");
 const blogs = postRes.value.data?.map((blog: IBlog) => ({
-  path: `/posts/${blog.uuid}`, // 生成文章路径
+  path: `/article/${blog.uuid}`, // 生成文章路径
   title: blog.title,
   description: blog.description,
   image: blog.cover, // cover 映射到 image
