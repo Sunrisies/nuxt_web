@@ -4,16 +4,16 @@
       <h1 class="text-3xl font-bold mb-4">文章列表</h1>
       <!-- 桌面端分类/标签筛选 -->
       <div class="hidden md:flex justify-between items-center mb-4">
+        
         <div class="flex space-x-4">
-          <USelectMenu
+          <USelect
             v-model="selectedCategory"
-            :options="categoryOptions"
+            :items="categoryOptions"
             placeholder="所有分类"
-            class="w-48"
           />
-          <USelectMenu
+          <USelect
             v-model="selectedTag"
-            :options="tagOptions"
+            :items="tagOptions"
             placeholder="所有标签"
             class="w-48"
           />
@@ -55,25 +55,32 @@
         v-model:page="page"
         :items-per-page="pagination.limit"
         :total="pagination.total"
-        :to="(p) => `/blog/${p}`"
+        @update:page="(page:number) => {
+          console.log('挑战',page)
+          navigateTo(`/blog/${page}` ,{ external: true })
+        }"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { CategoriesType, IBlog } from "~/types/blog";
-
+import type {  IBlog } from "~/types/blog";
+interface optionsType {
+  label: string;
+  value: string;
+}
 const props = defineProps<{
   blogs: IBlog[];
-  categories: CategoriesType[];
+  categories: optionsType[];
   pagination: { total: number; limit: number };
   id: number;
+  tags: optionsType[];
 }>();
 // 状态
 const page = ref(props.id);
-const selectedCategory = ref("");
-const selectedTag = ref("");
+const selectedCategory = ref("all");
+const selectedTag = ref("all");
 
 // 分类选项
 const categoryOptions = computed(() => [
@@ -81,13 +88,12 @@ const categoryOptions = computed(() => [
   ...props.categories.map((c) => ({ label: c.label, value: c.value })),
 ]);
 
+console.log(categoryOptions.value,'分类');
 // 标签选项（硬编码，与原代码保持一致）
-const tagOptions = [
+const tagOptions = computed(() =>[
   { label: "所有标签", value: "all" },
-  { label: "React", value: "react" },
-  { label: "Next.js", value: "nextjs" },
-];
-
+  ...props.tags.map((t) => ({ label: t.label, value: t.value })),
+])
 </script>
 
 <style scoped lang="scss">
