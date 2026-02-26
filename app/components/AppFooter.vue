@@ -157,7 +157,7 @@ onMounted(() => {
 })
 // 卸载
 onUnmounted(() => {
-  timer.value && clearInterval(timer.value)
+  if (timer.value) clearInterval(timer.value)
 })
 </script>
 
