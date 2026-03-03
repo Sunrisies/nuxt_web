@@ -26,8 +26,8 @@
           <div class="flex flex-col gap-3">
             <h4 class="text-sm font-semibold text-center">探索</h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
-              <NuxtLink class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
-              <NuxtLink class="hover:text-foreground transition-colors"> 标签云 </NuxtLink>
+              <NuxtLink to="/blog/1" class="hover:text-foreground transition-colors" external> 文章列表 </NuxtLink>
+              <NuxtLink class="hover:text-foreground transition-colors" external> 标签云 </NuxtLink>
               <NuxtLink class="hover:text-foreground transition-colors"> 文章归档 </NuxtLink>
               <!-- <NuxtLink href="/blog/1" class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
               <NuxtLink href="/tags" class="hover:text-foreground transition-colors"> 标签云 </NuxtLink>

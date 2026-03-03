@@ -7,6 +7,5 @@
     </main>
     <AppFooter />
     <ScrollToTopButton />
-
   </div>
 </template>

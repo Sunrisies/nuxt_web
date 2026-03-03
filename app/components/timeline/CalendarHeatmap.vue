@@ -5,39 +5,27 @@
     <!-- 自定义标题和统计信息 -->
     <div class="flex justify-between items-center mb-4">
       <div>
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">
-          博客活跃度日历
-        </h3>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">博客活跃度日历</h3>
         <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">
           {{ getStatsText }}
         </p>
       </div>
       <div class="flex items-center space-x-2">
         <span class="text-sm text-gray-600 dark:text-gray-300">{{ getCurrentYear }} 年</span>
-        <UIcon
-          name="i-heroicons-information-circle"
-          class="w-5 h-5 text-gray-400 cursor-help"
-          @click="showStats = !showStats"
-        />
+        <UIcon name="i-heroicons-information-circle" class="w-5 h-5 text-gray-400 cursor-help" @click="showStats = !showStats" />
       </div>
     </div>
 
     <!-- 热力图容器 -->
-    <div
-      ref="chartContainer"
-      class="w-full h-48 relative"
-    >
-      <div
-        v-if="loading"
-        class="absolute inset-0 flex items-center justify-center"
-      >
+    <div ref="chartContainer" class="w-full h-48 relative">
+      <div v-if="loading" class="absolute inset-0 flex items-center justify-center">
         <UISpinner class="w-8 h-8 text-primary" />
       </div>
       <VChart
         v-else
         :option="chartOptions"
         :autoresize="true"
-        class="w-full h-full"
+        class="w-full h-full block"
         @click="handleCellClick"
         @mouseover="handleMouseOver"
         @mouseout="handleMouseOut"
@@ -49,12 +37,7 @@
       <div class="flex items-center space-x-2">
         <span class="text-xs text-gray-500 dark:text-gray-400">较少</span>
         <div class="flex space-x-1">
-          <div
-            v-for="color in colorGradient"
-            :key="color"
-            class="w-4 h-3 rounded-sm"
-            :style="{ backgroundColor: color }"
-          />
+          <div v-for="color in colorGradient" :key="color" class="w-4 h-3 rounded-sm" :style="{ backgroundColor: color }" />
         </div>
         <span class="text-xs text-gray-500 dark:text-gray-400">较多</span>
       </div>
@@ -63,26 +46,19 @@
 
     <!-- 统计详情卡片 -->
     <Transition name="fade">
-      <div
-        v-if="showStats"
-        class="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700"
-      >
+      <div v-if="showStats" class="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
         <div class="grid grid-cols-2 gap-4">
           <div class="text-center">
             <div class="text-2xl font-bold text-primary">
               {{ getTotalArticles }}
             </div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-              总文章数
-            </div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">总文章数</div>
           </div>
           <div class="text-center">
             <div class="text-2xl font-bold text-green-500">
               {{ getMostProductiveDay.value }}
             </div>
-            <div class="text-sm text-gray-500 dark:text-gray-400">
-              {{ getMostProductiveDay.date }} 最多
-            </div>
+            <div class="text-sm text-gray-500 dark:text-gray-400">{{ getMostProductiveDay.date }} 最多</div>
           </div>
         </div>
       </div>
@@ -180,7 +156,7 @@ const getRangeArr = (): [string, string][] => {
 
 // 图表配置
 const chartOptions = computed(() => {
-  const maxValue = Math.max(...warehouse.value.map(item => item[1]), 1)
+  const maxValue = Math.max(...warehouse.value.map((item) => item[1]), 1)
   return {
     backgroundColor: "transparent",
     tooltip: {
