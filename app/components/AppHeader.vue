@@ -48,7 +48,7 @@ const items = [
   //   to: '/album'
   // },
   // { label: '音乐库', to: '/music-player' },
-  // { label: '第三方库', to: '/libraries' },
+  { label: "导航", to: "/navigationBar", active: route.path === "/navigationBar", external: true },
   // { label: '资源库', to: '/chat' },
   { label: "关于", to: "/about", external: true, active: route.path === "/about" }
 ]

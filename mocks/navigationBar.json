@@ -1,0 +1,2954 @@
+[
+    {
+        "id": 422,
+        "name": "dnd kit",
+        "url": "https://dndkit.com/overview",
+        "description": "Learn how to build drag and drop interfaces with dnd kit",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/422.png"
+    },
+    {
+        "id": 421,
+        "name": "vfit.js",
+        "url": "https://web-vfit.netlify.app/",
+        "description": "vfit 是一个 Vue 3 的可视化大屏适配方案，支持 FitContainer 组件和 v-fit 指令，自动缩放与精确定位，完美适配各种屏幕分辨率。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/vfit.js.svg"
+    },
+    {
+        "id": 420,
+        "name": "JetBrains 屠龙宝刀",
+        "url": "http://jb.ide.to/",
+        "description": "",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/JetBrains 屠龙宝刀.ico"
+    },
+    {
+        "id": 419,
+        "name": "FastApi",
+        "url": "https://fastapi.tiangolo.com/zh/",
+        "description": "FastAPI framework, high performance, easy to learn, fast to code, ready for production",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/FastApi.png"
+    },
+    {
+        "id": 418,
+        "name": "TDesign",
+        "url": "https://tdesign.tencent.com/",
+        "description": "TDesign 是腾讯开源的企业级设计体系，提供了统一价值观，一致的设计语言和视觉风格，和开箱即用的 UI 组件库。致力于为设计师 & 开发者，打造工作美学。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TDesign.ico"
+    },
+    {
+        "id": 417,
+        "name": "智谱AI开放平台",
+        "url": "https://open.bigmodel.cn",
+        "description": "智谱大模型开放平台-新一代国产自主通用AI大模型开放平台，是国内大模型排名前列的大模型网站，研发了多款LLM模型，多模态视觉模型产品，致力于将AI产品技术与行业场景双轮驱动的中国先进的认知智能技术和千行百业应用相结合，构建更高精度、高效率、通用化的AI开发新模式和企业级解决方案，实现智谱大模型的产业化，将AI的好处带给每个人。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/智谱AI开放平台.png"
+    },
+    {
+        "id": 416,
+        "name": "Oxc",
+        "url": "https://oxc.rs/",
+        "description": "A collection of high-performance JavaScript tools written in Rust",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Oxc.svg"
+    },
+    {
+        "id": 415,
+        "name": "SzAdmin",
+        "url": "https://szadmin.cn/",
+        "description": "Sz-Admin（szadmin）：一个开源RBAC框架，专为现代应用设计。它结合了最新的技术栈，包括后端的Spring Boot 3、JDK 21、Mybatis Flex、Sa-Token、Knife4j和Flyway，以及前端的Vue 3、Vite5、TypeScript和Element Plus，致力于为您提供一个流畅、直观且功能强大的开发体验。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/SzAdmin.ico"
+    },
+    {
+        "id": 414,
+        "name": "EzRemove",
+        "url": "https://ezremove.ai/zh/watermark-remover/",
+        "description": "使用AI去除水印工具，仅需数秒即可免费去除照片中的水印。无需注册、无广告、无损画质。上传并下载，就是如此简单。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/EzRemove.ico"
+    },
+    {
+        "id": 413,
+        "name": "Magic Eraser",
+        "url": "https://magiceraser.org/zh/remove-watermark-from-image/",
+        "description": "免费使用AI图片去水印工具，自动识别并清理图片中的文字、logo或水印，无需登录注册，数秒获得高清结果。简单高效，完全免费。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Magic Eraser.ico"
+    },
+    {
+        "id": 412,
+        "name": "clash-verge-rev",
+        "url": "https://github.com/clash-verge-rev/clash-verge-rev",
+        "description": "A modern GUI client based on Tauri, designed to run in Windows, macOS and Linux for tailored proxy experience - clash-verge-rev/clash-verge-rev",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/clash-verge-rev.png"
+    },
+    {
+        "id": 411,
+        "name": "Google Fonts",
+        "url": "https://fonts.google.com/",
+        "description": "Making the web more beautiful, fast, and open through great typography",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Google Fonts.svg"
+    },
+    {
+        "id": 410,
+        "name": "Vue.js 插件集合",
+        "url": "https://www.vue-plugins.org",
+        "description": "Discover and explore the best Vue.js plugins to supercharge your applications. Curated by the community, maintained by developers.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vue.js 插件集合.ico"
+    },
+    {
+        "id": 409,
+        "name": "svga",
+        "url": "https://svga.dev/svga-preview.html#google_vignette",
+        "description": "SVGA是一种同时兼容iOS/Android/Flutter/Web/HarmonyOS多个平台的动画格式，提供高性能动画播放体验。支持After Effects和Animate导出，动画文件体积小，播放资源占用优，设计师和开发者友好的跨平台动画解决方案。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/svga.ico"
+    },
+    {
+        "id": 408,
+        "name": "UnoCSS",
+        "url": "https://unocss.dev/",
+        "description": "The instant on-demand Atomic CSS engine",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/UnoCSS.svg"
+    },
+    {
+        "id": 407,
+        "name": "软件资源下载站",
+        "url": "https://www.sosuogou.com",
+        "description": "电脑软件游戏资源共享 - 搜索狗资源网、免费资源下载网站、PC单机游戏、3ds游戏下载cia、switch游戏资源、PS主机游戏等、更有安卓手机游戏、电脑绿色软件、安卓绿色软件、4k发烧电影、二次元动漫、网站源码、网游源码、VR游戏、各类综合资源下载网站。",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/软件资源下载站.ico"
+    },
+    {
+        "id": 406,
+        "name": "Figma",
+        "url": "https://www.figma.com",
+        "description": "Figma is the leading collaborative design platform for building meaningful products. Design, prototype, and build products faster—while gathering feedback all in one place.",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Figma.png"
+    },
+    {
+        "id": 405,
+        "name": "微信视频号助手",
+        "url": "https://channels.weixin.qq.com/login.html",
+        "description": "视频号助手是微信为视频号创作者提供内容上传管理、数据查询等功能的专属服务平台。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/微信视频号助手.ico"
+    },
+    {
+        "id": 404,
+        "name": "搜狗SEO",
+        "url": "https://zhanzhang.sogou.com/index.php/sitelink/index",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/搜狗SEO.ico"
+    },
+    {
+        "id": 403,
+        "name": "Google AdSense",
+        "url": "https://www.google.com/adsense/new/u/0/pub-2599932310715643/sites/list",
+        "description": "With Google AdSense, you can earn money from your online content.",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Google AdSense.ico"
+    },
+    {
+        "id": 402,
+        "name": "屏幕尺寸大全",
+        "url": "https://www.ubuuk.com/screen",
+        "description": "全球优秀的知名设计网址导航为设计师提供ps教程、UI设计、素材下载、高清图库、配色方案、用户体验、网页设计等全方位设计师网站导航指引。最实用、最专业、最全面、最好用的设计师导航！",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/屏幕尺寸大全.ico"
+    },
+    {
+        "id": 401,
+        "name": "PPChart",
+        "url": "https://www.ppchart.com/#/",
+        "description": "让图表更简单。PPChart 提供 Echarts 收录、图表制作等服务",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/PPChart.ico"
+    },
+    {
+        "id": 400,
+        "name": "豆包",
+        "url": "https://www.doubao.com/chat/",
+        "description": "Seedance 2.0 视频生成模型现已全面接入豆包，现在登录即可免费使用！豆包 是你的 AI 聊天智能对话问答助手，写作文案翻译编程工具。豆包为你答疑解惑，提供灵感，辅助创作，也可以和你畅聊任何你感兴趣的话题",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/豆包.png"
+    },
+    {
+        "id": 399,
+        "name": "DeepSeek",
+        "url": "https://chat.deepseek.com/",
+        "description": "Chat with DeepSeek AI – your intelligent assistant for coding, content creation, file reading, and more. Upload documents, engage in long-context conversations, and get expert help in AI, natural language processing, and beyond. | 深度求索（DeepSeek）助力编程代码开发、创意写作、文件处理等任务，支持文件上传及长文本对话，随时为您提供高效的AI支持。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/DeepSeek.ico"
+    },
+    {
+        "id": 398,
+        "name": "sard-uniapp",
+        "url": "https://sutras.github.io/sard-uniapp-docs/#/guide/quickstart",
+        "description": "Sard uniapp | uniapp UI 组件库",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/sard-uniapp.svg"
+    },
+    {
+        "id": 397,
+        "name": "vue-office",
+        "url": "https://501351981.github.io/vue-office/examples/docs/guide/",
+        "description": "更简单的office文件预览",
+        "categoryId": 4,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/vue-office.ico"
+    },
+    {
+        "id": 396,
+        "name": "XDOC文档预览服务",
+        "url": "https://view.xdocin.com/",
+        "description": "移动端和PC端无插件直接预览PDF、OFD、Word、WPS等多种文档",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/XDOC文档预览服务.ico"
+    },
+    {
+        "id": 395,
+        "name": "VueDataUi",
+        "url": "https://vue-data-ui.graphieros.com/universal-component",
+        "description": "A user-empowering data visualization Vue3 components library for eloquent data storytelling",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/VueDataUi.ico"
+    },
+    {
+        "id": 394,
+        "name": "Vxe Table",
+        "url": "https://vxetable.cn/#/demo/list",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vxe Table.ico"
+    },
+    {
+        "id": 393,
+        "name": "1Panel",
+        "url": "https://1panel.cn/",
+        "description": "1Panel - 现代化、开源的Linux服务器运维管理面板",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/1Panel.png"
+    },
+    {
+        "id": 392,
+        "name": "Varlet ",
+        "url": "https://varletjs.org/#/zh-CN/home",
+        "description": "Varlet UI is a Material design component library developed based on Vue3, supporting mobile and desktop, developed and maintained by varletjs organization. Support Typescript, import on demand, dark mode, theme customization, internationalization, and provide VSCode plugin to ensure a good development experience.",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/392.png"
+    },
+    {
+        "id": 391,
+        "name": "M3U8在线播放器",
+        "url": "https://m3u8-player.com/",
+        "description": "m3u8在线播放器，本站提供在线m3u8视频播放服务，永久免费，纯净绿色无广告",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/M3U8在线播放器.ico"
+    },
+    {
+        "id": 390,
+        "name": "RedisInsight ",
+        "url": "https://redis.io/insight/#insight-form",
+        "description": "Develop, debug, and visualize Redis with ease. AI-powered, cross-platform, and free. Supports all Redis deployments. Download now!",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/RedisInsight .ico"
+    },
+    {
+        "id": 389,
+        "name": "下载狗",
+        "url": "https://www.xiazaitool.com/",
+        "description": "下载狗工具支持全网100+主流网站视频无水印下载!电脑，平板，手机都可以在线使用，帮助我们解决问题。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/下载狗.png"
+    },
+    {
+        "id": 388,
+        "name": "Prisma ",
+        "url": "https://www.prisma.io/docs/getting-started/quickstart",
+        "description": "Create a new TypeScript project from scratch by connecting Prisma ORM to Prisma Postgres and generating a Prisma Client for database access.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Prisma .ico"
+    },
+    {
+        "id": 387,
+        "name": "Wot Design Uni",
+        "url": "https://wot-design-uni.pages.dev/",
+        "description": "一个参照wot-design打造的uni-app组件库",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Wot Design Uni.ico"
+    },
+    {
+        "id": 386,
+        "name": "Kimi.ai",
+        "url": "https://kimi.moonshot.cn/",
+        "description": "月之暗面 (Moonshot AI) 旗下 Kimi K2.5 模型发布！引领开源视觉编程，同步开启 Agent 集群预览版。从像素级网页复刻到专家级办公交付，助你高效搞定复杂任务。立即访问 Kimi 官网体验。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Kimi.ai.ico"
+    },
+    {
+        "id": 385,
+        "name": "unibest",
+        "url": "https://www.unibest.tech",
+        "description": "最好用的 uniapp 开发模板",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/unibest.ico"
+    },
+    {
+        "id": 384,
+        "name": "Svelte",
+        "url": "https://svelte.dev/docs/svelte/overview",
+        "description": "Overview • Svelte documentation",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Svelte.png"
+    },
+    {
+        "id": 383,
+        "name": "arkUI",
+        "url": "https://developer.harmonyos.com/cn/develop/arkUI/",
+        "description": "ArkUI是一套构建分布式应用界面的声明式UI开发框架。它使用简洁的UI信息语法、丰富的UI组件、以及实时界面预览工具,帮助您提升HarmonyOS应用界面开发效率30%。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/arkUI.ico"
+    },
+    {
+        "id": 382,
+        "name": "Flutter",
+        "url": "https://flutter.cn/docs/ui",
+        "description": "介绍如何用 Flutter 构建界面",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Flutter.png"
+    },
+    {
+        "id": 381,
+        "name": "uCharts",
+        "url": "https://www.ucharts.cn/v2/#/demo/index",
+        "description": "uCharts跨平台图表库，全端全平台支持的图表库，开箱即用。支持PC、H5、微信小程序、支付宝小程序、百度小程序、头条小程序、飞书小程序、QQ小程序、360小程序、快手小程序、钉钉小程序、淘宝小程序、京东小程序、Vue、Taro等更多支持canvas的框架，体积小巧、调用简单方便、性能及体验极佳。",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/381.ico"
+    },
+    {
+        "id": 380,
+        "name": "uv-ui",
+        "url": "https://www.uvui.cn/components/intro.html",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/380.png"
+    },
+    {
+        "id": 379,
+        "name": "前端进阶之旅",
+        "url": "https://interview.poetries.top/docs/base.html",
+        "description": "本文系统梳理了前端高频面试题基础知识，涵盖HTML、HTTP、Web综合问题及SEO优化实战，助力开发者高效备考",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/前端进阶之旅.png"
+    },
+    {
+        "id": 378,
+        "name": "G6",
+        "url": "http://g6-v3-2.antv.vision/zh",
+        "description": "A collection of charts made with the Grammar of Graphics",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/G6.png"
+    },
+    {
+        "id": 376,
+        "name": "Wolai",
+        "url": "https://www.wolai.com",
+        "description": "用 “我来” 搭建一站式协作平台，团队知识库、仪表台、工作流、内部应用、外部网站与个人云端笔记、待办……开箱即用！",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Wolai.png"
+    },
+    {
+        "id": 375,
+        "name": "冲浪云",
+        "url": "https://surfcloud.dev/",
+        "description": "暂无描述",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/冲浪云.ico"
+    },
+    {
+        "id": 374,
+        "name": "Openai",
+        "url": "https://chatgpt.com",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://cdn2.xiaolong0418.com/374.png"
+    },
+    {
+        "id": 371,
+        "name": "X-UI",
+        "url": "https://blogadmin.xiaolong0418.com/ui",
+        "description": "暂无描述",
+        "categoryId": 9,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/X-UI.jpg"
+    },
+    {
+        "id": 370,
+        "name": "宝塔服务器-香港",
+        "url": "http://193.134.211.156:8888/fc16b947",
+        "description": "暂无描述",
+        "categoryId": 9,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/宝塔服务器-香港.ico"
+    },
+    {
+        "id": 369,
+        "name": "野草云",
+        "url": "https://my.yecaoyun.com/aff.php?aff=2804",
+        "description": "野草云（原野草主机）成立于2012年6月份，致力于为中小企业与个人提供免备案的香港云主机、vps专享服务器、香港独立服务器、美国独立服务器、云虚拟主机、国外域名注册等产品服务。",
+        "categoryId": 9,
+        "icon": "https://cdn2.xiaolong0418.com/369.png"
+    },
+    {
+        "id": 367,
+        "name": "Geeker Admin",
+        "url": "https://docs.spicyboy.cn/guide/introduce.html",
+        "description": "Geeker Admin 中文文档",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Geeker Admin.svg"
+    },
+    {
+        "id": 366,
+        "name": "Univer",
+        "url": "https://univer.ai/en-US",
+        "description": "Univer is a full-stack framework for creating, editing, and collaborating on spreadsheets, documents, and slides across web and server environments. Empower your workflow with server-driven productivity tools, real-time collaboration, and enterprise-grade integration. Deploy on-premise or in the cloud for secure, scalable document management.",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/366.png"
+    },
+    {
+        "id": 365,
+        "name": "Ant Design Pro",
+        "url": "https://preview.pro.ant.design/dashboard/analysis",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Ant Design Pro.ico"
+    },
+    {
+        "id": 364,
+        "name": "Ant Design",
+        "url": "https://ant.design/components/button-cn",
+        "description": "按钮用于开始一个即时操作。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Ant Design.png"
+    },
+    {
+        "id": 363,
+        "name": "VForm",
+        "url": "https://www.vform666.com/vform3/",
+        "description": "VForm是一款基于Vue的低代码、可视化表单, 定位为前端开发人员提供快速搭建表单、实现表单交互和数据收集的功能。VForm由表单设计器VFormDesigner和表单渲染器VFormRender两部分构成, VFormDesigner通过拖拽组件方式生成JSON格式的表单对象, VFormRender负责将表单JSON渲染为Vue组件。VForm提供了丰富的组件属性设置、表单交互事件和API方法",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/VForm.ico"
+    },
+    {
+        "id": 362,
+        "name": "Ahooks",
+        "url": "https://ahooks.js.org/zh-CN/hooks/use-request/index",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Ahooks.svg"
+    },
+    {
+        "id": 361,
+        "name": "文心一言",
+        "url": "https://yiyan.baidu.com",
+        "description": "文心一言既是你的智能伙伴，可以陪你聊天、回答问题、画图识图；也是你的AI助手，可以提供灵感、撰写文案、阅读文档、智能翻译，帮你高效完成工作和学习任务。",
+        "categoryId": 6,
+        "icon": "https://cdn2.xiaolong0418.com/361.png"
+    },
+    {
+        "id": 360,
+        "name": "Appstorrent",
+        "url": "https://appstorrent.ru",
+        "description": "",
+        "categoryId": 3,
+        "icon": "https://cdn2.xiaolong0418.com/360.png"
+    },
+    {
+        "id": 359,
+        "name": "LottieFile",
+        "url": "https://lottiefiles.com/featured",
+        "description": "Explore our featured free Lottie animations, handpicked for quality and creativity. Discover free animations to enhance your projects with stunning motion graphics.",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/LottieFile.ico"
+    },
+    {
+        "id": 358,
+        "name": "51.LA网站统计V6",
+        "url": "https://v6.51.la/user/application",
+        "description": "免费、易用、专业的网站数据统计与营销分析平台，实时监测，精准洞察，专注用户行为分析，助力业务增长，提供更加精准全面的来路统计分析、数据报表可视化、网站分析能力、事件分析和渠道追踪归因，助力网站持续增长和赋能决策，超过300万用户和开发者的信赖选择。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/51.LA网站统计V6.ico"
+    },
+    {
+        "id": 357,
+        "name": "electron-vite",
+        "url": "https://cn-evite.netlify.app/guide/",
+        "description": "Next generation Electron build tooling based on Vite.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/electron-vite.svg"
+    },
+    {
+        "id": 356,
+        "name": "Vue-i18n",
+        "url": "https://vue-i18n.intlify.dev",
+        "description": "Internationalization plugin for Vue.js",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vue-i18n.png"
+    },
+    {
+        "id": 355,
+        "name": "IDEA激活码",
+        "url": "https://www.ajihuo.com/",
+        "description": "",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/IDEA激活码.png"
+    },
+    {
+        "id": 354,
+        "name": "TypeScript 入门教程",
+        "url": "https://ts.xcatliu.com/",
+        "description": "从 JavaScript 程序员的角度总结思考，循序渐进的理解 TypeScript",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TypeScript 入门教程.png"
+    },
+    {
+        "id": 353,
+        "name": "Icônes",
+        "url": "https://icones.js.org/",
+        "description": "",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Icônes.svg"
+    },
+    {
+        "id": 352,
+        "name": "前端面试之道",
+        "url": "https://wangtunan.github.io/blog/interview/",
+        "description": "汪图南的个人博客",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/前端面试之道.png"
+    },
+    {
+        "id": 351,
+        "name": "360站长平台",
+        "url": "https://zhanzhang.so.com/sitetool/includenum",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/360站长平台.ico"
+    },
+    {
+        "id": 350,
+        "name": "TypeORM",
+        "url": "https://typeorm.io",
+        "description": "TypeORM is an ORM that can run in NodeJS, Browser, Cordova, Ionic, React Native, NativeScript, Expo, and Electron platforms and can be used with TypeScript and JavaScript.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TypeORM.ico"
+    },
+    {
+        "id": 349,
+        "name": "微信红包封面开放平台",
+        "url": "https://cover.weixin.qq.com/cgi-bin/mmcover-bin/readtemplate?t=page/index#/",
+        "description": "微信红包封面开放平台，是微信红包面向品牌主开放的封面付费定制平台。在这里，定制方可自主设计封面样式、创建封面故事，付费定制专属的红包封面。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/微信红包封面开放平台.ico"
+    },
+    {
+        "id": 348,
+        "name": "FrontJS",
+        "url": "https://www.frontjs.com",
+        "description": "FrontJS 是为广大对网站错误监测有需求的用户和团队所提供的可以快速追踪网站故障，及时修复问题，维护网站质量，指导改善用户体验的轻量级网站错误监控平台。目前除支持监控Web端，更支持多方面监控您的微信小程序，只需一步，快速添加监控代码",
+        "categoryId": 6,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/FrontJS.ico"
+    },
+    {
+        "id": 347,
+        "name": "YunGouOS",
+        "url": "https://dwz.cn/q9g3rE0o",
+        "description": "YunGouOS是支付宝和微信官方合作伙伴，服务于个人的正规、安全、稳定、可靠的微信支付个人接口，方便个人用户通过API进行收款。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/YunGouOS.ico"
+    },
+    {
+        "id": 346,
+        "name": "Socket.IO",
+        "url": "https://socket.io/zh-CN/",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Socket.IO.png"
+    },
+    {
+        "id": 345,
+        "name": "Naive UI",
+        "url": "https://www.naiveui.com/zh-CN/os-theme/docs/installation",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/345.png"
+    },
+    {
+        "id": 344,
+        "name": "IKUUU",
+        "url": "https://ikuuu.one",
+        "description": "暂无描述",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/IKUUU.ico"
+    },
+    {
+        "id": 343,
+        "name": " Vue Router",
+        "url": "https://router.vuejs.org/zh/guide/",
+        "description": "Vue.js 的官方路由",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/ Vue Router.svg"
+    },
+    {
+        "id": 342,
+        "name": "NutUi",
+        "url": "https://nutui.jd.com/h5/vue/4x/#/zh-CN/component/button",
+        "description": "京东风格的轻量级移动端 Vue 组件库",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/NutUi.png"
+    },
+    {
+        "id": 341,
+        "name": "RxJS",
+        "url": "https://rxjs.dev/guide/overview",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/341.ico"
+    },
+    {
+        "id": 340,
+        "name": "RedisInsight",
+        "url": "https://redis.com/redis-enterprise/redis-insight/#insight-form",
+        "description": "Develop, debug, and visualize Redis with ease. AI-powered, cross-platform, and free. Supports all Redis deployments. Download now!",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/RedisInsight.ico"
+    },
+    {
+        "id": 339,
+        "name": "Vue DevUI",
+        "url": "https://vue-devui.github.io/quick-start/",
+        "description": "Vue DevUI 组件库",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vue DevUI.svg"
+    },
+    {
+        "id": 338,
+        "name": "CodeFun",
+        "url": "https://ide.code.fun/userConsole",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/CodeFun.ico"
+    },
+    {
+        "id": 337,
+        "name": "vue-esign",
+        "url": "https://www.npmjs.com/package/vue-esign",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/337.png"
+    },
+    {
+        "id": 336,
+        "name": "Vue-amap",
+        "url": "https://vue-amap.guyixi.cn/zh-cn/introduction/init.html",
+        "description": "初始化vue-amap组件，提供完整导入和自动按需导入功能，自动导入功能将提供自动的tree-shaking",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vue-amap.ico"
+    },
+    {
+        "id": 335,
+        "name": "Webmasters",
+        "url": "https://www.bing.com/webmasters/home?siteUrl=https://xiaolong0418.com/",
+        "description": "Sign in or signup for Bing Webmaster Tools and improve your site’s performance in search. Get access to free reports, tools and resources.",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Webmasters.ico"
+    },
+    {
+        "id": 334,
+        "name": "百度搜索资源平台",
+        "url": "https://ziyuan.baidu.com/linksubmit/index",
+        "description": "普通收录工具可实时向百度推送数据，创建并提交sitemap及提交未收录网页链接有助于百度发现并了解您网站上的网页和网站结构，加快抓取。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/百度搜索资源平台.ico"
+    },
+    {
+        "id": 333,
+        "name": "SearchConsole",
+        "url": "https://search.google.com/search-console?resource_id=sc-domain%3Axiaolong0418.com&hl=zh-CN",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/SearchConsole.png"
+    },
+    {
+        "id": 332,
+        "name": "Pnpm",
+        "url": "https://pnpm.io/zh/cli/add",
+        "description": "安装软件包及其依赖的任何软件包。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Pnpm.png"
+    },
+    {
+        "id": 331,
+        "name": "老毛桃",
+        "url": "http://www.laomaotao.org/",
+        "description": "新毛桃官网为用户提供u盘启动盘制作工具软件下载及新毛桃u盘装系统教程,新毛桃u盘启动盘制作工具支持一键制作万能u盘启动盘,新毛桃兼容多种机型,一键完成u盘装系统",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/老毛桃.ico"
+    },
+    {
+        "id": 330,
+        "name": "夜神模拟器",
+        "url": "https://www.yeshen.com/",
+        "description": "安卓模拟器哪个好用？电脑玩手游首选夜神安卓模拟器。夜神模拟器采用领先内核（基于Android7.1），同时是全球首家支持Android9内核的模拟器，在性能、稳定性及兼容性等方面有着同类产品无可比拟的优势。高清流畅，多开挂机更省资源，键鼠和手柄操作给你完美的操控体验，畅享电脑玩手游的至高快乐。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/夜神模拟器.ico"
+    },
+    {
+        "id": 329,
+        "name": "ScreenToGif",
+        "url": "https://www.screentogif.com/",
+        "description": "Free screen recorder tool. Record, edit and save as a gif or video.",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/ScreenToGif.ico"
+    },
+    {
+        "id": 328,
+        "name": "EV录屏",
+        "url": "https://www.ieway.cn/evcapture.html",
+        "description": "EV录屏，高清无水印的录屏软件。集视频录制与直播功能于一身,可以轻松录制高清画质微课、游戏、网络视频等。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/EV录屏.png"
+    },
+    {
+        "id": 327,
+        "name": "M.O",
+        "url": "https://motrix.app",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://cdn2.xiaolong0418.com/327.jpeg"
+    },
+    {
+        "id": 326,
+        "name": "格式工厂",
+        "url": "http://www.pcgeshi.com/download.html",
+        "description": "格式工厂软件下载页面，提供最新PC版下载。支持MP4、MP3、AVI、MOV、JPG、PNG、PDF等格式转换，包含视频转换、音频处理、视频压缩、图片压缩、文档转换等功能。老牌格式转换工具，安全可靠，更新及时。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/格式工厂.ico"
+    },
+    {
+        "id": 325,
+        "name": "爱思助手",
+        "url": "https://www.i4.cn/",
+        "description": "爱思助手是一款专业的苹果手机管理工具，提供海量正版iPhone、iPad应用、游戏、铃声、壁纸等免费下载、一键刷机、设备数据备份与恢复、系统维护等全方位服务，是亿万果粉的必备助手。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/爱思助手.png"
+    },
+    {
+        "id": 324,
+        "name": "小飞兔",
+        "url": "https://www.xftsoft.com/",
+        "description": "小飞兔下载是一款高效的网页整站下载工具，支持批量下载、深度抓取和多线程加速。无论是普通网页还是使用 Vue、AJAX 异步加载的动态网站，都能智能识别并完整下载。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/小飞兔.ico"
+    },
+    {
+        "id": 323,
+        "name": "GitHub Desktop",
+        "url": "https://desktop.github.com/",
+        "description": "GitHub is where people build software. More than 150 million people use GitHub to discover, fork, and contribute to over 420 million projects.",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/GitHub Desktop.png"
+    },
+    {
+        "id": 322,
+        "name": "Sourcetree",
+        "url": "https://www.sourcetreeapp.com",
+        "description": "A Git GUI that offers a visual representation of your repositories. Sourcetree is a free Git client for Windows and Mac.",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Sourcetree.ico"
+    },
+    {
+        "id": 321,
+        "name": "Apifox",
+        "url": "https://www.apifox.cn/",
+        "description": "Apifox = Postman + Swagger + Mock + JMeter。集接口文档工具、接口Mock工具、接口自动化测试工具、接口调试工具于一体，提升 10 倍研发效率。是最好用的API文档工具，API自动化测试工具，API Mock工具，接口文档管理工具，接口文档生成工具。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Apifox.png"
+    },
+    {
+        "id": 320,
+        "name": "Postman",
+        "url": "https://www.getpostman.com/downloads/",
+        "description": "Try Postman for free! Join 40 million users who rely on Postman, the collaboration platform for API development. Create better APIs—faster.",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Postman.ico"
+    },
+    {
+        "id": 319,
+        "name": "PicGo",
+        "url": "https://molunerfinn.com/PicGo",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/PicGo.ico"
+    },
+    {
+        "id": 318,
+        "name": "OSSBrowser2",
+        "url": "https://help.aliyun.com/zh/oss/developer-reference/installing-the-ossbrowser-2-0",
+        "description": "本文提供在Windows、macOS和Linux上安装ossbrowser 2.0的一站式图文指南，内含官方下载链接，助您快速完成部署。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/OSSBrowser2.svg"
+    },
+    {
+        "id": 317,
+        "name": "TortoiseSVN",
+        "url": "https://tortoisesvn.net/downloads.html",
+        "description": "download TortoiseSVN",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TortoiseSVN.png"
+    },
+    {
+        "id": 316,
+        "name": "FileZilla",
+        "url": "https://www.filezilla.cn/download/client",
+        "description": "FileZilla是一种快速、可信赖的FTP客户端以及服务器端开放源代码程式，具有多种特色、直觉的接口。可控性、有条理的界面和管理多站点的简化方式使得Filezilla客户端版成为一个方便高效的FTP客户端工具。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/FileZilla.png"
+    },
+    {
+        "id": 315,
+        "name": "SecureCRT",
+        "url": "https://sysin.org/blog/securecrt-9-1/",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/SecureCRT.ico"
+    },
+    {
+        "id": 314,
+        "name": "FinalShell ",
+        "url": "http://www.hostbuf.com/t/988.html",
+        "description": "FinalShell是一体化的的服务器,网络管理软件,不仅是ssh客户端,还是功能强大的开发,运维工具,充分满足开发,运维需求.特色功能:云端同步,免费海外服务器远程桌面加速,ssh加速,本地化命令输入框,支持自动补全,命令历史,自定义命令参数.WindowsX64版,下载地址:https://dl.hostbuf.com/finalshell3/finalshell_windows_x64.exemacOSArm版,支持m1,m2,m3cpu,下载地址:https://dl.hostbuf.com/finalshell3/finalshell_macos_arm64.pkgmacOSX64版,支持旧款intelcpu,下载地址:https://dl.hostbuf.com/finalshell3/finalshell_macos_x64.pkgLinuxX64版,下载地址:https://dl.hostbuf.com/finalshell3/finalshell_linux_x64.debLinuxArm64版,下载地址:https://dl.hostbuf.com/finalshell3/finalshell_linux_arm64.debLinuxLoongArch64龙芯版,下载地址:https://dl.hostbuf.com/finalshell3/finalshell",
+        "categoryId": 10,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/FinalShell .ico"
+    },
+    {
+        "id": 313,
+        "name": "Xshell 6",
+        "url": "https://www.netsarang.com/zh/xshell/",
+        "description": "业界最强大的SSH客户机  下载  立即购买        \r\nXshell的优点    \r\n\r\n管理一切 \r\n\r\n使用 Xshell 的会话管理器、快速命令管理器、选项卡管理器和文件管理器，管理远程主机比以往更容易。 将管理器固定到您想要的位置或让它们自动隐藏可以获得更整洁的外观。      \r\n\r\n优化工作流程的高级工具 \r\n\r\n使用“快捷命令”创建常用命令按钮。创建触发器以在终端中出现指定字符串时执行特定操作。在发送到目标会话之前使用“撰写窗格”草拟多行字符串。使用脚本录制功能，根据终端的输入/输出自动生成脚本。 还有更多......    \r\n\r\n身份验证配置文件 \r\n\r\n创建身份验证配置文件保存身份验证变量集，可以快速将其应用于一个或多个会话文件，而不必逐个输入身份验证信息。如果身份验证信息发生变化，只需编辑受影响的身份验证配置文件一次即可将更改立即应用于所有相关会话。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Xshell 6.ico"
+    },
+    {
+        "id": 312,
+        "name": "PHPStudy",
+        "url": "https://www.xp.cn/download.html",
+        "description": "通过小皮面板安装脚本，2 分钟完成 Linux 服务器一键部署，支持 CentOS、Ubuntu、Debian、OpenEuler 系统，集成网站、FTP、数据库、文件管理等功能，适合网站运维、运维工程师和中小企业服务器部署使用。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/PHPStudy.ico"
+    },
+    {
+        "id": 311,
+        "name": "CHINER元数建模",
+        "url": "https://gitee.com/robergroup/chiner/releases/v3.5.7",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/CHINER元数建模.ico"
+    },
+    {
+        "id": 310,
+        "name": "Navicat",
+        "url": "https://www.navicat.com.cn/download/navicat-premium",
+        "description": "下载免费的 Navicat Premium 14 天试用版，并尝试 Navicat 版本 17 的最新功能。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Navicat.ico"
+    },
+    {
+        "id": 309,
+        "name": "HBuilder X",
+        "url": "https://www.dcloud.io/hbuilderx.html",
+        "description": "HBuilderX是当前最快的HTML开发工具，强大的代码助手帮你快速完成开发，最全的语法库和浏览器兼容性数据让浏览器碎片化不再头痛",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/HBuilder X.png"
+    },
+    {
+        "id": 308,
+        "name": "微信小程序",
+        "url": "https://developers.weixin.qq.com/miniprogram/dev/devtools/download.html",
+        "description": "微信开发者平台文档",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/微信小程序.ico"
+    },
+    {
+        "id": 307,
+        "name": "Visual Studio Code",
+        "url": "https://code.visualstudio.com/Download",
+        "description": "Visual Studio Code is free and available on your favorite platform - Linux, macOS, and Windows.  Download Visual Studio Code to experience a redefined code editor,  optimized for building and debugging modern web and cloud applications.",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Visual Studio Code.ico"
+    },
+    {
+        "id": 306,
+        "name": "Shadowrocket",
+        "url": "https://apps.apple.com/us/app/shadowrocket/id932747118",
+        "description": "Download Shadowrocket by Shadow Launch Technology Limited on the App Store. See screenshots, ratings and reviews, user tips, and more apps like Shadowrocket.",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Shadowrocket.png"
+    },
+    {
+        "id": 305,
+        "name": " Clash",
+        "url": "https://github.com/Fndroid/clash_for_windows_pkg/releases",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/ Clash.ico"
+    },
+    {
+        "id": 304,
+        "name": "V2rayX",
+        "url": "https://github.com/Cenmrev/V2RayX",
+        "description": "GUI for v2ray-core on macOS. Contribute to Cenmrev/V2RayX development by creating an account on GitHub.",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/V2rayX.png"
+    },
+    {
+        "id": 303,
+        "name": "V2rayNG",
+        "url": "https://github.com/2dust/v2rayNG/releases",
+        "description": "A V2Ray client for Android, support Xray core and v2fly core - Releases · 2dust/v2rayNG",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/V2rayNG.png"
+    },
+    {
+        "id": 302,
+        "name": "V2rayN",
+        "url": "https://github.com/2dust/v2rayN/releases",
+        "description": "A GUI client for Windows, Linux and macOS, support Xray and sing-box and others - Releases · 2dust/v2rayN",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/V2rayN.png"
+    },
+    {
+        "id": 301,
+        "name": "BandiZip",
+        "url": "https://cn.bandisoft.com/bandizip/",
+        "description": "Bandizip official download page",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/BandiZip.ico"
+    },
+    {
+        "id": 300,
+        "name": "网易云音乐",
+        "url": "https://music.163.com/#/download",
+        "description": "网易云音乐是一款专注于发现与分享的音乐产品，依托专业音乐人、DJ、好友推荐及社交功能，为用户打造全新的音乐生活。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/网易云音乐.ico"
+    },
+    {
+        "id": 299,
+        "name": "百度网盘",
+        "url": "https://pan.baidu.com/download",
+        "description": "百度网盘为您提供文件的网络备份、同步和分享服务。空间大、速度快、安全稳固，支持教育网加速，支持手机端。现在注册即有机会享受2T的免费存储空间",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/百度网盘.ico"
+    },
+    {
+        "id": 298,
+        "name": "网易邮箱大师",
+        "url": "http://mail.163.com/dashi/",
+        "description": "网易邮箱大师：高效强大的全平台邮箱客户端，支持所有平台：iOS、Android、 Windows、MAC；支持一个大师账号管理你的所有邮箱客户端；支持一键添加所有邮箱：163、126、QQ邮箱、Outlook、Hotmail、新浪邮箱、所有企业邮箱和高校邮箱。凝聚网易20年专业邮箱经验打造的官方邮箱客户端，效率倍增，畅邮无间。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/网易邮箱大师.ico"
+    },
+    {
+        "id": 297,
+        "name": "Zoom",
+        "url": "https://zoom.us/download",
+        "description": "Download Zoom apps, plugins, and add-ons for mobile devices, desktop, web browsers, and operating systems. Available for Mac, PC, Android, Chrome, and Firefox.",
+        "categoryId": 10,
+        "icon": "https://cdn2.xiaolong0418.com/297.png"
+    },
+    {
+        "id": 296,
+        "name": "TeamViewer",
+        "url": "https://www.teamviewer.cn/cn/download/windows/",
+        "description": "下载适用于 Windows 系统的最新版 TeamViewer。远程控制和访问您的设备。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TeamViewer.png"
+    },
+    {
+        "id": 295,
+        "name": "火绒安全",
+        "url": "https://www.huorong.cn/",
+        "description": "火绒安全致力于在终端安全领域，为用户提供专业的产品和专注的服务，并持续对外赋能反病毒引擎等自主研发技术，拥有免费个人产品“火绒安全软件”，及企业产品“火绒终端安全管理系统”。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/火绒安全.png"
+    },
+    {
+        "id": 294,
+        "name": "Typora",
+        "url": "https://www.typora.io/",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Typora.png"
+    },
+    {
+        "id": 293,
+        "name": "WPS",
+        "url": "https://pc.wps.cn/",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/WPS.ico"
+    },
+    {
+        "id": 292,
+        "name": "XMind",
+        "url": "https://www.xmind.cn/download/",
+        "description": "一键开启 Xmind 在线版免费试用，AI 赋能 + 实时协作，快速提升生产力！",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/XMind.png"
+    },
+    {
+        "id": 291,
+        "name": "PotPlayer",
+        "url": "https://potplayer.daum.net/?lang=zh_CN",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://cdn2.xiaolong0418.com/291.png"
+    },
+    {
+        "id": 290,
+        "name": "谷歌浏览器",
+        "url": "https://www.google.com/intl/zh-CN/chrome/",
+        "description": "得益于 Google 智能功能，Chrome 现在更易用、更安全，也更快速。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/谷歌浏览器.png"
+    },
+    {
+        "id": 289,
+        "name": "火狐浏览器",
+        "url": "https://www.firefox.com.cn/",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://cdn2.xiaolong0418.com/289.ico"
+    },
+    {
+        "id": 288,
+        "name": "链图网",
+        "url": "http://www.lianty.com/",
+        "description": "链图云是图片世界的路由器，帮您轻松找图找字体。可提供强大的本机以图搜图和企业跨机搜图能力，提供图片存证版权服务，帮您管好图像和字体数字资产。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/链图网.ico"
+    },
+    {
+        "id": 287,
+        "name": "Telegram",
+        "url": "https://telegram.org/",
+        "description": "Fast. Secure. Powerful.",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Telegram.svg"
+    },
+    {
+        "id": 286,
+        "name": "飞书",
+        "url": "https://applink.feishu.cn/client/op/open",
+        "description": "",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/飞书.ico"
+    },
+    {
+        "id": 285,
+        "name": "微信",
+        "url": "https://weixin.qq.com",
+        "description": "一款跨平台的通讯工具。支持单人、多人参与。通过手机网络发送语音、图片、视频和文字。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/微信.ico"
+    },
+    {
+        "id": 284,
+        "name": "TIM",
+        "url": "https://tim.qq.com/download.html",
+        "description": "TIM，QQ办公简洁版，是一款专注于团队办公协作的跨平台沟通工具。登录后，你的QQ好友都在，提供云文件、在线文档、邮件、日程、收藏等好用的办公功能，界面简洁清晰，QQ好友和消息无缝同步。",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TIM.png"
+    },
+    {
+        "id": 283,
+        "name": "uTools",
+        "url": "https://u.tools",
+        "description": "AI 时代的轻工具平台，集成海量实用工具插件 + AI 制作插件应用，让效率飞跃",
+        "categoryId": 10,
+        "icon": "https://api.xiaolong0418.com/upload/icons/uTools.png"
+    },
+    {
+        "id": 281,
+        "name": "Cloudflare",
+        "url": "https://dash.cloudflare.com/",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Cloudflare.ico"
+    },
+    {
+        "id": 280,
+        "name": "七牛云",
+        "url": "https://portal.qiniu.com/create",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/七牛云.ico"
+    },
+    {
+        "id": 279,
+        "name": "中域网络",
+        "url": "https://www.82mi.com/",
+        "description": "中域网络-专业提供域名注册，域名出售转让，域名交易，域名竞价，个人域名，一口价域名，企业域名，阿里云域名，万网域名,腾讯云域名，景安域名，西部数码域名，美橙互联域名，中域网络-您的放心之选！",
+        "categoryId": 9,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/中域网络.ico"
+    },
+    {
+        "id": 278,
+        "name": "Namecheap",
+        "url": "https://www.namecheap.com/",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://cdn2.xiaolong0418.com/278.png"
+    },
+    {
+        "id": 277,
+        "name": "LeanCloud",
+        "url": "https://console.leancloud.cn/apps/Ho5r0OHccXl2EpUYOgHSGbAS-gzGzoHsz/",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/LeanCloud.ico"
+    },
+    {
+        "id": 276,
+        "name": "公司项目导航",
+        "url": "http://192.168.10.235:9898",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://cdn.xiaolong0418.com/navigation/images/manager_16px.ico"
+    },
+    {
+        "id": 275,
+        "name": "阿里云-云效",
+        "url": "https://devops.aliyun.com/workbench?orgId=5f82d6e53035265285848550",
+        "description": "欢迎登录阿里云，全球领先的云计算及人工智能科技公司，阿里云为200多个国家和地区的企业、开发者和政府机构提供云计算基础服务及解决方案。阿里云云计算、安全、大数据、人工智能、企业应用、物联网等云计算服务。",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/阿里云-云效.ico"
+    },
+    {
+        "id": 266,
+        "name": "水墨云",
+        "url": "https://www.inkisp.com/aff.php?aff=99",
+        "description": "Ink Cloud服务器专注于提供高效、稳定的跨境专线云主机解决方案。我们支持灵活配置和按需扩展，通过全球数据中心网络确保最低延迟和高可用性，完美匹配网站托管和应用开发等多样业务需求。选择Ink Cloud，享受全方位安全保障和24/7专业技术支持，为您的业务快速成长提供坚实基础！",
+        "categoryId": 9,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/水墨云.png"
+    },
+    {
+        "id": 265,
+        "name": "六六云",
+        "url": "https://666clouds.com/aff.php?aff=43",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/六六云.ico"
+    },
+    {
+        "id": 263,
+        "name": "DMIT",
+        "url": "https://www.dmit.io/aff.php?aff=1001",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/DMIT.ico"
+    },
+    {
+        "id": 262,
+        "name": "HostKvm",
+        "url": "https://my.hostkvm.com/aff.php?aff=886",
+        "description": "香港雲伺服器、實體主機、專屬伺服器租用",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/HostKvm.ico"
+    },
+    {
+        "id": 261,
+        "name": "搬瓦工",
+        "url": "https://bandwagonhost.com/aff.php?aff=64358",
+        "description": "Inexpensive VPS hosting on premium hardware with RAID-10 SAS disks and E5 CPUs. Premium Gigabit bandwidth.",
+        "categoryId": 9,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/搬瓦工.ico"
+    },
+    {
+        "id": 260,
+        "name": "Vultr",
+        "url": "https://www.vultr.com/?ref=8439176-6G",
+        "description": "Vultr Global Cloud Hosting - Brilliantly Fast SSD VPS Cloud Servers. 100% KVM Virtualization",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vultr.png"
+    },
+    {
+        "id": 259,
+        "name": "UCloud",
+        "url": "https://passport.ucloud.cn/?invitation_code=C1xB99F99EE6CCE",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/UCloud.ico"
+    },
+    {
+        "id": 258,
+        "name": "亚马逊云",
+        "url": "https://aws.amazon.com",
+        "description": "Amazon Web Services offers reliable, scalable, and inexpensive cloud computing services. Free to join, pay only for what you use.",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/亚马逊云.ico"
+    },
+    {
+        "id": 257,
+        "name": "微软云",
+        "url": "https://portal.azure.com/",
+        "description": "",
+        "categoryId": 9,
+        "icon": "https://cdn2.xiaolong0418.com/257.png"
+    },
+    {
+        "id": 256,
+        "name": "谷歌云",
+        "url": "https://cloud.google.com/?hl=zh-CN",
+        "description": "借助 Google 的 AI 和云计算服务，包括安全、数据管理、混合云和多云方面的服务，着力应对业务挑战。",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/谷歌云.ico"
+    },
+    {
+        "id": 255,
+        "name": "阿里云",
+        "url": "https://www.alibabacloud.com/",
+        "description": "Alibaba Cloud is one of the world's largest cloud computing companies, providing scalable, secure, and reliable cloud computing services globally to accelerate digitalization empowered by comprehensive cloud products and solutions.",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/阿里云.png"
+    },
+    {
+        "id": 254,
+        "name": "西部数据",
+        "url": "https://www.west.cn/",
+        "description": "���������Ǵ���2002��������Ƽ�������̡�רҵ�ṩ�Ʒ���������������������ע�ᡢ��ҵ�����,50���������������վ��1000����������û��Ĺ�ͬѡ����ѱ�����7x24Сʱ�ۺ�֧�֣�����ҵ�������ơ�",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/西部数据.ico"
+    },
+    {
+        "id": 253,
+        "name": "腾讯云",
+        "url": "https://cloud.tencent.com/act/cps/redirect?redirect=1053&cps_key=789d07ea8be50b3706f29b464fe131ad&from=console",
+        "description": "腾讯云活动汇聚了腾讯云最新的促销打折、优惠折扣等信息，你在这里可以找到云服务器、域名、数据库、小程序等等多种不同产品的促销活动，还有各种产品的免费试用哦。",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/腾讯云.ico"
+    },
+    {
+        "id": 252,
+        "name": "阿里云",
+        "url": "https://www.aliyun.com/minisite/goods?userCode=3xxeu8uc",
+        "description": "上云优惠聚集地，新人专享优惠价格，可叠加专享代金券购买价格更低。",
+        "categoryId": 9,
+        "icon": "https://api.xiaolong0418.com/upload/icons/阿里云.ico"
+    },
+    {
+        "id": 250,
+        "name": "吹水台",
+        "url": "https://forum.hkgolden.com/channel/BW",
+        "description": "集合分台最新資訊，網羅線上最潮熱話，全港市民最關注議題一覽無遺。吹水台亦歡迎網民分享生活點滴或忽發奇想，眾多抵死笑料全部集中在高登吹水台。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/吹水台.jpg"
+    },
+    {
+        "id": 249,
+        "name": "Dcard",
+        "url": "https://www.dcard.tw/f",
+        "description": "",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Dcard.ico"
+    },
+    {
+        "id": 248,
+        "name": "小米有品",
+        "url": "https://www.xiaomiyoupin.com/",
+        "description": "小米有品是小米旗下新生活方式电商，致力于成为新中产优选的精品电商平台。有品坚持依从小米产品观进行选品及育品，为用户提供具备高品质、高颜值、科技感的好产品，为生活提供全场景解决方案。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/小米有品.png"
+    },
+    {
+        "id": 247,
+        "name": "Apple",
+        "url": "https://www.apple.com/",
+        "description": "Discover the innovative world of Apple and shop everything iPhone, iPad, Apple Watch, Mac, and Apple TV, plus explore accessories, entertainment, and expert device support.",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Apple.ico"
+    },
+    {
+        "id": 246,
+        "name": "小米商城",
+        "url": "https://www.mi.com/",
+        "description": "让全球每个人都能享受科技带来的美好生活",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/小米商城.ico"
+    },
+    {
+        "id": 245,
+        "name": "亚马逊商城",
+        "url": "https://www.amazon.com",
+        "description": "",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/亚马逊商城.ico"
+    },
+    {
+        "id": 244,
+        "name": "京东",
+        "url": "https://www.jd.com",
+        "description": "京东JD.COM-专业的综合网上购物商城，为您提供正品低价的购物选择、优质便捷的服务体验。商品来自全球数十万品牌商家，囊括家电、手机、电脑、服装、居家、母婴、美妆、个护、食品、生鲜等丰富品类，满足各种购物需求。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/京东.ico"
+    },
+    {
+        "id": 243,
+        "name": "淘宝",
+        "url": "https://www.taobao.com/",
+        "description": "淘宝网 - 亚洲较大的网上交易平台，提供各类服饰、美容、家居、数码、话费/点卡充值… 数亿优质商品，同时提供担保交易(先收货后付款)等安全交易保障服务，并由商家提供退货承诺、破损补寄等消费者保障服务，让你安心享受网上购物乐趣！",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/淘宝.ico"
+    },
+    {
+        "id": 242,
+        "name": "懒人听书",
+        "url": "https://www.lrts.me/",
+        "description": "懒人听书是4.8亿用户选择的综合性有声阅读交流平台。热门IP入驻，知名主播云集，原创小说、经典文学、海量精品栏目共筑有声阅读生态圈，解放双眼，畅听世界",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/懒人听书.ico"
+    },
+    {
+        "id": 241,
+        "name": "喜马拉雅",
+        "url": "https://www.ximalaya.com",
+        "description": "国内专业音频分享平台，随时随地，听我想听！4亿用户选择的在线音频平台。马东、郭德纲、吴晓波等20多万大咖入驻，1亿多条原创有声内容覆盖有声书、儿童、相声评书、财经新闻、音乐等328类。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/喜马拉雅.ico"
+    },
+    {
+        "id": 240,
+        "name": "酷狗音乐",
+        "url": "http://www.kugou.com/",
+        "description": "酷狗音乐在线正版音乐网站，为您提供酷狗音乐播放器下载 、在线音乐试听下载，提供听书、长音频、频道、听小说和MV播放服务。酷狗音乐，就是歌多！小说相声也很多！场景音乐也很多！",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/酷狗音乐.ico"
+    },
+    {
+        "id": 238,
+        "name": "QQ音乐",
+        "url": "https://y.qq.com/",
+        "description": "QQ音乐是腾讯公司推出的一款网络音乐服务产品，海量音乐在线试听、新歌热歌在线首发、歌词翻译、手机铃声下载、高品质无损音乐试听、海量无损曲库、正版音乐下载、空间背景音乐设置、MV观看等，是互联网音乐播放和下载的优选。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/QQ音乐.ico"
+    },
+    {
+        "id": 237,
+        "name": "网易云音乐",
+        "url": "https://music.163.com",
+        "description": "网易云音乐是一款专注于发现与分享的音乐产品，依托专业音乐人、DJ、好友推荐及社交功能，为用户打造全新的音乐生活。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/网易云音乐.ico"
+    },
+    {
+        "id": 236,
+        "name": "Twitter",
+        "url": "https://twitter.com/home",
+        "description": "",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Twitter.ico"
+    },
+    {
+        "id": 235,
+        "name": "Facebook",
+        "url": "https://www.facebook.com/",
+        "description": "",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Facebook.png"
+    },
+    {
+        "id": 234,
+        "name": "新浪",
+        "url": "https://www.weibo.com/login.php",
+        "description": "",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/新浪.ico"
+    },
+    {
+        "id": 233,
+        "name": "头条号",
+        "url": "https://mp.toutiao.com/profile_v3/xigua",
+        "description": "",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/头条号.png"
+    },
+    {
+        "id": 232,
+        "name": "爱漫展",
+        "url": "https://www.aimanzhan.com",
+        "description": "爱漫展网为所有喜欢去动漫展玩的小伙伴们提供漫展时间表,漫展地点以及漫展内容,希望大家都能在漫展里找到自己喜爱的CP.",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/爱漫展.ico"
+    },
+    {
+        "id": 230,
+        "name": "虎牙",
+        "url": "https://www.huya.com/",
+        "description": "",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/虎牙.ico"
+    },
+    {
+        "id": 229,
+        "name": "斗鱼",
+        "url": "https://www.douyu.com/",
+        "description": "斗鱼 - 看见每种热爱 提供高清、快捷、流畅的视频直播和游戏赛事直播服务，包含英雄联盟lol直播、穿越火线cf直播、dota2直播、美女直播等各类热门游戏赛事直播和各种名家大神游戏直播，内容丰富，推送及时，带给你不一样的视听体验，一切尽在斗鱼 - 每个人的直播平台。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/斗鱼.ico"
+    },
+    {
+        "id": 228,
+        "name": "飘花资源网",
+        "url": "https://www.piaohua.com/",
+        "description": "飘花电影网－最新电影,3E迅雷电影下载网(原3edyy.com)-每天搜集最新迅雷免费电影下载。为使用迅雷软件的用户提供最新的免费电影下载、小电影下载、高清电影下载等服务。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/飘花资源网.ico"
+    },
+    {
+        "id": 225,
+        "name": "AGE动漫",
+        "url": "https://www.agedm.org",
+        "description": "",
+        "categoryId": 8,
+        "icon": "https://cdn2.xiaolong0418.com/225.jpeg"
+    },
+    {
+        "id": 224,
+        "name": "nicovideo",
+        "url": "https://www.nicovideo.jp/",
+        "description": "日本最大級の動画サービス、ニコニコ（niconico）。動画にコメントを付けて楽しむニコニコ動画や、生放送番組にリアルタイムでコメントを付けられるニコニコ生放送のほか、イラスト・マンガ・最新ニュース・ゲームなど、エンターテイメントを全て無料で楽しめる！",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/nicovideo.ico"
+    },
+    {
+        "id": 223,
+        "name": "AbemaTV",
+        "url": "https://abema.tv/",
+        "description": "ABEMAは好きな時間に好きな場所で話題の動画を無料で楽しめる新しい未来のテレビ。ニュースや恋愛番組、アニメ、スポーツなど、多彩な番組をお楽しみいただけます。©AbemaTV, Inc.",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/AbemaTV.ico"
+    },
+    {
+        "id": 221,
+        "name": "动漫疯",
+        "url": "https://ani.gamer.com.tw/",
+        "description": "動畫瘋是由巴哈姆特所推出，正版授權的免費動畫平台，提供與日本同步的當季新番動畫，並含有高達上萬集的過往名作，供動畫迷們自由選擇！",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/动漫疯.svg"
+    },
+    {
+        "id": 220,
+        "name": "myTVsuper",
+        "url": "https://www.mytvsuper.com/",
+        "description": "探索myTV SUPER網頁版極致娛樂！免費區線上看TVB劇集及綜藝娛樂節目重溫、電視直播、節目表、中外電影猛片、賽馬一應俱全，升級myTV Gold享受更多功能和體驗！",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/myTVsuper.ico"
+    },
+    {
+        "id": 219,
+        "name": "Disney+",
+        "url": "https://www.disneyplus.com/",
+        "description": "Access your favorite entertainment with Disney+. Disney+ is the streaming home for Disney, Hulu, ESPN, Pixar, Marvel, Star Wars, Nat Geo, and so much more.",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Disney+.png"
+    },
+    {
+        "id": 218,
+        "name": "HBO",
+        "url": "https://www.hbo.com/",
+        "description": "The official site for HBO, discover full episodes of original series, movies, schedule information, exclusive video content, episode guides and more.",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/HBO.ico"
+    },
+    {
+        "id": 217,
+        "name": "Hulu",
+        "url": "https://www.hulu.com/",
+        "description": "Watch TV shows and movies online. Stream TV episodes of Shōgun, Grey's Anatomy, This Is Us, Bob's Burgers, Empire, SNL, and popular movies on your favorite devices. Bundle with Disney+ for $12.99.",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Hulu.png"
+    },
+    {
+        "id": 216,
+        "name": "Netflix",
+        "url": "https://www.netflix.com/",
+        "description": "Watch Netflix movies & TV shows online or stream right to your smart TV, game console, PC, Mac, mobile, tablet and more.",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Netflix.ico"
+    },
+    {
+        "id": 215,
+        "name": "YouTube",
+        "url": "https://www.youtube.com/",
+        "description": "YouTube 上盡享你喜愛的影片和音樂、上載原創內容，並與親友和世界各地的人分享。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/YouTube.ico"
+    },
+    {
+        "id": 214,
+        "name": "哔哩哔哩",
+        "url": "https://www.bilibili.com/",
+        "description": "哔哩哔哩（bilibili.com)是国内知名的视频弹幕网站，这里有及时的动漫新番，活跃的ACG氛围，有创意的Up主。大家可以在这里找到许多欢乐。",
+        "categoryId": 8,
+        "icon": "https://cdn2.xiaolong0418.com/214.ico"
+    },
+    {
+        "id": 213,
+        "name": "腾讯视频",
+        "url": "https://v.qq.com/",
+        "description": "腾讯视频致力于打造中国领先的在线视频媒体平台，以丰富的内容、极致的观看体验、便捷的登录方式、多平台无缝应用体验以及快捷分享的产品特性，主要满足用户在线观看视频的需求。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/腾讯视频.ico"
+    },
+    {
+        "id": 212,
+        "name": "爱奇艺",
+        "url": "https://www.iqiyi.com/",
+        "description": "爱奇艺（iQIYI）是中国领先的在线视频平台，提供海量免费正版高清电视剧、短剧、电影、综艺、动漫等视频内容，成功打造了狂飙、新说唱、偶像练习生、我是刑警、迷雾剧场等现象级IP，热门大片、独播剧集实时更新，畅享流畅观影体验。",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/爱奇艺.ico"
+    },
+    {
+        "id": 211,
+        "name": "优酷",
+        "url": "https://www.youku.com/",
+        "description": "视频服务平台,提供视频播放,视频发布,视频搜索,视频分享",
+        "categoryId": 8,
+        "icon": "https://api.xiaolong0418.com/upload/icons/优酷.png"
+    },
+    {
+        "id": 210,
+        "name": "TMKOO",
+        "url": "https://www.tmkoo.com",
+        "description": "标库网是提供在线商标查询、商标注册及专业商标服务的平台，拥有中国最全的商标信息，商标数据实时跟商标局保持同步。包括商标近似查询、商标综合查询、商标状态查询、商标公告查询等等；商标申请人可以在申请商标前做商标注册查询，降低商标注册风险。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TMKOO.ico"
+    },
+    {
+        "id": 209,
+        "name": "二郎查",
+        "url": "https://www.erlangcha.com/",
+        "description": "最新二类电商爆品数据查询工具，能够了解行业最新爆品信息，有助于更好选品决策。查爆品上二郎查！",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/二郎查.png"
+    },
+    {
+        "id": 208,
+        "name": "BigBigAds",
+        "url": "https://bigbigads.io/",
+        "description": "BigBigAds（又名头条广告情报）是为广告主和广告优化师提供文案创意、手游买量、二类电商选品等广告投放分析的专业广告监测系统，目前已覆盖国内20+主流媒体渠道，累计抓取约1800万游戏类、应用类、电商类广告素材与广告创意。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/BigBigAds.png"
+    },
+    {
+        "id": 206,
+        "name": "FeedsRadar",
+        "url": "http://ad1024.com/",
+        "description": "信息流雷达是为广告主、媒体、运营优化师、营销商务提供一站式信息流广告解决方案的工具，通过分析广告热度、广告排行、媒体排行、竞品广告动态等，帮助您快速有效优化广告投放，及时了解广告市场动态、提升工作效率",
+        "categoryId": 7,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/FeedsRadar.ico"
+    },
+    {
+        "id": 204,
+        "name": "Appgrowing",
+        "url": "https://data.appgrowing.cn/leaflet/list",
+        "description": "",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Appgrowing.ico"
+    },
+    {
+        "id": 202,
+        "name": "巨量引擎",
+        "url": "https://agent.oceanengine.com/",
+        "description": "巨量引擎方舟是巨量引擎为渠道合作伙伴打造的集公司签约、客户跟进、商务流程、优化投放、智能数据BI分析等业务于一体的伙伴合作平台。巨量引擎方舟不仅适用于公司管理层与一线同学，还包括其中众多角色，比如销售、媒介、优化师与数据分析师等，合作伙伴的多种角色都能在此平台上敏捷高效开展线上工作，展现平台多元高效的价值理念。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/巨量引擎.png"
+    },
+    {
+        "id": 201,
+        "name": "巨量引擎",
+        "url": "https://ad.oceanengine.com/pages/login/index.html",
+        "description": "巨量引擎广告投放平台是抖音集团旗下的一站式营销服务平台，覆盖今日头条、抖音、西瓜视频、抖音火山版、懂车帝、穿山甲等产品数亿优质用户，推广定向精准、按效果计费，帮您高效达成营销推广目标，轻松获取目标客户。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/巨量引擎.svg"
+    },
+    {
+        "id": 200,
+        "name": "谷歌地图",
+        "url": "https://www.google.com/maps/@35.274241,160.2981017,3z?hl=zh-CN",
+        "description": "在 Google 地图上查找本地商户、查看卫星地图、查询公交和驾车路线。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/谷歌地图.ico"
+    },
+    {
+        "id": 199,
+        "name": "高德地图",
+        "url": "https://www.amap.com/",
+        "description": "",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/高德地图.ico"
+    },
+    {
+        "id": 198,
+        "name": "同花顺财经",
+        "url": "http://www.10jqka.com.cn/",
+        "description": "核新同花顺网络信息股份有限公司（同花顺）成立于1995年，是一家专业的互联网金融数据服务商，为您全方位提供财经资讯及全球金融市场行情，覆盖股票、基金、期货、外汇、债券、银行、黄金等多种面向个人和企业的服务。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/同花顺财经.ico"
+    },
+    {
+        "id": 197,
+        "name": "chrome 网上应用店",
+        "url": "https://chrome.google.com/webstore/category/themes?hl=zh-CN",
+        "description": "使用 Chrome 应用商店中的主题自定义您的浏览器。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/chrome 网上应用店.png"
+    },
+    {
+        "id": 196,
+        "name": "草料二维码",
+        "url": "https://cli.im/",
+        "description": "一站式二维码生成工具，免费可用。提供编码解码、数据统计、富文本和多媒体展示、表单制作、美化标签、批量管理等功能，并可作为无代码平台，搭建二维码信息系统。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/草料二维码.ico"
+    },
+    {
+        "id": 194,
+        "name": "身份信息生成",
+        "url": "https://www.ssnzk.com",
+        "description": "随机生成美国,英国,日本等国身份，包括姓名，地址，电话，职称，信用卡，身高，体重等信息，获取美国人信息，获取美国人地址生成器。",
+        "categoryId": 7,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/身份信息生成.ico"
+    },
+    {
+        "id": 193,
+        "name": "Google Voice",
+        "url": "https://voice.google.com/",
+        "description": "Learn how Google Voice provides flexible online phone numbers and systems that help businesses of any size stay connected and save time.",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Google Voice.png"
+    },
+    {
+        "id": 192,
+        "name": "Time",
+        "url": "https://time.is/zh/",
+        "description": "7,000,000 个地区，58 种语言，与原子钟同步运行。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Time.ico"
+    },
+    {
+        "id": 191,
+        "name": "APKPure",
+        "url": "https://apkpure.com/cn/",
+        "description": "",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/APKPure.ico"
+    },
+    {
+        "id": 190,
+        "name": "WeiboDang",
+        "url": "http://weibodang.cn/videoextractor/",
+        "description": "微博视频下载,推特视频下载,Twitter视频下载,爱奇艺视频下载,抖音视频下载,腾讯视频下载,音悦台视频下载,优酷视频下载,油管视频下载,Youtube视频下载,微信视频下载,搜狐视频下载,百度视频下载,美拍视频下载,今日头条视频下载,西瓜视频下载,土豆视频下载,梨视频下载,东方头条视频下载,新浪视频下载,凤凰网视频下载,PPS视频下载,快视频下载,豆瓣视频下载,网易云音乐MP3下载,网易视频下载,网易云音乐MTV下载,我乐网视频下载,酷燃视频下载,场库视频下载,播视网视频下载,乐视视频下载,知乎视频下载,芒果台视频下载,PP视频下载,快手视频下载,新片场视频下载,斗鱼视频下载,华数视频下载,虎牙视频下载,国家地理视频下载,开踢众筹视频下载,咪咕视频下载,虾米音乐MP3下载,虾米视频下载,虾米音乐MTV下载,看了吗视频下载,喜马拉雅广播下载,央视视频下载,天空之城视频下载,小红书视频下载,中舞网视频下载,A站视频下载,Acfun视频下载,淘宝视频下载,네이버视频下载,Naver视频下载,酷我音乐MP3下载,酷我视频下载,酷我音乐MTV下载,火山小视频下载,vimeo视频下载,脸书视频下载,facebook视频下载,fb视频下载,instagram视频下载,ig视频下载,微博视频解析,推特视频解析,Twitter视频解析,爱奇艺视频解析,抖音视频解析,腾讯视频解析,音悦台视频解析,优酷视频解析,油管视频解析,Youtube视频解析,微信视频解析,搜狐视频解析,百度视频解析,美拍视频解析,今日头条视频解析,西瓜视频解析,土豆视频解析,梨视频解析,东方头条视频解析,新浪视频解析,凤凰网视频解析,PPS视频解析,快视频解析,豆瓣视频解析,网易云音乐MP3解析,网易视频解析,网易云音乐MTV解析,我乐网视频解析,酷燃视频解析,场库视频解析,播视网视频解析,乐视视频解析,知乎视频解析,芒果台视频解析,PP视频解析,快手视频解析,新片场视频解析,斗鱼视频解析,华数视频解析,虎牙视频解析,国家地理视频解析,开踢众筹视频解析,咪咕视频解析,虾米音乐MP3解析,虾米视频解析,虾米音乐MTV解析,看了吗视频解析,喜马拉雅广播解析,央视视频解析,天空之城视频解析,小红书视频解析,中舞网视频解析,A站视频解析,Acfun视频解析,淘宝视频解析,네이버视频解析,Naver视频解析,酷我音乐MP3解析,酷我视频解析,酷我音乐MTV解析,火山小视频解析,vimeo视频解析,脸书视频解析,facebook视频解析,fb视频解析,instagram视频解析,ig视频解析,怎么下载微博视频,怎么下载推特视频,怎么下载Twitter视频,怎么下载爱奇艺视频,怎么下载抖音视频,怎么下载腾讯视频,怎么下载音悦台视频,怎么下载优酷视频,怎么下载油管视频,怎么下载Youtube视频,怎么下载微信视频,怎么下载搜狐视频,怎么下载百度视频,怎么下载美拍视频,怎么下载今日头条视频,怎么下载西瓜视频,怎么下载土豆视频,怎么下载梨视频,怎么下载东方头条视频,怎么下载新浪视频,怎么下载凤凰网视频,怎么下载PPS视频,怎么下载快视频,怎么下载豆瓣视频,怎么下载网易云音乐MP3,怎么下载网易视频,怎么下载网易云音乐MTV,怎么下载我乐网视频,怎么下载酷燃视频,怎么下载场库视频,怎么下载播视网视频,怎么下载乐视视频,怎么下载知乎视频,怎么下载芒果台视频,怎么下载PP视频,怎么下载快手视频,怎么下载新片场视频,怎么下载斗鱼视频,怎么下载华数视频,怎么下载虎牙视频,怎么下载国家地理视频,怎么下载开踢众筹视频,怎么下载咪咕视频,怎么下载虾米音乐MP3,怎么下载虾米视频,怎么下载虾米音乐MTV,怎么下载看了吗视频,怎么下载喜马拉雅广播,怎么下载央视视频,怎么下载天空之城视频,怎么下载小红书视频,怎么下载中舞网视频,怎么下载A站视频,怎么下载Acfun视频,怎么下载淘宝视频,怎么下载네이버视频,怎么下载Naver视频,怎么下载酷我音乐MP3,怎么下载酷我视频,怎么下载酷我音乐MTV,怎么下载火山小视频,怎么下载vimeo视频,怎么下载脸书视频,怎么下载facebook视频,怎么下载fb视频,怎么下载instagram视频,怎么下载ig视频",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/WeiboDang.ico"
+    },
+    {
+        "id": 189,
+        "name": "视频下载",
+        "url": "https://addyoutube.com",
+        "description": "在線下載Youtube視頻音頻和字幕，無需安裝客戶端。超多格式支持，720p,1080p。mp4，mp3。|Download youtube videos， audios and subtitles online, without any client. All kinds of type. All kinds of languages.",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/视频下载.ico"
+    },
+    {
+        "id": 188,
+        "name": "直播解析",
+        "url": "http://www.dspjx.com/zhibo/index.php",
+        "description": "",
+        "categoryId": 7,
+        "icon": "https://cdn2.xiaolong0418.com/188.png"
+    },
+    {
+        "id": 187,
+        "name": "抖音解析",
+        "url": "https://vtool.pro/",
+        "description": "vtool解析网是专业的素材在线解析工具，提供抖音视频下载、抖音去水印、小红书视频下载、小红书去水印、小红书图片下载、小红书文案复制、快手视频下载、快手去水印、tiktok 视频去水印等服务，用户可以直接输入分享地址，在线解析得到素材的无水印下载地址。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/抖音解析.svg"
+    },
+    {
+        "id": 186,
+        "name": "短视频解析",
+        "url": "https://weishi.iiilab.com",
+        "description": "微视短视频在线解析下载工具支持将腾讯微视软件里的视频去水印下载保存到手机相册,解析出来的视频没有水印,手机、平板、电脑上都可以用的辅助下载工具.",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/短视频解析.ico"
+    },
+    {
+        "id": 183,
+        "name": "广州政务服务网",
+        "url": "http://www.gdzwfw.gov.cn/",
+        "description": "",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/广州政务服务网.ico"
+    },
+    {
+        "id": 181,
+        "name": "天眼查",
+        "url": "https://www.tianyancha.com/",
+        "description": "天眼查专注服务于个人与企业信息查询,都在用的商业查询平台,为您提供公司查询,工商信息查询,企业查询,工商查询,企业信用信息查询等相关信息,帮您快速了解企业信息,企业工商信息,企业信用信息等企业经营和人员投资状况,查询更多企业信息就到天眼查官网！",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/天眼查.png"
+    },
+    {
+        "id": 180,
+        "name": "BOSS直聘",
+        "url": "https://www.zhipin.com/guangzhou/",
+        "description": "BOSS直聘广州招聘网站，为求职者提供海量2026年03月06日最新广州人才招聘信息。BOSS直聘广州招聘网让求职者与Boss直接开聊、加快面试、即时反馈，找工作就来BOSS直聘和Boss开聊吧！",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/BOSS直聘.ico"
+    },
+    {
+        "id": 179,
+        "name": "前程无忧",
+        "url": "https://www.51job.com/",
+        "description": "前程无忧人才网面向全国,提供2026准确的招聘网站信息,为企业和求职者提供人才招聘、求职、找工作、培训等在内的全方位的人力资源服务,更多求职找工作信息尽在前程无忧!",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/前程无忧.ico"
+    },
+    {
+        "id": 178,
+        "name": "谷歌邮箱",
+        "url": "https://mail.google.com/mail/u/0/#inbox",
+        "description": "Gmail is email that’s intuitive, efficient, and useful. 15 GB of storage, less spam, and mobile access.",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/谷歌邮箱.ico"
+    },
+    {
+        "id": 177,
+        "name": "QQ邮箱",
+        "url": "https://mail.qq.com",
+        "description": "QQ邮箱，提供qq.com、foxmail.com后缀的安全、稳定、快速、便捷的免费电子邮箱。强大的反垃圾邮件过滤，10G超大附件发送，便捷记事和日历功能，轻松管理所有电子发票，尽在QQ邮箱。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/QQ邮箱.png"
+    },
+    {
+        "id": 176,
+        "name": "腾讯企业邮",
+        "url": "https://exmail.qq.com/login",
+        "description": "��¼��Ѷ��ҵ����,����д�����ʼ���ַ,�����Ա�˺�,֧��΢��ɨһɨ��¼�����°�Foxmail,��������,�����շ�",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/腾讯企业邮.ico"
+    },
+    {
+        "id": 175,
+        "name": "163邮箱",
+        "url": "https://mail.163.com",
+        "description": "网易163免费邮箱，你的专业电子邮局，注册用户数超10亿，专业稳定安全。网易邮箱官方App“邮箱大师”帮您高效处理邮件，支持所有邮箱，并可在手机、Windows和Mac上多端协同使用。",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/163邮箱.ico"
+    },
+    {
+        "id": 174,
+        "name": "395公章",
+        "url": "http://www.395.net.cn",
+        "description": "暂无描述",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/395公章.ico"
+    },
+    {
+        "id": 173,
+        "name": "Convertio",
+        "url": "https://convertio.co/zh",
+        "description": "Convertio - 在线转换文件的简单工具。支持超过309种不同的文档、图像、电子表格、电子书、文档、演示文稿、音频和视频格式。",
+        "categoryId": 7,
+        "icon": "https://cdn2.xiaolong0418.com/173.png"
+    },
+    {
+        "id": 172,
+        "name": "字体天下",
+        "url": "http://www.fonts.net.cn",
+        "description": "字体天下提供中文字体、手写字体、英文字体、图形字体等各种字体的高速免费下载和在线预览服务.",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/字体天下.ico"
+    },
+    {
+        "id": 170,
+        "name": "求字体",
+        "url": "http://www.qiuziti.com",
+        "description": "求字体网提供字体识别,字体预览,免费字体下载,字体在线设计,书法字体,艺术字体,字体大全,手写字体,PS字体,字体转换器等找字体必备工具服务",
+        "categoryId": 7,
+        "icon": "https://api.xiaolong0418.com/upload/icons/求字体.ico"
+    },
+    {
+        "id": 167,
+        "name": "PayPal",
+        "url": "https://www.paypal.com",
+        "description": "Use sua conta do PayPal para comprar, enviar e gerenciar recursos ou crie uma conta comercial para sua empresa. E você pode fazer muito mais. Veja os detalhes aqui.",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/PayPal.png"
+    },
+    {
+        "id": 166,
+        "name": "支付宝",
+        "url": "https://mrchportalweb.alipay.com/user/home.htm#/",
+        "description": "��ӭ��¼֧������֧����-ȫ�����ȵĶ���������֧��ƽ̨��������Ϊ����û��ṩ��ȫ���ٵĵ���֧��/����֧��/��ȫ֧��/�ֻ�֧�������Լ�ת���տ�/ˮ��ú�ɷ�/���ÿ�������������Ӧ�ã�Ϊ���Ϊ���µ����������վ�ṩ֧����Ʒ/֧����������߶����ͼ���֧�ֵȷ��񣬰����̼ҿ��ٽ���֧�����ߣ���Ч����ȫ����ݵؿ�չ��������",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/支付宝.ico"
+    },
+    {
+        "id": 165,
+        "name": "Staticfile",
+        "url": "https://www.staticfile.org",
+        "description": "我们的目标是提供这样一个仓库，让它尽可能面收录尤秀的开源库，并免费为之提供CDN 加速服务，时之有更好的访速度和稳定的环境。同时，我们也提供开源库源接入的入口，让所有人都可以提交开源库，包括JavaScript、Css、图片和swt等静态文件。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Staticfile.ico"
+    },
+    {
+        "id": 164,
+        "name": "BootCDN",
+        "url": "https://www.bootcdn.cn",
+        "description": "Bootstrap 中文网开源项目免费 CDN 加速服务 - 我们致力于为 Bootstrap、jQuery、Angular、Vue.js 一样优秀的开源项目提供稳定、快速、免费的 CDN 加速服务。BootCDN 是运营时间最长、用户量最大、最早同时支持 HTTPS（SSL）和 HTTP/2.0 协议的中立免费 CDN 。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/BootCDN.ico"
+    },
+    {
+        "id": 163,
+        "name": "jsDelivr",
+        "url": "https://www.jsdelivr.com",
+        "description": "Optimized for JS and ESM delivery from npm and GitHub. Works with all web formats. Serving more than 150 billion requests per month.",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/jsDelivr.ico"
+    },
+    {
+        "id": 162,
+        "name": "CDNJS",
+        "url": "https://cdnjs.com",
+        "description": "Simple. Fast. Reliable. Content delivery at its finest. cdnjs is a free and open-source CDN service trusted by over 12.5% of all websites, serving over 200 billion requests each month, powered by Cloudflare. We make it faster and easier to load library files on your websites.",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/CDNJS.png"
+    },
+    {
+        "id": 161,
+        "name": "宝塔面板",
+        "url": "https://www.bt.cn/download/linux.html",
+        "description": "Linux面板,一键部署LNMP/LAMP/网站,数据库,FTP,SSL证书,WAF防火墙,防入侵,支持PHP,Python,Java 宝塔linux面板运维人员常用的服务器监控系统;",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/宝塔面板.ico"
+    },
+    {
+        "id": 160,
+        "name": "百度统计",
+        "url": "https://tongji.baidu.com/main/homepage/10000390449/homepage/index",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/百度统计.ico"
+    },
+    {
+        "id": 159,
+        "name": "Analytics",
+        "url": "https://analytics.google.com/analytics/web/#/report-home/a157349190w221495475p210595989",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://cdn2.xiaolong0418.com/159.png"
+    },
+    {
+        "id": 158,
+        "name": "PageSpeedInsights",
+        "url": "https://pagespeed.web.dev",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/PageSpeedInsights.png"
+    },
+    {
+        "id": 157,
+        "name": "Vps234",
+        "url": "https://www.vps234.com/ipchecker",
+        "description": "IPChecker是VPS234开发的一款检查IP是否被墙的利器，通过本工具你可以轻松检查IP是否被封，这款工具通过国内国外检查通过TCP、ICMP访问判断IP是否被封，轻松检查IP在中国大陆是否可以用",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vps234.ico"
+    },
+    {
+        "id": 156,
+        "name": "做好图",
+        "url": "http://www.zuohaotu.com",
+        "description": "在线文档转换",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/做好图.ico"
+    },
+    {
+        "id": 155,
+        "name": "caniuse",
+        "url": "https://caniuse.com",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/caniuse.png"
+    },
+    {
+        "id": 154,
+        "name": "Fast-Mock",
+        "url": "https://www.fastmock.site/#/login",
+        "description": "fastmock可以让你在没有后端程序的情况下能真实地在线模拟ajax请求，你可以用fatmock实现项目初期纯前端的效果演示，也可以用fastmock实现开发中的数据模拟从而实现前后端分离",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Fast-Mock.ico"
+    },
+    {
+        "id": 152,
+        "name": "CSS Sprites",
+        "url": "https://www.toptal.com/developers/css/sprite-generator",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/CSS Sprites.ico"
+    },
+    {
+        "id": 151,
+        "name": "NPM",
+        "url": "https://www.npmjs.com",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://cdn2.xiaolong0418.com/151.png"
+    },
+    {
+        "id": 150,
+        "name": "SOJSON",
+        "url": "https://www.sojson.com",
+        "description": "SO JSON在线提供在线JSON解析，可以把JSON内容或JSON文件进行格式化解析，按JSON层级展现。当JSON格式出现问题，采用中文的方式提醒JSON错误内容，以及标记JSON解析错误位置。SOJSON在线工具立志做一个完美的在线工具站，不仅仅是JSON在线工具，还有很多其他的在线工具。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/SOJSON.png"
+    },
+    {
+        "id": 149,
+        "name": "在线工具",
+        "url": "https://tool.lu",
+        "description": "在线工具,开发人员工具,代码格式化、压缩、加密、解密,下载链接转换,json格式化,正则测试工具,favicon在线制作,字帖工具,中文简繁体转换,迅雷下载链接转换,进制转换,二维码,照片压缩,pdf合并",
+        "categoryId": 6,
+        "icon": "https://cdn2.xiaolong0418.com/149.png"
+    },
+    {
+        "id": 148,
+        "name": "有道云笔记",
+        "url": "https://note.youdao.com/web/#/file/recent/markdown/WEB80575f5bd4619671a7ad032db131fd6b",
+        "description": "TODO",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/有道云笔记.ico"
+    },
+    {
+        "id": 147,
+        "name": "语雀",
+        "url": "https://www.yuque.com/dashboard",
+        "description": "十万阿里人都在用的笔记与文档知识库，面向企业、组织或个人，提供全新的体系化知识管理，打造轻松流畅的工作协同。金融级数据安全、丰富的应用场景、强大的知识创作与管理，助力企业、个人轻松拥有云端知识库",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/语雀.png"
+    },
+    {
+        "id": 145,
+        "name": "墨刀",
+        "url": "https://modao.cc/app/j6v57qJCr4x5btGDnAUA8C#screen=sl0246qj8l9mig1",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/墨刀.ico"
+    },
+    {
+        "id": 144,
+        "name": "蓝湖",
+        "url": "https://lanhuapp.com/",
+        "description": "蓝湖是一款产品文档和设计图的共享平台，帮助互联网团队更好地管理文档和设计图。蓝湖可以在线展示Axure，自动生成设计图标注，与团队共享设计图，展示页面之间的跳转关系。蓝湖支持从Sketch、Ps一键共享、在线讨论，而且蓝湖只需简单几步就能将设计图变成一个可以点击的演示原型，蓝湖还支持分享给同事，让他也可以在手机中查看设计效果。蓝湖已经成为新一代产品设计的工作方式。",
+        "categoryId": 6,
+        "icon": "https://cdn2.xiaolong0418.com/144.ico"
+    },
+    {
+        "id": 142,
+        "name": "GitBook",
+        "url": "https://www.gitbook.com/",
+        "description": "GitBook is the AI-native documentation platform for technical teams. It simplifies knowledge sharing, with docs-as-code support and AI-powered search & insights. Sign up for free!",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/GitBook.png"
+    },
+    {
+        "id": 141,
+        "name": "FreeSSL.cn",
+        "url": "https://FreeSSL.cn/",
+        "description": "Let's Encrypt证书,TrustAsia证书,HTTPS免费证书,SSL免费证书,服务器证书,Free SSL,Free HTTPS,.app 域名,.app免费证书",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/FreeSSL.cn.ico"
+    },
+    {
+        "id": 140,
+        "name": "测速网",
+        "url": "https://www.speedtest.cn/",
+        "description": "",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/测速网.ico"
+    },
+    {
+        "id": 139,
+        "name": "BOCE",
+        "url": "https://ping.chinaz.com",
+        "description": "通过该工具可以多个地点Ping服务器以检测服务器响应速度。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/BOCE.ico"
+    },
+    {
+        "id": 138,
+        "name": "压缩图",
+        "url": "https://www.yasuotu.com/",
+        "description": "压缩图是一款在线无损图片压缩工具，能够将jpg/png/gif等格式无损压缩90%，同时支持将图片精准压缩到20k/100k等指定大小以满足考试报名需求，提供图片尺寸修改、批量修改图片dpi（分辨率）、PDF转换、AI抠图、证件照制作等多种在线图片处理功能，适配电商产品图、办公文件、新媒体素材优化，减小体积不失真！",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/压缩图.ico"
+    },
+    {
+        "id": 137,
+        "name": "docsmall",
+        "url": "https://docsmall.com/",
+        "description": "docsmall 提供免费的在线图片、GIF、PDF处理，包括图片压缩、裁剪、改尺寸，PDF合并、分割、压缩、页面调整等功能。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/docsmall.png"
+    },
+    {
+        "id": 136,
+        "name": "图片压缩",
+        "url": "https://www.fontke.com/tool/compressimage/",
+        "description": "图片压缩器是字客网提供缩小图片尺寸的在线工具，即可有损压缩又可无损压缩，实现图片减肥瘦身的目的。您只需上传想要压缩的图片，该工具会生成删除了冗余信息而画质不变的图片。",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/图片压缩.ico"
+    },
+    {
+        "id": 135,
+        "name": "TinyPNG",
+        "url": "https://tinypng.com/",
+        "description": "Free online image optimizer for faster websites! Reduce the file size of your WEBP, JPEG and PNG Images with TinyPNG’s smart lossy compression engine.",
+        "categoryId": 6,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TinyPNG.ico"
+    },
+    {
+        "id": 134,
+        "name": "搬瓦工",
+        "url": "https://stock.bwg.net/",
+        "description": "搬瓦工库存监控页面, 汇总搬瓦工官网所有方案套餐的库存情况（补货/上货），分享最新搬瓦工补货通知。搬瓦工 KVM、搬瓦工 CN2 GIA、搬瓦工香港、搬瓦工日本、搬瓦工CN2 GIA-E，搬瓦工 CN2，包括搬瓦工套餐方案名称、套餐配置、内存、硬盘、带宽、流量和价格。",
+        "categoryId": 5,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/搬瓦工.ico"
+    },
+    {
+        "id": 133,
+        "name": "国外主机评测",
+        "url": "https://www.zhujiceping.com/",
+        "description": "主机测评，分享国外VPS、国外云服务器、国外独立服务器的优惠促销信息，详细实测VPS云服务器并公布真实数据，助您全面了解商家背景及售前售后，2012年运作至今，是国内最专业的主机测评网站。",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/国外主机评测.ico"
+    },
+    {
+        "id": 130,
+        "name": "V2raySSR",
+        "url": "https://www.v2rayssr.com/",
+        "description": "V2RaySSR综合网仅提供其他作者作品的解释、介绍及汇总（包括SSR/V2ray/Xray及Trojan的搭建、伪装、教程、客户端工具、一键安装脚本、OpenWRT固件），还包括VPS服务器的推荐和评测。本身不参与和提供工具开发、下载、存储以及任何代理服务。本站非Xray、V2Ray、SSR、Trojan官方网站。",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/V2raySSR.ico"
+    },
+    {
+        "id": 128,
+        "name": "VPSGO",
+        "url": "https://www.vpsgo.com/",
+        "description": "VPS GO，一个关于VPS的博客，致力于VPS、虚拟主机、独立服务器、域名的优惠分享与推荐。包括便宜VPS，VPS推荐，VPS教程，VPS测评，国外VPS，国内VPS，免费VPS。",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/VPSGO.png"
+    },
+    {
+        "id": 127,
+        "name": "openos",
+        "url": "https://www.openos.org/",
+        "description": "有关服务器, NAS, 黑群晖, 路由器, Linux, 虚拟化的论坛",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/openos.png"
+    },
+    {
+        "id": 126,
+        "name": "恩山无线论坛",
+        "url": "https://www.right.com.cn/forum/",
+        "description": "",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/恩山无线论坛.ico"
+    },
+    {
+        "id": 125,
+        "name": "Coschina",
+        "url": "https://www.oschina.net/",
+        "description": "",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Coschina.ico"
+    },
+    {
+        "id": 124,
+        "name": "CSDN",
+        "url": "https://www.csdn.net/nav/web",
+        "description": "CSDN 前端博客为中国前端技术达人的汇聚地.为您提供各类前端原创博文,是广大IT爱好者收获知识分享经验的技术乐园.",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/CSDN.ico"
+    },
+    {
+        "id": 123,
+        "name": "coursera",
+        "url": "https://www.coursera.org/",
+        "description": "Learn in-demand skills with online courses and Professional Certificates from leading companies like Google, IBM, Meta, and Adobe. Explore flexible programs—from short courses to full degrees.",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/coursera.png"
+    },
+    {
+        "id": 122,
+        "name": "Stackoverflow",
+        "url": "https://stackoverflow.com/",
+        "description": "",
+        "categoryId": 5,
+        "icon": "https://cdn2.xiaolong0418.com/122.png"
+    },
+    {
+        "id": 121,
+        "name": "知乎",
+        "url": "https://www.zhihu.com/",
+        "description": "知乎，中文互联网高质量的问答社区和创作者聚集的原创内容平台，于 2011 年 1 月正式上线，以「让人们更好的分享知识、经验和见解，找到自己的解答」为品牌使命。知乎凭借认真、专业、友善的社区氛围、独特的产品机制以及结构化和易获得的优质内容，聚集了中文互联网科技、商业、影视、时尚、文化等领域最具创造力的人群，已成为综合性、全品类、在诸多领域具有关键影响力的知识分享社区和创作者聚集的原创内容平台，建立起了以社区驱动的内容变现商业模式。",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/知乎.ico"
+    },
+    {
+        "id": 120,
+        "name": "码云",
+        "url": "https://gitee.com/",
+        "description": "面向企业提供一站式研发管理解决方案，包括代码管理、项目管理、文档协作、测试管理、CICD、效能度量等多个模块，支持SaaS、私有化等多种部署方式，帮助企业有序规划和管理研发过程，提升研发效率和质量。",
+        "categoryId": 5,
+        "icon": "https://cdn2.xiaolong0418.com/120.ico"
+    },
+    {
+        "id": 119,
+        "name": "GitHub",
+        "url": "https://github.com/",
+        "description": "Join the world's most widely adopted, AI-powered developer platform where millions of developers, businesses, and the largest open source community build software that advances humanity.",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/GitHub.png"
+    },
+    {
+        "id": 118,
+        "name": "简书",
+        "url": "https://www.jianshu.com",
+        "description": "简书是一个优质的创作社区，在这里，你可以任性地创作，一篇短文、一张照片、一首诗、一幅画……我们相信，每个人都是生活中的艺术家，有着无穷的创造力。",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/简书.ico"
+    },
+    {
+        "id": 117,
+        "name": "博客园",
+        "url": "https://www.cnblogs.com/",
+        "description": "博客园是一个面向开发者的知识分享社区。自创建以来，博客园一直致力并专注于为开发者打造一个纯净的技术交流社区，推动并帮助开发者通过互联网分享知识，从而让更多开发者从中受益。博客园的使命是帮助开发者用代码改变世界。",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/博客园.ico"
+    },
+    {
+        "id": 116,
+        "name": "掘金",
+        "url": "https://juejin.cn",
+        "description": "掘金是面向全球中文开发者的技术内容分享与交流平台。我们通过技术文章、沸点、课程、直播等产品和服务，打造一个激发开发者创作灵感，激励开发者沉淀分享，陪伴开发者成长的综合类技术社区。",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/掘金.png"
+    },
+    {
+        "id": 115,
+        "name": "小白龙博客-管理后台",
+        "url": "https://admin.xiaolong0418.com",
+        "description": "",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/小白龙博客-管理后台.png"
+    },
+    {
+        "id": 114,
+        "name": "小白龙博客",
+        "url": "https://xiaolong0418.com",
+        "description": "欢迎来到小白龙博客",
+        "categoryId": 5,
+        "icon": "https://api.xiaolong0418.com/upload/icons/小白龙博客.png"
+    },
+    {
+        "id": 111,
+        "name": "V2Board",
+        "url": "https://docs.v2board.com/CHANGELOG.html",
+        "description": "A VitePress site",
+        "categoryId": 4,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/V2Board.ico"
+    },
+    {
+        "id": 110,
+        "name": "Vites",
+        "url": "https://cn.vitest.dev/guide/",
+        "description": "Next generation testing framework powered by Vite",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vites.ico"
+    },
+    {
+        "id": 109,
+        "name": "Vite",
+        "url": "https://cn.vitejs.dev",
+        "description": "下一代前端工具链",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vite.svg"
+    },
+    {
+        "id": 107,
+        "name": "Webpack",
+        "url": "https://www.webpackjs.com/concepts",
+        "description": "webpack 是一个模块打包器。它的主要目标是将 JavaScript 文件打包在一起，打包后的文件用于在浏览器中使用，但它也能够胜任转换、打包或包裹任何资源。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Webpack.ico"
+    },
+    {
+        "id": 105,
+        "name": "Node",
+        "url": "https://nodejs.org/en",
+        "description": "Node.js® is a free, open-source, cross-platform JavaScript runtime environment that lets developers create servers, web apps, command line tools and scripts.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Node.png"
+    },
+    {
+        "id": 104,
+        "name": "Electron",
+        "url": "https://www.electronjs.org/zh/docs/latest/tutorial/quick-start",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/104.png"
+    },
+    {
+        "id": 103,
+        "name": "Sequelize",
+        "url": "https://www.sequelize.com.cn/",
+        "description": "Sequelize 是一个基于 promise 的 Node.js ORM, 目前支持 Postgres, MySQL, MariaDB, SQLite 以及 Microsoft SQL Server/它具有强大的事务支持, 关联关系, 预读和延迟加载,读取复制等功能。Sequelize 遵从 语义版本控制。 支持 Node v10 及更高版本以便使用 ES6 功能。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Sequelize.ico"
+    },
+    {
+        "id": 102,
+        "name": "Nestjs",
+        "url": "https://docs.nestjs.com",
+        "description": "Nest is a framework for building efficient, scalable Node.js server-side applications. It uses progressive JavaScript, is built with TypeScript and combines elements of OOP (Object Oriented Programming), FP (Functional Programming), and FRP (Functional Reactive Programming).",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Nestjs.png"
+    },
+    {
+        "id": 101,
+        "name": "Midway",
+        "url": "https://midwayjs.org/docs/intro",
+        "description": "Midway 是阿里巴巴 - 淘宝前端架构团队，基于渐进式理念研发的 Node.js 框架，通过自研的依赖注入容器，搭配各种上层模块，组合出适用于不同场景的解决方案。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Midway.svg"
+    },
+    {
+        "id": 100,
+        "name": "Eggjs",
+        "url": "https://www.eggjs.org/zh-CN/intro/quickstart",
+        "description": "Born to build better enterprise frameworks and apps",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Eggjs.png"
+    },
+    {
+        "id": 99,
+        "name": "NuxtJS",
+        "url": "https://nuxt.com/docs/api/composables/use-app-config",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/NuxtJS.ico"
+    },
+    {
+        "id": 98,
+        "name": "Taro",
+        "url": "https://docs.taro.zone/docs/",
+        "description": "简介",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Taro.png"
+    },
+    {
+        "id": 97,
+        "name": "VantWeapp",
+        "url": "https://vant-ui.github.io/vant-weapp/#/quickstart",
+        "description": "轻量、可靠的小程序 UI 组件库",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/VantWeapp.png"
+    },
+    {
+        "id": 96,
+        "name": "Lin-UI",
+        "url": "https://doc.mini.talelin.com/start/",
+        "description": "Lin UI 是基于微信小程序原生语法 实现的组件库。遵循简洁、易用的设计规范。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Lin-UI.ico"
+    },
+    {
+        "id": 95,
+        "name": "微信官方文档",
+        "url": "https://developers.weixin.qq.com/miniprogram/dev/framework/",
+        "description": "微信开发者平台文档",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/微信官方文档.ico"
+    },
+    {
+        "id": 94,
+        "name": "微信公众平台",
+        "url": "https://mp.weixin.qq.com",
+        "description": "微信公众平台，给个人、企业和组织提供业务服务与用户管理能力的全新服务平台。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/微信公众平台.ico"
+    },
+    {
+        "id": 93,
+        "name": "Vuetify",
+        "url": "https://next.vuetifyjs.com/en/getting-started/installation/",
+        "description": "Details for v4 release - faq, changes, and upgrading.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vuetify.ico"
+    },
+    {
+        "id": 92,
+        "name": "Ant Design of Vue",
+        "url": "https://www.antdv.com/components/overview-cn/",
+        "description": "An enterprise-class UI components based on Ant Design and Vue",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Ant Design of Vue.ico"
+    },
+    {
+        "id": 91,
+        "name": "VbenAdmin",
+        "url": "https://doc.vben.pro/",
+        "description": "Vben Admin & 企业级管理系统框架",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/VbenAdmin.ico"
+    },
+    {
+        "id": 90,
+        "name": "vue-element-admin",
+        "url": "https://panjiachen.github.io/vue-element-admin-site/zh/guide/",
+        "description": "A magical vue admin",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/vue-element-admin.ico"
+    },
+    {
+        "id": 89,
+        "name": "cordova",
+        "url": "https://cordova.apache.org/#getstarted",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/cordova.ico"
+    },
+    {
+        "id": 88,
+        "name": "Element+",
+        "url": "https://element-plus.org/zh-CN/component/button.html",
+        "description": "A Vue 3 based component library for designers and developers",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Element+.svg"
+    },
+    {
+        "id": 87,
+        "name": "Element",
+        "url": "https://element.eleme.cn/#/zh-CN/component/installation",
+        "description": "Element，一套为开发者、设计师和产品经理准备的基于 Vue 2.0 的桌面端组件库",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Element.ico"
+    },
+    {
+        "id": 86,
+        "name": "uViewUi",
+        "url": "https://www.uviewui.com/components/intro.html",
+        "description": "uView UI，是 uni-app 生态最优秀的 UI 框架，全面的组件和便捷的工具会让您信手拈来，如鱼得水",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/uViewUi.ico"
+    },
+    {
+        "id": 85,
+        "name": "Vant",
+        "url": "https://vant-ui.github.io/vant/#/zh-CN/quickstart",
+        "description": "A lightweight, customizable Vue UI library for mobile web apps.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vant.png"
+    },
+    {
+        "id": 84,
+        "name": "Uni-app",
+        "url": "https://uniapp.dcloud.net.cn/component/",
+        "description": "uni-app,uniCloud,serverless,组件使用的入门教程,组件的属性类型,公共属性列表,在组件中使用script的data变量,组件的事件,基础组件,基础组件列表,扩展组件的意义,组件的类别,easycom组件规范,uni_module规范,uniCloud组件,原生组件和原生插件",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Uni-app.png"
+    },
+    {
+        "id": 80,
+        "name": "UmiJS",
+        "url": "https://umijs.org/docs/tutorials/getting-started",
+        "description": "Umi是可扩展的企业级前端应用框架。Umi 以路由为基础的，同时支持配置式路由和约定式路由，保证路由的功能完备，并以此进行功能扩展。然后配以生命周期完善的插件体系，覆盖从源码到构建产物的每个生命周期，支持各种功能扩展和业务需求。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/UmiJS.svg"
+    },
+    {
+        "id": 79,
+        "name": "React",
+        "url": "https://zh-hans.reactjs.org/tutorial/tutorial.html",
+        "description": "The library for web and native user interfaces",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/React.png"
+    },
+    {
+        "id": 78,
+        "name": "Pinia",
+        "url": "https://pinia.vuejs.org/zh/introduction.html",
+        "description": "值得你喜欢的 Vue Store",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Pinia.svg"
+    },
+    {
+        "id": 77,
+        "name": "Vuex",
+        "url": "https://vuex.vuejs.org/zh/index.html",
+        "description": "Vue.js 的中心化状态管理方案",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vuex.png"
+    },
+    {
+        "id": 76,
+        "name": "VueUse",
+        "url": "https://vueuse.org/guide/",
+        "description": "Collection of essential Vue Composition Utilities",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/VueUse.ico"
+    },
+    {
+        "id": 75,
+        "name": "Vue",
+        "url": "https://staging-cn.vuejs.org/guide/introduction.html",
+        "description": "Vue.js - 渐进式的 JavaScript 框架",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Vue.svg"
+    },
+    {
+        "id": 74,
+        "name": "TypeScript",
+        "url": "https://typescript.bootcss.com/basic-types.html",
+        "description": "介绍为了让程序有价值，我们需要能够处理最简单的数据单元：数字，字符串，结构体，布尔值等。TypeScript支持与JavaScript几乎相同的数据类型，此外还提供了实用的枚举类型方便我们使用。布尔值最基本的数据类型就是简单的true/false值，在JavaScript和TypeScript里叫做boolean（其它语言中也一样）。let isDone: boolean = false;数字和JavaScript一样，TypeScript里的所有数字都是浮点数。这些浮点数的类型是number。除了支持十进制和十六进制字面量，TypeScript还支持ECMAScript 2015中引入的二进制和八进制字面量。let decLiteral: number = 6;let hexLiteral: number = 0xf00d;let binaryLiteral: number = 0b1010;let octalLiteral: number = 0o744;字符串JavaScript程序的另一项基本操作是处理网页或服务器端的文本数据。像其它语言里一样，我们使用string表示文本数据类型。和JavaScript一样，可以使用双引号（\"）或单引号（'）表示字符串。let name: string = \"bob\";name = \"smith\";你还可以使用模版字符串，它可以定义多行文本和内嵌表达式。这种字符串是被反引号包围（`），并且以${ expr }这种形式嵌入表达式let name: string = `Gene`;let age: number = 37;let sentence: string = `Hello, my name is ${ name }.I'll be ${ age + 1 } years old next month.`;这与下面定义sentence的方式效果相同：let sentence: string = \"Hello, my name is \" + name + \".\\n\\n\" +    \"I'll be \" + (age + 1) + \" years old next month.\";数组TypeScript像JavaScript一样可以操作数组元素。有两种方式可以定义数组。第一种，可以在元素类型后面接上[]，表示由此类型元素组成的一个数组：let list: number[] = [1, 2, 3];第二种方式是使用数组泛型，Array<元素类型>：let list: Array<number> = [1, 2, 3];元组 Tuple元组类型允许表示一个已知元素数量和类型的数组，各元素的类型不必相同。比如，你可以定义一对值分别为string和number类型的元组。// Declare a tuple typelet x: [string, number];// Initialize itx = ['hello', 10]; // OK// Initialize it incorrectlyx = [10, 'hello']; // Error当访问一个已知索引的元素，会得到正确的类型：console.log(x[0].substr(1)); // OKconsole.log(x[1].substr(1)); // Error, 'number' does not have 'substr'当访问一个越界的元素，会使用联合类型替代：x[3] = 'world'; // OK, 字符串可以赋值给(string | number)类型console.log(x[5].toString()); // OK, 'string' 和 'number' 都有 toStringx[6] = true; // Error, 布尔不是(string | number)类型联合类型是高级主题，我们会在以后的章节里讨论它。枚举enum类型是对JavaScript标准数据类型的一个补充。像C#等其它语言一样，使用枚举类型可以为一组数值赋予友好的名字。enum Color {Red, Green, Blue}let c: Color = Color.Green;默认情况下，从0开始为元素编号。你也可以手动的指定成员的数值。例如，我们将上面的例子改成从1开始编号：enum Color {Red = 1, Green, Blue}let c: Color = Color.Green;或者，全部都采用手动赋值：enum Color {Red = 1, Green = 2, Blue = 4}let c: Color = Color.Green;枚举类型提供的一个便利是你可以由枚举的值得到它的名字。例如，我们知道数值为2，但是不确定它映射到Color里的哪个名字，我们可以查找相应的名字：enum Color {Red = 1, Green, Blue}let colorName: string = Color[2];alert(colorName);  // 显示'Green'因为上面代码里它的值是2任意值有时候，我们会想要为那些在编程阶段还不清楚类型的变量指定一个类型。这些值可能来自于动态的内容，比如来自用户输入或第三方代码库。这种情况下，我们不希望类型检查器对这些值进行检查而是直接让它们通过编译阶段的检查。那么我们可以使用any类型来标记这些变量：let notSure: any = 4;notSure = \"maybe a string instead\";notSure = false; // okay, definitely a boolean在对现有代码进行改写的时候，any类型是十分有用的，它允许你在编译时可选择地包含或移除类型检查。你可能认为Object有相似的作用，就像它在其它语言中那样。但是Object类型的变量只是允许你给它赋任意值 - 但是却不能够在它上面调用任意的方法，即便它真的有这些方法：let notSure: any = 4;notSure.ifItExists(); // okay, ifItExists might exist at runtimenotSure.toFixed(); // okay, toFixed exists (but the compiler doesn't check)let prettySure: Object = 4;prettySure.toFixed(); // Error: Property 'toFixed' doesn't exist on type 'Object'.当你只知道一部分数据的类型时，any类型也是有用的。比如，你有一个数组，它包含了不同的类型的数据：let list: any[] = [1, true, \"free\"];list[1] = 100;空值某种程度上来说，void类型像是与any类型相反，它表示没有任何类型。当一个函数没有返回值时，你通常会见到其返回值类型是void：function warnUser(): void {    alert(\"This is my warning message\");}声明一个void类型的变量没有什么大用，因为你只能为它赋予undefined和null：let unusable: void = undefined;Null 和 UndefinedTypeScript里，undefined和null两者各自有自己的类型分别叫做undefined和null。和void相似，它们的本身的类型用处不是很大：// Not much else we can assign to these variables!let u: undefined = undefined;let n: null = null;默认情况下null和undefined是所有类型的子类型。就是说你可以把null和undefined赋值给number类型的变量。然而，当你指定了--strictNullChecks标记，null和undefined只能赋值给void和它们各自。这能避免很多常见的问题。也许在某处你想传入一个string或null或undefined，你可以使用联合类型string | null | undefined。再次说明，稍后我们会介绍联合类型。  注意：我们鼓励尽可能地使用--strictNullChecks，但在本手册里我们假设这个标记是关闭的。Nevernever类型表示的是那些永不存在的值的类型。例如，never类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型；变量也可能是never类型，当它们被永不为真的类型保护所约束时。never类型是任何类型的子类型，也可以赋值给任何类型；然而，没有类型是never的子类型或可以赋值给never类型（除了never本身之外）。即使any也不可以赋值给never。下面是一些返回never类型的函数：// 返回never的函数必须存在无法达到的终点function error(message: string): never {    throw new Error(message);}// 推断的返回值类型为neverfunction fail() {    return error(\"Something failed\");}// 返回never的函数必须存在无法达到的终点function infiniteLoop(): never {    while (true) {    }}类型断言有时候你会遇到这样的情况，你会比TypeScript更了解某个值的详细信息。通常这会发生在你清楚地知道一个实体具有比它现有类型更确切的类型。通过类型断言这种方式可以告诉编译器，“相信我，我知道自己在干什么”。类型断言好比其它语言里的类型转换，但是不进行特殊的数据检查和解构。它没有运行时的影响，只是在编译阶段起作用。TypeScript会假设你，程序员，已经进行了必须的检查。类型断言有两种形式。其一是“尖括号”语法：let someValue: any = \"this is a string\";let strLength: number = (<string>someValue).length;另一个为as语法：let someValue: any = \"this is a string\";let strLength: number = (someValue as string).length;两种形式是等价的。至于使用哪个大多数情况下是凭个人喜好；然而，当你在TypeScript里使用JSX时，只有as语法断言是被允许的。关于let你可能已经注意到了，我们使用let关键字来代替大家所熟悉的JavaScript关键字var。let关键字是JavaScript的一个新概念，TypeScript实现了它。我们会在以后详细介绍它，很多常见的问题都可以通过使用let来解决，所以尽可能地使用let来代替var吧。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TypeScript.png"
+    },
+    {
+        "id": 73,
+        "name": "ES6",
+        "url": "https://es6.ruanyifeng.com/#README",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/ES6.ico"
+    },
+    {
+        "id": 72,
+        "name": "Three.js",
+        "url": "https://threejs.org",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Three.js.ico"
+    },
+    {
+        "id": 71,
+        "name": "ECharts",
+        "url": "https://echarts.apache.org/zh/tutorial.html#5%20%E5%88%86%E9%92%9F%E4%B8%8A%E6%89%8B%20ECharts",
+        "description": "Apache ECharts，一款基于JavaScript的数据可视化图表库，提供直观，生动，可交互，可个性化定制的数据可视化图表。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/ECharts.png"
+    },
+    {
+        "id": 70,
+        "name": "md-editor-v3",
+        "url": "https://imzbf.github.io/md-editor-v3/index",
+        "description": "md-editor-v3 is a Markdown editor component developed based on Vue 3 and TSX, supporting real-time preview and rich Markdown features. Review the detailed development documentation and usage examples.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/md-editor-v3.ico"
+    },
+    {
+        "id": 69,
+        "name": "wangEditor 5",
+        "url": "https://www.wangeditor.com/v5/getting-started.html",
+        "description": "开源 Web 富文本编辑器，开箱即用，配置简单",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/wangEditor 5.ico"
+    },
+    {
+        "id": 68,
+        "name": "西瓜播放器",
+        "url": "https://v2.h5player.bytedance.com/gettingStarted/",
+        "description": "西瓜播放器",
+        "categoryId": 4,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/西瓜播放器.ico"
+    },
+    {
+        "id": 67,
+        "name": "NProgress.js",
+        "url": "https://ricostacruz.com/nprogress",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/NProgress.js.ico"
+    },
+    {
+        "id": 66,
+        "name": "Swiper",
+        "url": "https://www.swiper.com.cn/api/index.html",
+        "description": "通过在线演示直观地了解Swiper3.x的基础配置、使用方法。查看中文API了解Swiper3.x的参数、属性、事件、回调函数等。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Swiper.ico"
+    },
+    {
+        "id": 65,
+        "name": "Lodash",
+        "url": "https://www.lodashjs.com",
+        "description": "Lodash 是一个一致性、模块化、高性能的 JavaScript 实用工具库。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Lodash.ico"
+    },
+    {
+        "id": 64,
+        "name": "Moment",
+        "url": "http://momentjs.cn/",
+        "description": "Moment.js 中文网",
+        "categoryId": 4,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/Moment.png"
+    },
+    {
+        "id": 63,
+        "name": "Dayjs",
+        "url": "https://day.js.org/docs/zh-CN/installation/installation",
+        "description": "Day.js 可以运行在浏览器和 Node.js 中。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Dayjs.ico"
+    },
+    {
+        "id": 62,
+        "name": "Axios",
+        "url": "https://axios-http.com/zh/docs/intro",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Axios.ico"
+    },
+    {
+        "id": 58,
+        "name": "Tailwind CSS",
+        "url": "https://tailwindcss.com/docs/installation",
+        "description": "Installing Tailwind CSS as a Vite plugin is the most seamless way to integrate it with frameworks like Laravel, SvelteKit, React Router, Nuxt, and SolidJS.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Tailwind CSS.png"
+    },
+    {
+        "id": 57,
+        "name": "know-css",
+        "url": "https://lhammer.cn/You-need-to-know-css/",
+        "description": "You-need-to-know-css,CSS tricks web developers need to know",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/know-css.ico"
+    },
+    {
+        "id": 56,
+        "name": "Animista",
+        "url": "https://animista.net/",
+        "description": "Animista is a CSS animation library and a place where you can play with a collection of ready-made CSS animations and download only those you will use.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Animista.ico"
+    },
+    {
+        "id": 55,
+        "name": "Shiro",
+        "url": "https://shiroi.netlify.app",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Shiro.ico"
+    },
+    {
+        "id": 54,
+        "name": "MAGIC—EFFECTS",
+        "url": "https://www.minimamente.com/project/magic/",
+        "description": "Magic CSS are a set of simple animations to include in your web or app project's",
+        "categoryId": 4,
+        "icon": "https://cdn2.xiaolong0418.com/54.png"
+    },
+    {
+        "id": 52,
+        "name": "CSS-Inspiration",
+        "url": "https://chokcoco.github.io/CSS-Inspiration/#/./init",
+        "description": "csc inspiration guide online",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/CSS-Inspiration.png"
+    },
+    {
+        "id": 51,
+        "name": "Animate",
+        "url": "https://animate.style",
+        "description": "Animate.css is a library of ready-to-use, cross-browser animations for you to use in your projects. Great for emphasis, home pages, sliders, and attention-guiding hints.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Animate.ico"
+    },
+    {
+        "id": 50,
+        "name": "Sass",
+        "url": "https://www.sass.hk/docs",
+        "description": "Sass是世界上最成熟、稳定和强大的专业级CSS扩展语言",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Sass.ico"
+    },
+    {
+        "id": 49,
+        "name": "ESLint",
+        "url": "https://cn.eslint.org/docs/rules",
+        "description": "插件化、可配置的 JavaScript 代码检查工具，让你轻松地提高代码质量。",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/ESLint.ico"
+    },
+    {
+        "id": 48,
+        "name": "stylelint",
+        "url": "https://stylelint.io/user-guide/get-started",
+        "description": "You can quickly get started by extending an appropriate shared config.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/stylelint.svg"
+    },
+    {
+        "id": 47,
+        "name": "TGideas",
+        "url": "https://tgideas.qq.com/doc/frontend/spec/common/",
+        "description": "",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/TGideas.ico"
+    },
+    {
+        "id": 46,
+        "name": "凹凸实验室",
+        "url": "https://guide.aotu.io/docs/html/code.html",
+        "description": "DOCTYPE 声明一个DOCTYPE必须包含以下部分，并严格按照顺序出现：   A string that is an ASCII case-insensitive match for the string “&lt;!DOCTYPE”. One or more space characters. A string that is an ASCII case-insensitive match",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/凹凸实验室.png"
+    },
+    {
+        "id": 45,
+        "name": "MDN",
+        "url": "https://developer.mozilla.org/zh-CN/",
+        "description": "The MDN Web Docs site provides information about Open Web technologies including HTML, CSS, and APIs for both Web sites and progressive web apps.",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/MDN.ico"
+    },
+    {
+        "id": 44,
+        "name": "w3school",
+        "url": "https://www.w3school.com.cn/",
+        "description": "ȫ���������� Web �����̡̳�",
+        "categoryId": 4,
+        "icon": "https://api.xiaolong0418.com/upload/icons/w3school.png"
+    },
+    {
+        "id": 42,
+        "name": "百度网盘",
+        "url": "https://pan.baidu.com/disk/home?#/all?path=%2F&vmode=list",
+        "description": "百度网盘是一款国民级产品，已连续9年为超过7亿用户提供稳定、安全的个人云存储服务，已实现电脑、手机、电视等多种终端场景的覆盖和互联，并支持多类型文件的备份、分享、查看和处理",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/百度网盘.ico"
+    },
+    {
+        "id": 39,
+        "name": "IT教程吧",
+        "url": "https://www.itjc8.com/forum.php?gid=1",
+        "description": "IT教程吧-编程开发",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/IT教程吧.ico"
+    },
+    {
+        "id": 37,
+        "name": "大眼仔",
+        "url": "http://www.dayanzai.me/",
+        "description": "",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/大眼仔.ico"
+    },
+    {
+        "id": 36,
+        "name": "果核剥壳",
+        "url": "https://www.ghpym.com/",
+        "description": "果核剥壳是一个长期更新的综合科技网站，内容涵盖绿色软件、系统工具、效率应用与科技资讯，坚持分享真正有用、有价值的资源与观点。",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/果核剥壳.ico"
+    },
+    {
+        "id": 35,
+        "name": "亦是美网络",
+        "url": "http://www.yishimei.cn",
+        "description": "亦是美网络，致力于操作系统应用与计算机网络技术的IT网站。",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/亦是美网络.ico"
+    },
+    {
+        "id": 34,
+        "name": "Adobe全家桶",
+        "url": "https://jpsmile.com/genp-v3/",
+        "description": "Adobe GenP 几乎可以破解所有Windows版的Adobe软件(CC 2019-2026)，破解方法方便快捷。妈妈再也不用担心。 迄今为止最完整的解决方案…… 只需3个步骤： 感谢uncia。 更新了什么 v3.7.1 (config v3.8.0) v3.7.1 v3.7.0 v3.6.9 v3.6.9 在 TargetFiles 列表中添加了一个新的文件名，以完成针对 Photoshop Elements 的补丁。模式已经存在并正常工作，但 GenP 并未搜索所有文件。最新版 Photoshop 在启动 […]",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Adobe全家桶.png"
+    },
+    {
+        "id": 33,
+        "name": "吾爱破解",
+        "url": "https://www.52pojie.cn/forum-16-1.html",
+        "description": "��Ʒ�����Ƽ�������������أ��㼯�ڶྫ�����ۣ����Ļ�Աÿ�ո��¡���������Ҫ�ģ������ҷ����ģ����ﲻ����PC��������׿��iPhone���ֻ�����Ҳͳͳ������",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/吾爱破解.ico"
+    },
+    {
+        "id": 32,
+        "name": "MSDN我告诉你",
+        "url": "https://next.itellyou.cn",
+        "description": "NEXT, ITELLYOU",
+        "categoryId": 3,
+        "icon": "https://api.xiaolong0418.com/upload/icons/MSDN我告诉你.ico"
+    },
+    {
+        "id": 31,
+        "name": "中国大学",
+        "url": "https://www.icourse163.org",
+        "description": "中国大学MOOC(慕课) 是爱课程网携手网易云课堂打造的在线学习平台，每一个有提升愿望的人，都可以在这里学习中国优质的大学课程，学完还能获得认证证书。中国大学MOOC是国内优质的中文MOOC学习平台，拥有众多985高校的大学课程，与名师零距离。",
+        "categoryId": 2,
+        "icon": "https://cdn2.xiaolong0418.com/31.png"
+    },
+    {
+        "id": 30,
+        "name": "下厨房",
+        "url": "http://www.xiachufang.com",
+        "description": "下厨房美食菜谱网倡导在家烹饪、健康的生活方式，提供有版权的实用菜谱做法与饮食知识，提供厨师和美食爱好者一个记录、分享的平台。",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/下厨房.ico"
+    },
+    {
+        "id": 29,
+        "name": "JS每日一题",
+        "url": "https://vue3js.cn/interview",
+        "description": "Vue3 下一代web开发方式，更快，更轻，易维护，更多的原生支持",
+        "categoryId": 2,
+        "icon": "https://cdn.xiaolong0418.com/myblog/images/ico/JS每日一题.png"
+    },
+    {
+        "id": 28,
+        "name": "FE-Interview",
+        "url": "http://interview.poetries.top/docs/base.html",
+        "description": "本文系统梳理了前端高频面试题基础知识，涵盖HTML、HTTP、Web综合问题及SEO优化实战，助力开发者高效备考",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/FE-Interview.png"
+    },
+    {
+        "id": 27,
+        "name": "力扣",
+        "url": "https://leetcode-cn.com",
+        "description": "海量技术面试题库，拥有算法、数据结构、系统设计等 1000+题目，帮助你高效提升编程技能，轻松拿下世界 IT 名企 Dream Offer。",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/力扣.ico"
+    },
+    {
+        "id": 26,
+        "name": "牛客网",
+        "url": "https://www.nowcoder.com",
+        "description": "求职之前，先上牛客，就业找工作一站解决。互联网IT技术/产品/运营/硬件/汽车机械制造/金融/财务管理/审计/银行/市场营销/地产/快消/管培生等等专业技能学习/备考/求职神器，在线进行企业校招实习笔试面试真题模拟考试练习，全面提升求职竞争力，找到好工作，拿到好offer。_牛客网_牛客在手,offer不愁",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/牛客网.ico"
+    },
+    {
+        "id": 25,
+        "name": "学堂在线",
+        "url": "https://next.xuetangx.com",
+        "description": "学堂在线是清华大学于2013年10月发起建立的慕课平台，是教育部在线教育研究中心的研究交流和成果应用平台，是国家2016年首批双创示范基地项目，是中国高等教育学会产教融合研究分会副秘书长单位，也是联合国教科文组织（UNESCO）国际工程教育中心（ICEE）的在线教育平台。目前，学堂在线运行了来自清华大学、北京大学、复旦大学、中国科技大学，以及麻省理工学院、斯坦福大学、加州大学伯克利分校等国内外高校的超过2300门优质课程，覆盖13大学科门类。",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/学堂在线.ico"
+    },
+    {
+        "id": 24,
+        "name": "慕课网",
+        "url": "https://www.imooc.com",
+        "description": "",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/慕课网.png"
+    },
+    {
+        "id": 23,
+        "name": "网易云课堂",
+        "url": "https://study.163.com",
+        "description": "网易云课堂，一个专注于成人终身学习的在线教育平台。立足于实用性的要求, 与优质的教育内容创作者一起，为您提供全面、有效的在线学习内容。",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/网易云课堂.ico"
+    },
+    {
+        "id": 22,
+        "name": "我要自学网",
+        "url": "https://www.51zxw.net",
+        "description": "��Ҫ��ѧ��-�����Ƶ�̳�,�ṩȫ��λ����ѧϰ����3D�̳̣�ƽ��̳̣���ý�������̳̣��칫��Ϣ���̳̣���е��ƽ̳̣���վ�����̳�,������ѵ",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/我要自学网.ico"
+    },
+    {
+        "id": 21,
+        "name": "站酷网",
+        "url": "https://www.zcool.com.cn",
+        "description": "站酷ZCOOL,中国设计师互动平台.深耕设计领域十八年,站酷聚集了1800万设计师、摄影师、插画师、艺术家、创意人,设计创意群体中具有较高的影响力与号召力.",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/站酷网.ico"
+    },
+    {
+        "id": 19,
+        "name": "虎课网",
+        "url": "https://huke88.com",
+        "description": "",
+        "categoryId": 2,
+        "icon": "https://api.xiaolong0418.com/upload/icons/虎课网.ico"
+    },
+    {
+        "id": 18,
+        "name": "字由",
+        "url": "https://www.hellofont.cn",
+        "description": "字由是免费的字体管理工具，为您提供900+字体免费商用，支持在PS、AI、ID、XD、Figma、Sketch、CDR等设计软件中一键应用字体，提供AI识字、字体特效等实用功能，为您的设计提质加速，超百万设计师正在使用字由",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/字由.ico"
+    },
+    {
+        "id": 17,
+        "name": "IconPark",
+        "url": "https://iconpark.oceanengine.com/official",
+        "description": "IconPark, park your icon. Made by ByteDance",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/IconPark.svg"
+    },
+    {
+        "id": 16,
+        "name": "Iconfont",
+        "url": "https://www.iconfont.cn",
+        "description": "iconfont-国内功能很强大且图标内容很丰富的矢量图标库，提供矢量图标下载、在线存储、格式转换等功能。阿里巴巴体验团队倾力打造，设计和前端开发的便捷工具",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Iconfont.svg"
+    },
+    {
+        "id": 15,
+        "name": "易企秀",
+        "url": "https://store.eqxiu.com",
+        "description": "",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/易企秀.ico"
+    },
+    {
+        "id": 14,
+        "name": "Dribbble",
+        "url": "https://www.deviantart.com",
+        "description": "DeviantArt is where art and community thrive. Explore over 350 million pieces of art while connecting to fellow artists and art enthusiasts.",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Dribbble.ico"
+    },
+    {
+        "id": 13,
+        "name": "DeviantART",
+        "url": "https://dribbble.com",
+        "description": "Find Top Designers & Creative Professionals on Dribbble. We are where designers gain inspiration, feedback, community, and jobs. Your best resource to discover and connect with designers worldwide.",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/DeviantART.ico"
+    },
+    {
+        "id": 12,
+        "name": "Instagram",
+        "url": "https://www.instagram.com",
+        "description": "",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Instagram.png"
+    },
+    {
+        "id": 11,
+        "name": "Pinterest",
+        "url": "https://www.pinterest.com",
+        "description": "Discover recipes, home ideas, style inspiration and other ideas to try.",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/Pinterest.png"
+    },
+    {
+        "id": 10,
+        "name": "巨量创意",
+        "url": "https://cc.oceanengine.com",
+        "description": "",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/巨量创意.svg"
+    },
+    {
+        "id": 8,
+        "name": "美叶",
+        "url": "https://www.meiye.art",
+        "description": "美叶，优质设计内容推荐平台。向设计从业者，推介不同设计细分领域的杰出代表。收集和归类优质设计内容，为设计师创作，提供有价值的灵感参照。助力设计，提升效率，为设计师研发高效能设计工具。",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/美叶.ico"
+    },
+    {
+        "id": 7,
+        "name": "花瓣",
+        "url": "https://huaban.com",
+        "description": "花瓣网,设计师寻找灵感的平台!这里汇聚海量高清创意图片与设计素材,通过智能采集工具助你高效整理灵感.无论是保存优质素材,规划设计方案,还是分享个人创意收藏,花瓣网都能满足设计师需求,让灵感采集与创作落地无缝衔接。",
+        "categoryId": 1,
+        "icon": "https://cdn2.xiaolong0418.com/7.png"
+    },
+    {
+        "id": 6,
+        "name": "牛片网",
+        "url": "https://www.6pian.cn",
+        "description": "",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/牛片网.ico"
+    },
+    {
+        "id": 5,
+        "name": "摄图网",
+        "url": "http://699pic.com",
+        "description": "摄图网是一家专注于正版摄影高清图片素材免费下载的图库作品网站,提供手绘插画,海报,ppt模板,科技,城市,商务,建筑,风景,美食,家居,外景,背景等好看的图片设计素材大全可供下载。摄图摄影师5000+入驻并进行交流成长，百万图片量和设计师在这里找到满意的图片素材和设计灵感!",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/摄图网.ico"
+    },
+    {
+        "id": 4,
+        "name": "昵图网",
+        "url": "http://www.nipic.com",
+        "description": "昵图网_原创素材共享平台.图片素材图库提供海量原创素材,图片下载,摄影作品,设计素材,视频素材,ppt模板,PSD源文件,矢量图,AI,CDR,EPS等高清图片下载.",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/昵图网.ico"
+    },
+    {
+        "id": 3,
+        "name": "包图网",
+        "url": "https://ibaotu.com",
+        "description": "包图网拥有亿级正版商用素材模板，为企业 、政府机关、个人用户提供原创可商用的精品版权，涵盖4K/8K高清视频、AE模板、MG动画、配乐音效、AI素材、AI视频、AI音乐、PPT模板、海报模板、UI设计素材、PNG元素、电商淘宝、摄影图、插画动图、装饰装修、3D素材等，满足企业宣传、政府党建宣传及个人用户的创意剪辑、智能抠图、在线设计、AI绘画等各种使用场景，会员可享免费下载，立即访问包图网，获取高质素材！",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/包图网.ico"
+    },
+    {
+        "id": 2,
+        "name": "觅元素",
+        "url": "http://www.51yuansu.com",
+        "description": "觅元素专注于提供高质量版权素材图片免费下载的网站，提供优质png素材、高清背景素材、图片素材、设计素材，找高质量版权素材就来觅元素.",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/觅元素.ico"
+    },
+    {
+        "id": 1,
+        "name": "千图网",
+        "url": "https://www.58pic.com",
+        "description": "ǧͼ��(www.58pic.com) ��רע��������ͼƬ�ز�������������ص���վ���ṩʸ��ͼ�زġ�����ͼƬ��psd�زġ�����ģ�塢����زġ�PPTģ�塢��Ƶ�زġ��廭�滭���������ģ�塢��վ����زĵ����ط���",
+        "categoryId": 1,
+        "icon": "https://api.xiaolong0418.com/upload/icons/千图网.ico"
+    }
+]

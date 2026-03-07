@@ -19,7 +19,8 @@ export default defineNuxtConfig({
     }
   },
   app: {
-    pageTransition: { name: "page", mode: "out-in" }
+    pageTransition: { name: "page", mode: "out-in" },
+    layoutTransition: { name: "layout", mode: "out-in" }
   },
   css: ["./app/assets/css/tailwind.css", "./app/assets/css/main.css"],
   runtimeConfig: {
