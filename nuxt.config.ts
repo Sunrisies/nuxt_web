@@ -9,7 +9,8 @@ export default defineNuxtConfig({
     "@nuxt/content",
     "@nuxt/image",
     "@nuxtjs/device",
-    "@nuxtjs/color-mode"
+    "@nuxtjs/color-mode",
+    "nuxt-umami"
   ],
   devtools: {
     enabled: true,
@@ -84,5 +85,16 @@ export default defineNuxtConfig({
         dir: "./app/assets/icons"
       }
     ]
+  },
+  umami: {
+    autoTrack: true,
+    // proxy: 'cloak',
+    // useDirective: true,
+    ignoreLocalhost: false
+    // excludeQueryParams: false,
+    // domains: ['cool-site.app', 'my-space.site'],
+    // customEndpoint: '/my-custom-endpoint',
+    // enabled: false,
+    // logErrors: true,
   }
 })
