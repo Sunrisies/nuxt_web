@@ -579,7 +579,7 @@ remote_log "加载新镜像..."
 docker load -i LOCAL_TAR_FILE_PLACEHOLDER
 
 # 构建运行命令
-run_command="docker run -d -p PORT_MAPPING_PLACEHOLDER --restart=always --name CONTAINER_NAME_PLACEHOLDER"
+run_command="docker run -d  --env-file .env  -p PORT_MAPPING_PLACEHOLDER --restart=always --name CONTAINER_NAME_PLACEHOLDER"
 
 # 添加卷映射（如果有）
 if [ -n "VOLUME_MAPPING_PLACEHOLDER" ]; then

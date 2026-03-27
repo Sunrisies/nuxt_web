@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <article class="container">
     <UContainer v-if="article">
       <UPageHeader :title="article.title" :description="article.description">
         <template #headline>
@@ -18,12 +18,7 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2 mt-3">
-          <UBadge
-            v-for="tag in article.tags"
-            :key="tag.id"
-            :label="tag.name"
-            variant="soft"
-          />
+          <UBadge v-for="tag in article.tags" :key="tag.id" :label="tag.name" variant="soft" />
         </div>
       </UPageHeader>
 
@@ -39,21 +34,21 @@
         </template>
       </UPage>
     </UContainer>
-  </div>
+  </article>
 </template>
 
 <script setup lang="ts">
-import type { IArticle } from "~/types/article";
+import type { IArticle } from "~/types/article"
 
-const route = useRoute();
-const article = ref<IArticle | null>(null);
+const route = useRoute()
+const article = ref<IArticle | null>(null)
 const { data } = await useAsyncData(`article-${route.params.slug}`, () =>
   http({
-    url: `/v1/posts/${route.params.slug}`,
-  }),
-);
-article.value = data.value || {};
-const ast = await parseMarkdown(data.value?.content || "");
+    url: `/v1/posts/${route.params.slug}`
+  })
+)
+article.value = data.value || {}
+const ast = await parseMarkdown(data.value?.content || "")
 </script>
 
 <style lang="scss" scoped></style>

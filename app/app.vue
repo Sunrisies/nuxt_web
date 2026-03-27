@@ -12,6 +12,7 @@ defineNuxtPlugin(async () => {
   console.log("Runtime Config:", config)
   console.log("API Base:", config.public.apiBase)
 })
+console.log(process.env, "环境变量")
 </script>
 
 <style lang="scss" scoped></style>

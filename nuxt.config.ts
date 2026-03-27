@@ -88,13 +88,6 @@ export default defineNuxtConfig({
   },
   umami: {
     autoTrack: true,
-    // proxy: 'cloak',
-    // useDirective: true,
-    ignoreLocalhost: false
-    // excludeQueryParams: false,
-    // domains: ['cool-site.app', 'my-space.site'],
-    // customEndpoint: '/my-custom-endpoint',
-    // enabled: false,
-    // logErrors: true,
+    ignoreLocalhost: true
   }
 })

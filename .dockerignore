@@ -6,7 +6,6 @@ yarn-error.log*
 .git
 .gitignore
 README.md
-.env
 .nuxt
 .output
 dist
