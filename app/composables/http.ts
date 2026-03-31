@@ -18,14 +18,10 @@ interface ApiResponse<T = any> {
 
 export const http = async <T = any>(obj: HttpParams): Promise<T> => {
   try {
-    defineNuxtPlugin(async () => {
-      const config = useRuntimeConfig()
-      console.log("Runtime Config:", config)
-      console.log("API Base:", config.public.apiBase)
-    })
+    const config = useRuntimeConfig()
     console.log(process.env.NUXT_PUBLIC_API_BASE, "请求参数------------------------------------")
     const response = await $fetch<ApiResponse<T>>(obj.url, {
-      baseURL: process.env.NUXT_PUBLIC_API_BASE || BASEURL,
+      baseURL: config.public.apiBase || BASEURL,
       onRequest: (res) => {
         console.log(res, "请求成功")
       },

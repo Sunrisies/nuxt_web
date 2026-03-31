@@ -29,28 +29,13 @@
 </template>
 
 <script setup lang="ts">
-const route = useRoute()
-console.log(route.path, "route==============")
 const items = [
-  {
-    label: "Home",
-    to: "/",
-    onSelect: () => {
-      console.log("点击日期")
-    },
-    external: true,
-    active: route.path === "/"
-  },
-  { label: "文章", to: "/blog/1", external: true, active: route.path.startsWith("/blog") },
-  { label: "时光轴", to: "/timeline", external: true, active: route.path === "/timeline" },
-  // {
-  //   label: '影像长廊',
-  //   to: '/album'
-  // },
-  // { label: '音乐库', to: '/music-player' },
-  { label: "导航", to: "/navigationBar", active: route.path === "/navigationBar", external: true },
-  // { label: '资源库', to: '/chat' },
-  { label: "关于", to: "/about", external: true, active: route.path === "/about" }
+  { label: "首页", to: "/" },
+  { label: "文章", to: "/blog/1" },
+  { label: "归档", to: "/archives" },
+  { label: "时光轴", to: "/timeline" },
+  { label: "导航", to: "/navigationBar" },
+  { label: "关于", to: "/about" }
 ]
 </script>
 

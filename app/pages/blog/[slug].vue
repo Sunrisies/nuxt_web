@@ -49,7 +49,7 @@ if (postError.value) {
     }
   })
 }
-console.log(tagsRes.value, "-------------")
+console.log(tagsRes.value, "文章列表数据")
 const blogs = postRes.value.data?.map((blog: IBlog) => ({
   path: `/article/${blog.uuid}`, // 生成文章路径
   title: blog.title,

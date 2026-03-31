@@ -93,7 +93,10 @@ const readingTime = computed(() => {
 })
 
 // 获取上下篇文章
-const neighbors = ref<{ prev: { uuid: string; title: string } | null; next: { uuid: string; title: string } | null }>({ prev: null, next: null })
+const neighbors = ref<{ prev: { uuid: string; title: string } | null; next: { uuid: string; title: string } | null }>({
+  prev: null,
+  next: null
+})
 
 try {
   const { data: listData } = await useAsyncData(`article-list-${slug}`, () =>

@@ -31,7 +31,9 @@ export default defineNuxtConfig({
   },
   routeRules: {
     // 为 404 页面启用静态生成
-    "/404": { static: true }
+    "/404": { static: true },
+    // 代理 /api 请求到后端服务，解决客户端 SPA 导航时的请求问题
+    "/api/**": { proxy: `${process.env.API_ORIGIN || "http://127.0.0.1:3000"}/api/**` }
   },
   compatibilityDate: "2025-07-15",
   nitro: {

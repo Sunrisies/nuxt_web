@@ -26,12 +26,9 @@
           <div class="flex flex-col gap-3">
             <h4 class="text-sm font-semibold text-center">探索</h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
-              <NuxtLink to="/blog/1" class="hover:text-foreground transition-colors" external> 文章列表 </NuxtLink>
-              <NuxtLink class="hover:text-foreground transition-colors" external> 标签云 </NuxtLink>
-              <NuxtLink class="hover:text-foreground transition-colors"> 文章归档 </NuxtLink>
-              <!-- <NuxtLink href="/blog/1" class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
-              <NuxtLink href="/tags" class="hover:text-foreground transition-colors"> 标签云 </NuxtLink>
-              <NuxtLink href="/archives" class="hover:text-foreground transition-colors"> 文章归档 </NuxtLink> -->
+              <NuxtLink to="/blog/1" class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
+              <NuxtLink to="/tag" class="hover:text-foreground transition-colors"> 标签云 </NuxtLink>
+              <NuxtLink to="/archives" class="hover:text-foreground transition-colors"> 文章归档 </NuxtLink>
             </div>
           </div>
 
@@ -68,10 +65,8 @@
           <div class="flex flex-col gap-3">
             <h4 class="text-sm font-semibold text-center">支持</h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
-              <!-- <NuxtLink href="/about" class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink> -->
-              <!-- <NuxtLink href="/api/rss" class="hover:text-foreground transition-colors"> RSS订阅 </NuxtLink> -->
-              <NuxtLink class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink>
-              <NuxtLink class="hover:text-foreground transition-colors"> RSS订阅 </NuxtLink>
+              <NuxtLink to="/about" class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink>
+              <NuxtLink to="/rss" class="hover:text-foreground transition-colors"> RSS订阅 </NuxtLink>
               <NuxtLink
                 href="https://github.com/yourusername/blog"
                 target="_blank"
