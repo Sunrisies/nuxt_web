@@ -25,10 +25,6 @@ export default defineNuxtConfig({
   },
   css: ["./app/assets/css/tailwind.css", "./app/assets/css/main.css"],
   runtimeConfig: {
-    // Private keys are only available on the server
-    apiSecret: "123",
-
-    // Public keys that are exposed to the client
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000/api" : "/api")
     }

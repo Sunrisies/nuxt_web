@@ -53,8 +53,8 @@ const updateHeight = () => {
 }
 onMounted(() => {
   updateHeight()
+  window.addEventListener("resize", updateHeight)
 })
-window.addEventListener("resize", updateHeight)
 
 onUnmounted(() => {
   window.removeEventListener("resize", updateHeight)
