@@ -36,6 +36,36 @@
           </div>
 
           <div class="flex flex-col gap-3">
+            <h4 class="text-sm font-semibold text-center">友链</h4>
+            <div class="flex flex-col gap-2 text-sm text-muted-foreground">
+              <NuxtLink
+                href="https://tools.sunrise1024.top/"
+                target="_blank"
+                rel="noreferrer"
+                class="hover:text-foreground transition-colors"
+              >
+                在线工具箱
+              </NuxtLink>
+              <NuxtLink
+                href="#"
+                target="_blank"
+                rel="noreferrer"
+                class="hover:text-foreground transition-colors"
+              >
+                友情链接2
+              </NuxtLink>
+              <NuxtLink
+                href="#"
+                target="_blank"
+                rel="noreferrer"
+                class="hover:text-foreground transition-colors"
+              >
+                友情链接3
+              </NuxtLink>
+            </div>
+          </div>
+
+          <div class="flex flex-col gap-3">
             <h4 class="text-sm font-semibold text-center">支持</h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
               <!-- <NuxtLink href="/about" class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink> -->

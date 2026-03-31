@@ -1,5 +1,6 @@
 <template>
-  <UApp>
+  <Html lang="zh-CN" />
+  <UApp :locale="zh_cn">
     <NuxtLayout>
       <NuxtPage />
     </NuxtLayout>
@@ -7,6 +8,8 @@
 </template>
 
 <script setup lang="ts">
+import { zh_cn } from "@nuxt/ui/locale"
+
 defineNuxtPlugin(async () => {
   const config = useRuntimeConfig()
   console.log("Runtime Config:", config)
