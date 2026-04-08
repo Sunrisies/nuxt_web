@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-background to-muted/20">
+  <div class="min-h-screen bg-linear-to-br from-background to-muted/20">
     <div class="container mx-auto px-4 py-8">
       <AboutChaoYangProfile />
       <div class="mt-12 space-y-12">

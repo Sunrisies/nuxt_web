@@ -16,8 +16,7 @@
           :to="'https://github.com/Sunrisies'"
           target="_blank"
         >
-          <UIcon
-            name="i-heroicons-github"
+          <Github 
             class="h-4 w-4"
           />
         </UButton>
@@ -38,5 +37,6 @@
 </template>
 
 <script setup lang="ts">
+import {Github} from "lucide-vue-next"
 // import Avatar from '@/components/Avatar.vue'
 </script>

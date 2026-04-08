@@ -87,7 +87,7 @@
               rel="noreferrer"
               class="h-9 w-9 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-200"
             >
-              <UIcon name="i-custom-github" class="h-4 w-4" />
+              <Github  class="h-4 w-4"  />
               <span class="sr-only">GitHub</span>
             </NuxtLink>
             <!-- href="/api/rss" -->
@@ -162,6 +162,7 @@
 </template>
 
 <script setup lang="ts">
+import {Github} from "lucide-vue-next"
 const SITE_START_TIME = new Date("2024-01-01T00:00:00") // 替换为你的网站上线时间
 
 function getDuration() {

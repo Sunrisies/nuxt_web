@@ -13,10 +13,6 @@ RUN npm i --registry=https://registry.npmmirror.com
 # 复制项目文件
 COPY . .
 
-# 设置环境变量
-ARG NUXT_PUBLIC_API_BASE
-ENV NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE:-https://api.sunrise1024.top/api}
-
 # 构建应用
 RUN npm run build
 

@@ -22,9 +22,9 @@
     "@nuxtjs/mdc": "^0.20.1",
     "@tailwindcss/vite": "^4.1.18",
     "@vueuse/core": "^14.2.0",
-    "better-sqlite3": "^12.6.2",
+    "better-sqlite3": "^12.8.0",
     "echarts": "^6.0.0",
-    "nuxt": "^4.3.1",
+    "nuxt": "^4.4.2",
     "nuxt-umami": "3.2.1",
     "reka-ui": "^2.8.0",
     "tailwindcss": "^4.1.18",
@@ -37,5 +37,5 @@
     "lucide-vue-next": "^0.563.0",
     "sass-embedded": "^1.97.3"
   },
-  "version": "0.0.14"
+  "version": "0.0.15"
 }

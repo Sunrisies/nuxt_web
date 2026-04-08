@@ -171,7 +171,6 @@ interface Category {
 }
 
 const { data } = await useFetch<NavItem[]>("/api/navigationBar")
-
 // 搜索查询
 const searchQuery = ref("")
 
