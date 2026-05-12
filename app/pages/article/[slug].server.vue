@@ -107,6 +107,65 @@ useSeoMeta({
 })
 
 useHead({
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        headline: article.value?.title || "文章详情",
+        description: seoDescription,
+        image: [seoImage],
+        datePublished: article.value?.publish_time ? new Date(article.value.publish_time).toISOString() : undefined,
+        dateModified: article.value?.publish_time ? new Date(article.value.publish_time).toISOString() : undefined,
+        author: {
+          "@type": "Person",
+          name: article.value?.author || "朝阳"
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "朝阳的码农札记",
+          logo: {
+            "@type": "ImageObject",
+            url: `${siteUrl}/favicon.ico`
+          }
+        },
+        mainEntityOfPage: {
+          "@type": "WebPage",
+          "@id": pageUrl
+        },
+        articleSection: article.value?.category?.name || "技术文章",
+        keywords: article.value?.tags?.map((tag) => tag.name).join(",") || undefined
+      })
+    },
+    {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "首页",
+            item: siteUrl
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "文章",
+            item: `${siteUrl}/blog/1`
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: article.value?.title || "文章详情",
+            item: pageUrl
+          }
+        ]
+      })
+    }
+  ],
   link: [
     {
       rel: "canonical",

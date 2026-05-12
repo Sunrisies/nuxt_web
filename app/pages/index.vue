@@ -157,6 +157,22 @@ useHead({
       rel: "apple-touch-icon",
       href: "/apple-touch-icon.png"
     }
+  ],
+  script: [
+    {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        name: "朝阳的码农札记",
+        url: siteUrl,
+        inLanguage: "zh-CN",
+        publisher: {
+          "@type": "Person",
+          name: "朝阳"
+        }
+      })
+    }
   ]
 })
 

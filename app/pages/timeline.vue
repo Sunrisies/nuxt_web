@@ -127,7 +127,6 @@ const getWarehouse = async () => {
         url: `/v1/posts/uploadTime`
       })
     )
-    console.log(data.value, "uihuryquiwyeuiqwueiqwoye")
     warehouse.value = data.value || []
   } catch (error) {
     console.error("获取仓库数据失败:", error)

@@ -35,6 +35,16 @@ useHead({
   ],
   script: [
     {
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "朝阳的码农札记",
+        url: siteUrl,
+        logo: `${siteUrl}/favicon.ico`
+      })
+    },
+    {
       innerHTML: `(function(myfnc){
         var d = document,
             s = d.createElement('script'),

@@ -92,5 +92,4 @@ useHead({
     }
   ]
 })
-console.log("请求数据111")
 </script>

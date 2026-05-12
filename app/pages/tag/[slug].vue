@@ -10,7 +10,6 @@ import type { ChangelogVersionProps } from "@nuxt/ui";
 const route = useRoute();
 const config = useRuntimeConfig();
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top";
-console.log("Tag slug:", route.params.slug);
 // 获取所有的标签，并保存下来
 const id = route.params.slug;
 const { data: tagsRes } = await useAsyncData("tags", () =>
@@ -19,8 +18,6 @@ const { data: tagsRes } = await useAsyncData("tags", () =>
   }),
 );
 const tagId = tagsRes.value.find((tag) => tag.name === id)?.id;
-
-console.log(tagsRes.value, "-------------", tagId);
 const { data: postsRes } = await useAsyncData(`tag-${id}`, () =>
   http({
     url: `/v1/posts?limit=100&tag=${tagId}`,
@@ -75,7 +72,6 @@ const versions = computed<ChangelogVersionProps[]>(() => {
    
   }));
 });
-console.log(postsRes.value, "-------------");
 </script>
 
 <style scoped lang="scss"></style>
