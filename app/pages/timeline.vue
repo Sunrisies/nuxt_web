@@ -24,6 +24,9 @@
 import type { IArticle } from "@/types/article"
 import type { ChangelogVersionProps } from "@nuxt/ui"
 import type { warehouseType } from "~/types/blog"
+const config = useRuntimeConfig()
+const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
+const pageUrl = `${siteUrl}/timeline`
 // import type { warehouseType } from '@/types/blog'
 // 元数据配置
 useHead({
@@ -52,7 +55,7 @@ useHead({
     },
     {
       property: "og:url",
-      content: "/timeline"
+      content: pageUrl
     },
     {
       property: "og:image",
@@ -91,7 +94,7 @@ useHead({
   link: [
     {
       rel: "canonical",
-      href: "/timeline"
+      href: pageUrl
     }
   ]
 })

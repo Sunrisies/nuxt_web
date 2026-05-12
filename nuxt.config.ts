@@ -10,7 +10,8 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/device",
     "@nuxtjs/color-mode",
-    "nuxt-umami"
+    "nuxt-umami",
+    "@nuxtjs/sitemap"
   ],
   devtools: {
     enabled: true,
@@ -26,12 +27,19 @@ export default defineNuxtConfig({
   css: ["./app/assets/css/tailwind.css", "./app/assets/css/main.css"],
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000/api" : "/api")
+      apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000/api" : "/api"),
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
     }
   },
   routeRules: {
     // 为 404 页面启用静态生成
-    "/404": { static: true },
+    "/404": { static: true }
+  },
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
+  },
+  sitemap: {
+    sources: ["/api/__sitemap__/urls"]
   },
   compatibilityDate: "2025-07-15",
   nitro: {

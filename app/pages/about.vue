@@ -12,6 +12,11 @@
 </template>
 
 <script setup>
+const config = useRuntimeConfig()
+const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
+const pageUrl = `${siteUrl}/about`
+const ogImage = `${siteUrl}/og-image.png`
+
 useHead({
   title: "关于朝阳 | 码农札记与个人简介",
   meta: [
@@ -33,7 +38,7 @@ useHead({
     },
     {
       property: "og:url",
-      content: "https://your-domain.com/about"
+      content: pageUrl
     },
     {
       property: "og:type",
@@ -45,7 +50,7 @@ useHead({
     },
     {
       property: "og:image",
-      content: "/og-image.png"
+      content: ogImage
     },
     {
       property: "og:image:width",
@@ -73,11 +78,17 @@ useHead({
     },
     {
       name: "twitter:image",
-      content: "/og-image.png"
+      content: ogImage
     },
     {
       name: "robots",
       content: "index, follow"
+    }
+  ],
+  link: [
+    {
+      rel: "canonical",
+      href: pageUrl
     }
   ]
 })

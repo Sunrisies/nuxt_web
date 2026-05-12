@@ -6,7 +6,7 @@ IMAGE_NAME=""
 CONTAINER_NAME=""
 LOCAL_TAR_FILE=""
 REMOTE_USER="root"
-REMOTE_HOST="sunrise1024.top"
+REMOTE_HOST="api.sunrise1024.top"
 REMOTE_DIR="/home/docker/nuxt"
 PORT_MAPPING="441:3000"
 VOLUME_MAPPING=""  # 可选：例如 "/host/path:/container/path"
@@ -579,7 +579,7 @@ remote_log "加载新镜像..."
 docker load -i LOCAL_TAR_FILE_PLACEHOLDER
 
 # 构建运行命令
-run_command="docker run -d  --env-file .env  -p PORT_MAPPING_PLACEHOLDER --restart=always --name CONTAINER_NAME_PLACEHOLDER"
+run_command="docker run -d  --env-file .env --network my_app_network -p PORT_MAPPING_PLACEHOLDER --restart=always --name CONTAINER_NAME_PLACEHOLDER"
 
 # 添加卷映射（如果有）
 if [ -n "VOLUME_MAPPING_PLACEHOLDER" ]; then

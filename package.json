@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "dev": "nuxt dev --host 0.0.0.0",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
@@ -17,6 +17,7 @@
     "@nuxt/fonts": "0.13.0",
     "@nuxt/image": "2.0.0",
     "@nuxt/ui": "^4.4.0",
+    "@nuxtjs/sitemap": "^7.4.7",
     "@nuxtjs/color-mode": "4.0.0",
     "@nuxtjs/device": "4.0.0",
     "@nuxtjs/mdc": "^0.20.1",
@@ -37,5 +38,5 @@
     "lucide-vue-next": "^0.563.0",
     "sass-embedded": "^1.97.3"
   },
-  "version": "0.0.15"
+  "version": "0.0.18"
 }

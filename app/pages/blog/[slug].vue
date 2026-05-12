@@ -10,6 +10,9 @@ import type { IBlog } from "~/types/blog"
 const route = useRoute()
 const id = route.params.slug as string
 const toast = useToast()
+const config = useRuntimeConfig()
+const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
+const pageUrl = `${siteUrl}/blog/${id}`
 
 // 并行获取分类和文章数据
 const [{ data: postRes, error: postError }, { data: categoriesRes }, { data: tagsRes }] = await Promise.all([
@@ -73,4 +76,32 @@ const tags = tagsRes.value?.data.map((tag: any) => ({
   value: tag.id, // 生成标签路径
   label: tag.name
 }))
+
+const seoTitle = `博客列表第 ${id} 页 | 朝阳的码农札记`
+const seoDescription = `朝阳的码农札记博客分页列表，第 ${id} 页，包含最新技术文章与分类导航。`
+const seoImage = `${siteUrl}/blog.webp`
+
+useSeoMeta({
+  title: seoTitle,
+  description: seoDescription,
+  ogTitle: seoTitle,
+  ogDescription: seoDescription,
+  ogType: "website",
+  ogUrl: pageUrl,
+  ogImage: seoImage,
+  twitterCard: "summary_large_image",
+  twitterTitle: seoTitle,
+  twitterDescription: seoDescription,
+  twitterImage: seoImage,
+  robots: "index, follow"
+})
+
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: pageUrl
+    }
+  ]
+})
 </script>

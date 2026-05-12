@@ -59,6 +59,8 @@
 import { ref } from "vue"
 import type { IBlog, Tag } from "@/types/blog"
 import { http } from "~/composables/http"
+const config = useRuntimeConfig()
+const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
 // 元数据
 useHead({
   title: "朝阳的码农札记 | 全栈开发者的技术分享与经验总结",
@@ -82,7 +84,7 @@ useHead({
     },
     {
       property: "og:url",
-      content: "https://sunrise1024.top"
+      content: siteUrl
     },
     {
       property: "og:title",
@@ -99,7 +101,7 @@ useHead({
     },
     {
       property: "og:image",
-      content: "https://sunrise1024.top/og-image.png"
+      content: `${siteUrl}/og-image.png`
     },
     {
       property: "og:image:width",
@@ -127,7 +129,7 @@ useHead({
     },
     {
       name: "twitter:image",
-      content: "https://sunrise1024.top/og-image.png"
+      content: `${siteUrl}/og-image.png`
     },
     {
       name: "robots",
@@ -141,7 +143,7 @@ useHead({
   link: [
     {
       rel: "canonical",
-      href: "https://sunrise1024.top"
+      href: siteUrl
     },
     {
       rel: "icon",

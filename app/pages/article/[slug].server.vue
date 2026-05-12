@@ -72,6 +72,9 @@ import type { IArticle } from "~/types/article"
 
 const route = useRoute()
 const slug = route.params.slug as string
+const config = useRuntimeConfig()
+const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
+const pageUrl = `${siteUrl}/article/${slug}`
 
 const article = ref<IArticle | null>(null)
 
@@ -83,6 +86,34 @@ const { data } = await useAsyncData(`article-${slug}`, () =>
 )
 article.value = data.value || {}
 const ast = await parseMarkdown(data.value?.content || "")
+
+const seoTitle = article.value?.title ? `${article.value.title} | 朝阳的码农札记` : "文章详情 | 朝阳的码农札记"
+const seoDescription = article.value?.description || "技术文章详情页。"
+const seoImage = article.value?.cover || `${siteUrl}/blog.webp`
+
+useSeoMeta({
+  title: seoTitle,
+  description: seoDescription,
+  ogTitle: seoTitle,
+  ogDescription: seoDescription,
+  ogType: "article",
+  ogUrl: pageUrl,
+  ogImage: seoImage,
+  twitterCard: "summary_large_image",
+  twitterTitle: seoTitle,
+  twitterDescription: seoDescription,
+  twitterImage: seoImage,
+  robots: "index, follow"
+})
+
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: pageUrl
+    }
+  ]
+})
 
 // 阅读时长估算（中文按 400 字/分钟）
 const readingTime = computed(() => {

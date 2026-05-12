@@ -8,6 +8,8 @@
 import type { ChangelogVersionProps } from "@nuxt/ui";
 
 const route = useRoute();
+const config = useRuntimeConfig();
+const siteUrl = config.public.siteUrl || "https://sunrise1024.top";
 console.log("Tag slug:", route.params.slug);
 // 获取所有的标签，并保存下来
 const id = route.params.slug;
@@ -24,6 +26,35 @@ const { data: postsRes } = await useAsyncData(`tag-${id}`, () =>
     url: `/v1/posts?limit=100&tag=${tagId}`,
   }),
 );
+
+const pageUrl = `${siteUrl}/tag/${id}`;
+const seoTitle = `${String(id)} 标签文章 | 朝阳的码农札记`;
+const seoDescription = `查看标签 ${String(id)} 下的所有技术文章与实践记录。`;
+const seoImage = `${siteUrl}/blog.webp`;
+
+useSeoMeta({
+  title: seoTitle,
+  description: seoDescription,
+  ogTitle: seoTitle,
+  ogDescription: seoDescription,
+  ogType: "website",
+  ogUrl: pageUrl,
+  ogImage: seoImage,
+  twitterCard: "summary_large_image",
+  twitterTitle: seoTitle,
+  twitterDescription: seoDescription,
+  twitterImage: seoImage,
+  robots: "index, follow"
+});
+
+useHead({
+  link: [
+    {
+      rel: "canonical",
+      href: pageUrl
+    }
+  ]
+});
 // 将文章数据转换为 UChangelogVersions 需要的格式
 const versions = computed<ChangelogVersionProps[]>(() => {
   return postsRes.value.data.map((post) => ({
