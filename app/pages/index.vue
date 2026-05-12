@@ -61,85 +61,34 @@ import type { IBlog, Tag } from "@/types/blog"
 import { http } from "~/composables/http"
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
-// 元数据
+const seoTitle = "朝阳的码农札记 | 全栈开发者的技术分享与经验总结"
+const seoDescription =
+  "这是一个专注于全栈开发、Web技术、云原生和DevOps的技术博客。在这里，我分享实用的编程技巧、项目经验和技术见解，帮助开发者解决实际问题，提升编程技能。欢迎加入我的学习社区！"
+const seoImage = `${siteUrl}/og-image.png`
+
+useSeoMeta({
+  title: seoTitle,
+  description: seoDescription,
+  keywords: "全栈开发,Web开发,React,Node.js,云原生,DevOps,技术博客,编程学习,最佳实践",
+  ogType: "website",
+  ogLocale: "zh_CN",
+  ogUrl: siteUrl,
+  ogTitle: seoTitle,
+  ogDescription: seoDescription,
+  ogSiteName: "朝阳的码农札记",
+  ogImage: seoImage,
+  ogImageWidth: "1200",
+  ogImageHeight: "630",
+  ogImageAlt: "朝阳的码农札记",
+  twitterCard: "summary_large_image",
+  twitterTitle: seoTitle,
+  twitterDescription: "这是一个专注于全栈开发、Web技术、云原生和DevOps的技术博客。在这里，我分享实用的编程技巧、项目经验和技术见解。",
+  twitterImage: seoImage,
+  robots: "index, follow",
+  author: "朝阳"
+})
+
 useHead({
-  title: "朝阳的码农札记 | 全栈开发者的技术分享与经验总结",
-  meta: [
-    {
-      name: "description",
-      content:
-        "这是一个专注于全栈开发、Web技术、云原生和DevOps的技术博客。在这里，我分享实用的编程技巧、项目经验和技术见解，帮助开发者解决实际问题，提升编程技能。欢迎加入我的学习社区！"
-    },
-    {
-      name: "keywords",
-      content: "全栈开发,Web开发,React,Node.js,云原生,DevOps,技术博客,编程学习,最佳实践"
-    },
-    {
-      property: "og:type",
-      content: "website"
-    },
-    {
-      property: "og:locale",
-      content: "zh_CN"
-    },
-    {
-      property: "og:url",
-      content: siteUrl
-    },
-    {
-      property: "og:title",
-      content: "朝阳的码农札记 | 全栈开发者的技术分享与经验总结"
-    },
-    {
-      property: "og:description",
-      content:
-        "这是一个专注于全栈开发、Web技术、云原生和DevOps的技术博客。在这里，我分享实用的编程技巧、项目经验和技术见解，帮助开发者解决实际问题，提升编程技能。"
-    },
-    {
-      property: "og:site_name",
-      content: "朝阳的码农札记"
-    },
-    {
-      property: "og:image",
-      content: `${siteUrl}/og-image.png`
-    },
-    {
-      property: "og:image:width",
-      content: "1200"
-    },
-    {
-      property: "og:image:height",
-      content: "630"
-    },
-    {
-      property: "og:image:alt",
-      content: "朝阳的码农札记"
-    },
-    {
-      name: "twitter:card",
-      content: "summary_large_image"
-    },
-    {
-      name: "twitter:title",
-      content: "朝阳的码农札记 | 全栈开发者的技术分享与经验总结"
-    },
-    {
-      name: "twitter:description",
-      content: "这是一个专注于全栈开发、Web技术、云原生和DevOps的技术博客。在这里，我分享实用的编程技巧、项目经验和技术见解。"
-    },
-    {
-      name: "twitter:image",
-      content: `${siteUrl}/og-image.png`
-    },
-    {
-      name: "robots",
-      content: "index, follow"
-    },
-    {
-      name: "author",
-      content: "朝阳"
-    }
-  ],
   link: [
     {
       rel: "canonical",

@@ -41,7 +41,8 @@ useHead({
         "@type": "Organization",
         name: "朝阳的码农札记",
         url: siteUrl,
-        logo: `${siteUrl}/favicon.ico`
+        logo: `${siteUrl}/favicon.ico`,
+        sameAs: ["https://github.com/Sunrisies"]
       })
     },
     {

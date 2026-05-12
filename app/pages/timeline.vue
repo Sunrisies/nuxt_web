@@ -27,70 +27,29 @@ import type { warehouseType } from "~/types/blog"
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
 const pageUrl = `${siteUrl}/timeline`
+const seoTitle = "时光轴 | 朝阳的码农札记"
+const seoDescription = "记录技术成长的点点滴滴，分享学习历程和技术见解，见证每一步成长的足迹。"
+const seoImage = "https://aly.chaoyang1024.top/uploads/2025/2/26/og-timeline.jpg"
 // import type { warehouseType } from '@/types/blog'
-// 元数据配置
+useSeoMeta({
+  title: seoTitle,
+  description: seoDescription,
+  keywords: "技术博客,时光轴,学习记录,技术成长,编程笔记",
+  ogTitle: seoTitle,
+  ogDescription: seoDescription,
+  ogType: "website",
+  ogUrl: pageUrl,
+  ogImage: seoImage,
+  ogImageWidth: "1200",
+  ogImageHeight: "630",
+  ogImageAlt: "时光轴封面图",
+  twitterCard: "summary_large_image",
+  twitterTitle: seoTitle,
+  twitterDescription: "记录技术成长的点点滴滴，分享学习历程和技术见解。",
+  twitterImage: seoImage
+})
+
 useHead({
-  title: "时光轴 | 朝阳的码农札记",
-  meta: [
-    {
-      name: "description",
-      content: "记录技术成长的点点滴滴，分享学习历程和技术见解，见证每一步成长的足迹。"
-    },
-    {
-      name: "keywords",
-      content: "技术博客,时光轴,学习记录,技术成长,编程笔记"
-    },
-    // OpenGraph
-    {
-      property: "og:title",
-      content: "时光轴 | 朝阳的码农札记"
-    },
-    {
-      property: "og:description",
-      content: "记录技术成长的点点滴滴，分享学习历程和技术见解，见证每一步成长的足迹。"
-    },
-    {
-      property: "og:type",
-      content: "website"
-    },
-    {
-      property: "og:url",
-      content: pageUrl
-    },
-    {
-      property: "og:image",
-      content: "https://aly.chaoyang1024.top/uploads/2025/2/26/og-timeline.jpg"
-    },
-    {
-      property: "og:image:width",
-      content: "1200"
-    },
-    {
-      property: "og:image:height",
-      content: "630"
-    },
-    {
-      property: "og:image:alt",
-      content: "时光轴封面图"
-    },
-    // Twitter
-    {
-      name: "twitter:card",
-      content: "summary_large_image"
-    },
-    {
-      name: "twitter:title",
-      content: "时光轴 | 朝阳的码农札记"
-    },
-    {
-      name: "twitter:description",
-      content: "记录技术成长的点点滴滴，分享学习历程和技术见解。"
-    },
-    {
-      name: "twitter:image",
-      content: "https://aly.chaoyang1024.top/uploads/2025/2/26/og-timeline.jpg"
-    }
-  ],
   link: [
     {
       rel: "canonical",
