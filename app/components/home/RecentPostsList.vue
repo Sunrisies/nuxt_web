@@ -1,7 +1,14 @@
 <template>
   <ul class="space-y-3">
-    <li v-for="post in blogs" :key="post.uuid" class="text-sm">
-      <NuxtLink :to="`/article/${post.uuid}`" class="block hover:text-primary">
+    <li
+      v-for="post in blogs"
+      :key="post.uuid"
+      class="text-sm"
+    >
+      <NuxtLink
+        :to="`/article/${post.uuid}`"
+        class="block hover:text-primary"
+      >
         <div class="flex justify-between items-center">
           <span class="line-clamp-1">{{ post.title }}</span>
           <span class="text-xs text-gray-500 dark:text-gray-400 shrink-0 ml-2">

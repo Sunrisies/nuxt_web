@@ -1,16 +1,30 @@
 <template>
   <div class="min-h-screen bg-background">
     <div class="container mx-auto max-w-3xl px-4 py-8">
-      <h1 class="text-3xl font-bold mb-2">文章归档</h1>
-      <p class="text-sm text-muted-foreground mb-8">共 {{ totalArticles }} 篇文章</p>
+      <h1 class="text-3xl font-bold mb-2">
+        文章归档
+      </h1>
+      <p class="text-sm text-muted-foreground mb-8">
+        共 {{ totalArticles }} 篇文章
+      </p>
 
-      <div v-for="group in groupedArticles" :key="group.year" class="mb-10">
+      <div
+        v-for="group in groupedArticles"
+        :key="group.year"
+        class="mb-10"
+      >
         <div class="flex items-center gap-3 mb-4 sticky top-0 bg-background py-2 z-10">
-          <h2 class="text-2xl font-bold">{{ group.year }}</h2>
+          <h2 class="text-2xl font-bold">
+            {{ group.year }}
+          </h2>
           <span class="text-sm text-muted-foreground">{{ group.months.reduce((s, m) => s + m.articles.length, 0) }} 篇</span>
         </div>
 
-        <div v-for="month in group.months" :key="`${group.year}-${month.month}`" class="mb-6 ml-4">
+        <div
+          v-for="month in group.months"
+          :key="`${group.year}-${month.month}`"
+          class="mb-6 ml-4"
+        >
           <h3 class="text-sm font-semibold text-muted-foreground mb-3 pl-4 border-l-2 border-primary/30">
             {{ month.month }} 月
           </h3>
@@ -57,7 +71,7 @@ const articles = ref<IBlog[]>([])
 
 try {
   const { data } = await useAsyncData("archives", () =>
-    http<{ data: IBlog[]; pagination: { total: number } }>({
+    http<{ data: IBlog[], pagination: { total: number } }>({
       url: `/v1/posts?page=1&limit=200`
     })
   )

@@ -1,6 +1,12 @@
 <template>
   <div>
-    <BlogDetail :blogs="blogs" :pagination="pagination" :categories="categories" :tags="tags" :id="Number(id)" />
+    <BlogDetail
+      :id="Number(id)"
+      :blogs="blogs"
+      :pagination="pagination"
+      :categories="categories"
+      :tags="tags"
+    />
   </div>
 </template>
 
@@ -68,11 +74,11 @@ const blogs = postRes.value.data?.map((blog: IBlog) => ({
 }))
 // console.log("打印数据", categoriesRes.value);
 const pagination = postRes.value?.pagination ?? { total: 0, limit: 8 }
-const categories = categoriesRes.value?.data.map((category: any) => ({
+const categories = categoriesRes.value?.data.map((category: { id: number | string, name: string }) => ({
   value: category.id, // 生成分类路径
   label: category.name
 }))
-const tags = tagsRes.value?.data.map((tag: any) => ({
+const tags = tagsRes.value?.data.map((tag: { id: number | string, name: string }) => ({
   value: tag.id, // 生成标签路径
   label: tag.name
 }))

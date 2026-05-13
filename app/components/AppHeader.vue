@@ -2,8 +2,14 @@
   <UHeader>
     <template #title>
       <div class="flex items-center gap-2 mr-4">
-        <ClientOnly fallback-tag="span" fallback="Loading comments...">
-          <NuxtLink href="/" class="flex items-center gap-2">
+        <ClientOnly
+          fallback-tag="span"
+          fallback="Loading comments..."
+        >
+          <NuxtLink
+            href="/"
+            class="flex items-center gap-2"
+          >
             <span class="text-lg font-bold">中文博客</span>
           </NuxtLink>
         </ClientOnly>
@@ -14,7 +20,10 @@
 
     <template #right>
       <ThemeToggle />
-      <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
+      <UTooltip
+        text="Open on GitHub"
+        :kbds="['meta', 'G']"
+      >
         <UButton
           color="neutral"
           variant="ghost"

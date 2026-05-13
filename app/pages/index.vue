@@ -59,11 +59,12 @@
 import { ref } from "vue"
 import type { IBlog, Tag } from "@/types/blog"
 import { http } from "~/composables/http"
+
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
 const seoTitle = "朝阳的码农札记 | 全栈开发者的技术分享与经验总结"
-const seoDescription =
-  "这是一个专注于全栈开发、Web技术、云原生和DevOps的技术博客。在这里，我分享实用的编程技巧、项目经验和技术见解，帮助开发者解决实际问题，提升编程技能。欢迎加入我的学习社区！"
+const seoDescription
+  = "这是一个专注于全栈开发、Web技术、云原生和DevOps的技术博客。在这里，我分享实用的编程技巧、项目经验和技术见解，帮助开发者解决实际问题，提升编程技能。欢迎加入我的学习社区！"
 const seoImage = `${siteUrl}/og-image.png`
 
 useSeoMeta({
@@ -113,12 +114,12 @@ useHead({
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebSite",
-        name: "朝阳的码农札记",
-        url: siteUrl,
-        inLanguage: "zh-CN",
-        publisher: {
+        "name": "朝阳的码农札记",
+        "url": siteUrl,
+        "inLanguage": "zh-CN",
+        "publisher": {
           "@type": "Person",
-          name: "朝阳"
+          "name": "朝阳"
         }
       })
     }

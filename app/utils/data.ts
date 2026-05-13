@@ -9,10 +9,9 @@ export const formatChineseDateTime = (dateString: string): string => {
   return `${year}年${month}月${day}日 ${hours}:${minutes}`
 }
 
-
 interface FormatOptions {
-  showWeekday?: boolean;  // 是否显示星期，默认 true
-  showTime?: boolean;     // 是否显示时分秒，默认 true
+  showWeekday?: boolean // 是否显示星期，默认 true
+  showTime?: boolean // 是否显示时分秒，默认 true
 }
 
 export const formatDateForDisplay = (
@@ -20,38 +19,38 @@ export const formatDateForDisplay = (
   options: FormatOptions = {}
 ): string => {
   try {
-    const date = new Date(dateString);
+    const date = new Date(dateString)
     // 检查是否有效日期
     if (isNaN(date.getTime())) {
-      return dateString;
+      return dateString
     }
 
     // 合并默认配置
-    const { showWeekday = true, showTime = true } = options;
+    const { showWeekday = true, showTime = true } = options
 
     // 构建日期格式配置
     const dateOptions: Intl.DateTimeFormatOptions = {
       year: "numeric",
       month: "long",
-      day: "numeric",
-    };
+      day: "numeric"
+    }
 
     // 动态添加星期
     if (showWeekday) {
-      dateOptions.weekday = "long";
+      dateOptions.weekday = "long"
     }
 
     // 动态添加时间配置
     if (showTime) {
-      dateOptions.hour = "2-digit";
-      dateOptions.minute = "2-digit";
-      dateOptions.second = "2-digit";
-      dateOptions.hour12 = false; // 24小时制
+      dateOptions.hour = "2-digit"
+      dateOptions.minute = "2-digit"
+      dateOptions.second = "2-digit"
+      dateOptions.hour12 = false // 24小时制
     }
 
-    return date.toLocaleString("zh-CN", dateOptions);
+    return date.toLocaleString("zh-CN", dateOptions)
   } catch (error) {
-    console.error(error);
-    return dateString;
+    console.error(error)
+    return dateString
   }
-};
+}

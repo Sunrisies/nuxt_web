@@ -2,21 +2,21 @@
 const BASEURL: string = "http://127.0.0.1:3000/api" // 全局后台服务器请求地址
 type HttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS"
 // //定义ts变量类型接口
-interface HttpParams<T = any> {
+interface HttpParams<T = unknown> {
   baseURL?: string // 请求的基本URL，即后台服务器地址，（若服务器请求地址只有一个，可不填）
   url: string // 请求api接口地址
   method?: HttpMethod // 请求方法
-  query?: Record<string, any> // 添加查询搜索参数到URL
+  query?: Record<string, unknown> // 添加查询搜索参数到URL
   body?: T // 请求体
 }
 
-interface ApiResponse<T = any> {
+interface ApiResponse<T = unknown> {
   code: number
   message: string
   data: T
 }
 
-export const http = async <T = any>(obj: HttpParams): Promise<T> => {
+export const http = async <T = unknown>(obj: HttpParams): Promise<T> => {
   try {
     const config = useRuntimeConfig()
     console.log(process.env.NUXT_PUBLIC_API_BASE, "请求参数------------------------------------")

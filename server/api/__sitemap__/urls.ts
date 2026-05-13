@@ -11,7 +11,7 @@ export default defineSitemapEventHandler(async () => {
   const config = useRuntimeConfig()
   const apiBase = config.public.apiBase || "/api"
 
-  const routes: Array<{ loc: string; lastmod?: string }> = [
+  const routes: Array<{ loc: string, lastmod?: string }> = [
     { loc: "/" },
     { loc: "/about" },
     { loc: "/archives" },
@@ -21,7 +21,7 @@ export default defineSitemapEventHandler(async () => {
   ]
 
   try {
-    const postsRes = await $fetch<{ code: number; data: PostItem[] }>("/v1/posts?page=1&limit=500", { baseURL: apiBase })
+    const postsRes = await $fetch<{ code: number, data: PostItem[] }>("/v1/posts?page=1&limit=500", { baseURL: apiBase })
     const posts = Array.isArray(postsRes?.data) ? postsRes.data : []
 
     for (const post of posts) {
@@ -36,7 +36,7 @@ export default defineSitemapEventHandler(async () => {
   }
 
   try {
-    const tagsRes = await $fetch<{ code: number; data: TagItem[] }>("/v1/tags/count", { baseURL: apiBase })
+    const tagsRes = await $fetch<{ code: number, data: TagItem[] }>("/v1/tags/count", { baseURL: apiBase })
     const tags = Array.isArray(tagsRes?.data) ? tagsRes.data : []
 
     for (const tag of tags) {

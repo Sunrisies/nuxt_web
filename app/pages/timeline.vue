@@ -2,12 +2,17 @@
   <div class="min-h-screen bg-background">
     <div class="container mx-auto w-full md:w-3/4 px-2 xs:px-4 lg:px-0 py-8">
       <!-- 页面标题 -->
-      <h1 class="text-3xl font-bold mb-8 text-foreground">时光轴</h1>
+      <h1 class="text-3xl font-bold mb-8 text-foreground">
+        时光轴
+      </h1>
 
       <!-- 日历热图 - 大屏显示 -->
       <div class="flex justify-start mb-8">
         <div class="my-4 w-full border-red-400 hidden lg:block">
-          <TimelineCalendarHeatmap v-if="warehouse.length > 0" :warehouse="warehouse" />
+          <TimelineCalendarHeatmap
+            v-if="warehouse.length > 0"
+            :warehouse="warehouse"
+          />
         </div>
       </div>
 
@@ -24,6 +29,7 @@
 import type { IArticle } from "@/types/article"
 import type { ChangelogVersionProps } from "@nuxt/ui"
 import type { warehouseType } from "~/types/blog"
+
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
 const pageUrl = `${siteUrl}/timeline`
@@ -100,7 +106,7 @@ loading.value = false
 
 // 将文章数据转换为 UChangelogVersions 需要的格式
 const versions = computed<ChangelogVersionProps[]>(() => {
-  return articles.value.map((article) => ({
+  return articles.value.map(article => ({
     // 组件内置属性
     title: article.title, // 会在 #title 插槽中被覆盖，但保留以供组件内部使用
     description: article.description, // 会在 #description 插槽中被覆盖

@@ -7,8 +7,12 @@
       class="fixed top-16 left-0 right-0 z-100 bg-linear-to-r from-blue-500 to-indigo-600 dark:from-zinc-800 dark:to-zinc-900 py-3 px-5 text-center text-white dark:text-gray-100 overflow-hidden transition-colors duration-300"
     >
       <div class="relative z-10">
-        <h1 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 text-shadow">导航中心</h1>
-        <p class="text-xs sm:text-sm opacity-90">发现优质工具，提升工作效率</p>
+        <h1 class="text-xl sm:text-2xl md:text-3xl font-bold mb-2 text-shadow">
+          导航中心
+        </h1>
+        <p class="text-xs sm:text-sm opacity-90">
+          发现优质工具，提升工作效率
+        </p>
       </div>
       <!-- 搜索框 -->
       <div class="relative max-w-2xl mx-auto z-10 mt-3">
@@ -17,7 +21,7 @@
           type="text"
           placeholder="搜索导航..."
           class="w-full py-3 pl-4 pr-12 rounded-full text-sm shadow-md transition-all duration-300 focus:outline-none focus:shadow-lg placeholder-gray-400 bg-white dark:bg-zinc-700 dark:text-white"
-        />
+        >
         <span
           class="absolute right-5 top-1/2 transform -translate-y-1/2 text-indigo-500 dark:text-indigo-400 pointer-events-none transition-colors duration-300"
         >
@@ -32,8 +36,17 @@
             stroke-linecap="round"
             stroke-linejoin="round"
           >
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            <circle
+              cx="11"
+              cy="11"
+              r="8"
+            />
+            <line
+              x1="21"
+              y1="21"
+              x2="16.65"
+              y2="16.65"
+            />
           </svg>
         </span>
       </div>
@@ -77,7 +90,11 @@
       <main
         class="min-w-0 overflow-y-auto h-full pr-2 scrollbar-thin scrollbar-thumb-indigo-500/20 hover:scrollbar-thumb-indigo-500/30 lg:pr-2"
       >
-        <div v-for="category in filteredCategories" :key="category.id" class="category-section mb-10 last:mb-0">
+        <div
+          v-for="category in filteredCategories"
+          :key="category.id"
+          class="category-section mb-10 last:mb-0"
+        >
           <div class="flex items-center justify-between mb-5 px-2">
             <h2 class="text-2xl font-semibold text-gray-900 dark:text-gray-100 flex items-center gap-3">
               <span
@@ -101,14 +118,14 @@
             >
               <div
                 class="absolute bottom-0 left-0 right-0 h-0.75 bg-linear-to-r from-indigo-500 to-purple-600 transform scale-x-0 transition-transform duration-300 group-hover:scale-x-100"
-              ></div>
+              />
               <div class="w-14 h-14 shrink-0 mr-4">
                 <img
                   v-if="item.icon"
                   :src="item.icon"
                   :alt="item.name"
                   class="w-full h-full rounded-xl object-contain p-1 bg-gray-100 dark:bg-zinc-700"
-                />
+                >
                 <span
                   v-else
                   class="w-full h-full flex items-center justify-center bg-linear-to-r from-indigo-500 to-purple-600 text-white rounded-xl text-2xl font-semibold"
@@ -118,7 +135,10 @@
               </div>
               <div class="flex-1 min-w-0">
                 <h3 class="text-base font-semibold text-gray-900 dark:text-gray-100 mb-1.5 truncate">{{ item.name }}</h3>
-                <p v-if="item.description" class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
+                <p
+                  v-if="item.description"
+                  class="text-sm text-gray-600 dark:text-gray-400 line-clamp-2"
+                >
                   {{ item.description }}
                 </p>
               </div>
@@ -136,8 +156,13 @@
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 >
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
+                  <line
+                    x1="5"
+                    y1="12"
+                    x2="19"
+                    y2="12"
+                  />
+                  <polyline points="12 5 19 12 12 19" />
                 </svg>
               </div>
             </a>
@@ -145,8 +170,13 @@
         </div>
 
         <!-- 无结果提示 -->
-        <div v-if="filteredCategories.length === 0" class="text-center py-20 text-gray-400 dark:text-gray-500">
-          <div class="text-5xl mb-4">🔍</div>
+        <div
+          v-if="filteredCategories.length === 0"
+          class="text-center py-20 text-gray-400 dark:text-gray-500"
+        >
+          <div class="text-5xl mb-4">
+            🔍
+          </div>
           <p>没有找到相关内容</p>
         </div>
       </main>
@@ -162,12 +192,6 @@ interface NavItem {
   description: string
   categoryId: number
   icon: string
-}
-
-interface Category {
-  id: number
-  name: string
-  items: NavItem[]
 }
 
 const { data } = await useFetch<NavItem[]>("/api/navigationBar")
@@ -213,13 +237,13 @@ const filteredCategories = computed(() => {
   const query = searchQuery.value.toLowerCase()
 
   return categories.value
-    .map((category) => ({
+    .map(category => ({
       ...category,
       items: category.items.filter(
-        (item) => item.name.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)
+        item => item.name.toLowerCase().includes(query) || item.description.toLowerCase().includes(query)
       )
     }))
-    .filter((category) => category.items.length > 0)
+    .filter(category => category.items.length > 0)
 })
 
 // 滚动到指定分类
@@ -243,7 +267,6 @@ onMounted(() => {
 
     sections.forEach((section) => {
       const sectionTop = section.getBoundingClientRect().top
-      const sectionHeight = section.clientHeight
       if (sectionTop <= 100) {
         currentSection = section.id.replace("category-", "")
       }

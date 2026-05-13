@@ -20,7 +20,12 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2 mt-3">
-          <UBadge v-for="tag in article.tags" :key="tag.id" :label="tag.name" variant="soft" />
+          <UBadge
+            v-for="tag in article.tags"
+            :key="tag.id"
+            :label="tag.name"
+            variant="soft"
+          />
         </div>
       </UPageHeader>
 
@@ -36,7 +41,9 @@
                 class="group flex flex-col gap-1 p-4 rounded-lg border hover:border-primary hover:bg-muted/50 transition-all"
               >
                 <span class="text-xs text-muted-foreground">上一篇</span>
-                <span class="font-medium group-hover:text-primary transition-colors line-clamp-1">
+                <span
+                  class="font-medium group-hover:text-primary transition-colors line-clamp-1"
+                >
                   {{ neighbors.prev.title }}
                 </span>
               </NuxtLink>
@@ -48,7 +55,9 @@
                 class="group flex flex-col gap-1 p-4 rounded-lg border hover:border-primary hover:bg-muted/50 transition-all text-right"
               >
                 <span class="text-xs text-muted-foreground">下一篇</span>
-                <span class="font-medium group-hover:text-primary transition-colors line-clamp-1">
+                <span
+                  class="font-medium group-hover:text-primary transition-colors line-clamp-1"
+                >
                   {{ neighbors.next.title }}
                 </span>
               </NuxtLink>
@@ -87,7 +96,9 @@ const { data } = await useAsyncData(`article-${slug}`, () =>
 article.value = data.value || {}
 const ast = await parseMarkdown(data.value?.content || "")
 
-const seoTitle = article.value?.title ? `${article.value.title} | 朝阳的码农札记` : "文章详情 | 朝阳的码农札记"
+const seoTitle = article.value?.title
+  ? `${article.value.title} | 朝阳的码农札记`
+  : "文章详情 | 朝阳的码农札记"
 const seoDescription = article.value?.description || "技术文章详情页。"
 const seoImage = article.value?.cover || `${siteUrl}/blog.webp`
 
@@ -113,29 +124,34 @@ useHead({
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
-        headline: article.value?.title || "文章详情",
-        description: seoDescription,
-        image: [seoImage],
-        datePublished: article.value?.publish_time ? new Date(article.value.publish_time).toISOString() : undefined,
-        dateModified: article.value?.publish_time ? new Date(article.value.publish_time).toISOString() : undefined,
-        author: {
+        "headline": article.value?.title || "文章详情",
+        "description": seoDescription,
+        "image": [seoImage],
+        "datePublished": article.value?.publish_time
+          ? new Date(article.value.publish_time).toISOString()
+          : undefined,
+        "dateModified": article.value?.publish_time
+          ? new Date(article.value.publish_time).toISOString()
+          : undefined,
+        "author": {
           "@type": "Person",
-          name: article.value?.author || "朝阳"
+          "name": article.value?.author || "朝阳"
         },
-        publisher: {
+        "publisher": {
           "@type": "Organization",
-          name: "朝阳的码农札记",
-          logo: {
+          "name": "朝阳的码农札记",
+          "logo": {
             "@type": "ImageObject",
-            url: `${siteUrl}/favicon.ico`
+            "url": `${siteUrl}/favicon.ico`
           }
         },
-        mainEntityOfPage: {
+        "mainEntityOfPage": {
           "@type": "WebPage",
           "@id": pageUrl
         },
-        articleSection: article.value?.category?.name || "技术文章",
-        keywords: article.value?.tags?.map((tag) => tag.name).join(",") || undefined
+        "articleSection": article.value?.category?.name || "技术文章",
+        "keywords":
+          article.value?.tags?.map((tag) => tag.name).join(",") || undefined
       })
     },
     {
@@ -143,24 +159,24 @@ useHead({
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        itemListElement: [
+        "itemListElement": [
           {
             "@type": "ListItem",
-            position: 1,
-            name: "首页",
-            item: siteUrl
+            "position": 1,
+            "name": "首页",
+            "item": siteUrl
           },
           {
             "@type": "ListItem",
-            position: 2,
-            name: "文章",
-            item: `${siteUrl}/blog/1`
+            "position": 2,
+            "name": "文章",
+            "item": `${siteUrl}/blog/1`
           },
           {
             "@type": "ListItem",
-            position: 3,
-            name: article.value?.title || "文章详情",
-            item: pageUrl
+            "position": 3,
+            "name": article.value?.title || "文章详情",
+            "item": pageUrl
           }
         ]
       })
@@ -183,7 +199,10 @@ const readingTime = computed(() => {
 })
 
 // 获取上下篇文章
-const neighbors = ref<{ prev: { uuid: string; title: string } | null; next: { uuid: string; title: string } | null }>({
+const neighbors = ref<{
+  prev: { uuid: string; title: string } | null
+  next: { uuid: string; title: string } | null
+}>({
   prev: null,
   next: null
 })

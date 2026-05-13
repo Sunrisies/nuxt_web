@@ -1,6 +1,6 @@
 import navigationBar from "../../mocks/navigationBar.json"
 
-export default defineEventHandler((event) => {
+export default defineEventHandler(() => {
   return {
     data: navigationBar.sort((a, b) => a.id - b.id),
     code: 200,

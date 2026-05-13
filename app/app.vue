@@ -1,7 +1,10 @@
 <template>
   <Html lang="zh-CN" />
 
-  <meta name="b3fd8ca0bc639bedcd07e98429ae11a6e02e1b2a" content="b3fd8ca0bc639bedcd07e98429ae11a6e02e1b2a" />
+  <meta
+    name="b3fd8ca0bc639bedcd07e98429ae11a6e02e1b2a"
+    content="b3fd8ca0bc639bedcd07e98429ae11a6e02e1b2a"
+  >
   <UApp :locale="zh_cn">
     <NuxtLayout>
       <NuxtPage />
@@ -14,9 +17,10 @@ import { zh_cn } from "@nuxt/ui/locale"
 
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
-
+console.log(121212)
 useHead({
-  titleTemplate: (titleChunk) => (titleChunk ? `${titleChunk} | 朝阳的码农札记` : "朝阳的码农札记"),
+  titleTemplate: titleChunk =>
+    titleChunk ? `${titleChunk} | 朝阳的码农札记` : "朝阳的码农札记",
   meta: [
     {
       name: "description",
@@ -36,26 +40,14 @@ useHead({
   script: [
     {
       type: "application/ld+json",
-      children: JSON.stringify({
+      innerHTML: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "Organization",
-        name: "朝阳的码农札记",
-        url: siteUrl,
-        logo: `${siteUrl}/favicon.ico`,
-        sameAs: ["https://github.com/Sunrisies"]
+        "name": "朝阳的码农札记",
+        "url": siteUrl,
+        "logo": `${siteUrl}/favicon.ico`,
+        "sameAs": ["https://github.com/Sunrisies"]
       })
-    },
-    {
-      innerHTML: `(function(myfnc){
-        var d = document,
-            s = d.createElement('script'),
-            l = d.scripts[d.scripts.length - 1];
-        s.settings = myfnc || {};
-        s.src = "\/\/untimely-hello.com\/b\/XIVVs\/d.Ggle0jYpW\/cm\/GeWmQ9Pu\/ZZUWliklPnTgYw5cMzzGk\/x\/NtTEMStUNJj\/kVzROfTrEZ1VN\/wY";
-        s.async = true;
-        s.referrerPolicy = 'no-referrer-when-downgrade';
-        l.parentNode.insertBefore(s, l);
-      })({})`
     },
     {
       src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5513384447977720",

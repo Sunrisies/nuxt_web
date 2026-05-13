@@ -52,8 +52,14 @@ const handleThemeChange = async (event: MouseEvent) => {
         'hover:shadow-lg'
       ]"
     >
-      <Moon v-if="isInitialized && colorMode.value === 'dark'" class="h-4 w-4 text-slate-700" />
-      <Sun v-else class="h-4 w-4 text-amber-400" />
+      <Moon
+        v-if="isInitialized && colorMode.value === 'dark'"
+        class="h-4 w-4 text-slate-700"
+      />
+      <Sun
+        v-else
+        class="h-4 w-4 text-amber-400"
+      />
     </div>
   </button>
 </template>

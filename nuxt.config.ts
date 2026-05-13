@@ -25,6 +25,9 @@ export default defineNuxtConfig({
     layoutTransition: { name: "layout", mode: "out-in" }
   },
   css: ["./app/assets/css/tailwind.css", "./app/assets/css/main.css"],
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
+  },
   runtimeConfig: {
     public: {
       apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000/api" : "/api"),
@@ -34,12 +37,6 @@ export default defineNuxtConfig({
   routeRules: {
     // 为 404 页面启用静态生成
     "/404": { static: true }
-  },
-  site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
-  },
-  sitemap: {
-    sources: ["/api/__sitemap__/urls"]
   },
   compatibilityDate: "2025-07-15",
   nitro: {
@@ -72,11 +69,7 @@ export default defineNuxtConfig({
   },
   eslint: {
     config: {
-      stylistic: {
-        quotes: "double",
-        commaDangle: "never",
-        braceStyle: "1tbs"
-      }
+      stylistic: false
     }
   },
   fonts: {
@@ -89,6 +82,9 @@ export default defineNuxtConfig({
         dir: "./app/assets/icons"
       }
     ]
+  },
+  sitemap: {
+    sources: ["/api/__sitemap__/urls"]
   },
   umami: {
     autoTrack: true,

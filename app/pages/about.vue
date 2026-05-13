@@ -52,14 +52,14 @@ useHead({
       children: JSON.stringify({
         "@context": "https://schema.org",
         "@type": "ProfilePage",
-        name: "关于朝阳",
-        url: pageUrl,
-        mainEntity: {
+        "name": "关于朝阳",
+        "url": pageUrl,
+        "mainEntity": {
           "@type": "Person",
-          name: "朝阳",
-          url: pageUrl,
-          image: ogImage,
-          sameAs: ["https://github.com/Sunrisies"]
+          "name": "朝阳",
+          "url": pageUrl,
+          "image": ogImage,
+          "sameAs": ["https://github.com/Sunrisies"]
         }
       })
     }

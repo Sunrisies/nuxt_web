@@ -1,14 +1,21 @@
 <template>
   <NuxtLayout>
-    <div class="flex justify-center items-center px-3" :style="{ height: containerHeight }">
+    <div
+      class="flex justify-center items-center px-3"
+      :style="{ height: containerHeight }"
+    >
       <!-- 404 页面 -->
       <div v-if="error.statusCode === 404">
         <h1>404</h1>
         <h2>页面不存在</h2>
         <p>您访问的页面可能已经被移除、重命名或暂时不可用。</p>
         <div class="actions">
-          <button @click="handleGoHome">返回首页</button>
-          <button @click="handleGoBack">返回上一页</button>
+          <button @click="handleGoHome">
+            返回首页
+          </button>
+          <button @click="handleGoBack">
+            返回上一页
+          </button>
         </div>
       </div>
 
@@ -17,7 +24,9 @@
         <h1>{{ error.statusCode || "错误" }}</h1>
         <h2>{{ error.message || "发生了一些错误" }}</h2>
         <p>抱歉，我们正在努力修复这个问题。</p>
-        <button @click="handleClearError">重试</button>
+        <button @click="handleClearError">
+          重试
+        </button>
       </div>
     </div>
   </NuxtLayout>
@@ -28,8 +37,11 @@ definePageMeta({
   layout: "default"
 })
 // 错误对象会自动注入
-const props = defineProps({
-  error: Object
+defineProps({
+  error: {
+    type: Object,
+    default: () => ({})
+  }
 })
 
 // 清除错误并返回首页

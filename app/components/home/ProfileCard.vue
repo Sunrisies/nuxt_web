@@ -1,7 +1,7 @@
 <template>
   <div class="rounded-lg border bg-card p-4 shadow-sm">
     <div class="flex flex-col items-center">
-      <Avatar />
+      <UserAvatar />
       <h2 class="mt-4 text-lg font-medium">
         朝阳
       </h2>
@@ -16,7 +16,7 @@
           :to="'https://github.com/Sunrisies'"
           target="_blank"
         >
-          <Github 
+          <Github
             class="h-4 w-4"
           />
         </UButton>
@@ -37,6 +37,6 @@
 </template>
 
 <script setup lang="ts">
-import {Github} from "lucide-vue-next"
-// import Avatar from '@/components/Avatar.vue'
+import { Github } from "lucide-vue-next"
+// import UserAvatar from '@/components/UserAvatar.vue'
 </script>

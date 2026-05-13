@@ -12,7 +12,7 @@
 
           <p class="text-center md:text-left text-sm text-muted-foreground leading-relaxed">
             分享前沿技术、开发经验与编程心得
-            <br class="xs:hidden" />
+            <br class="xs:hidden">
             探索数字世界的无限可能
           </p>
 
@@ -24,16 +24,29 @@
 
         <div class="flex sm:flex-row gap-6 sm:gap-10">
           <div class="flex flex-col gap-3">
-            <h4 class="text-sm font-semibold text-center">探索</h4>
+            <h4 class="text-sm font-semibold text-center">
+              探索
+            </h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
-              <NuxtLink to="/blog/1" class="hover:text-foreground transition-colors"> 文章列表 </NuxtLink>
-              <NuxtLink to="/tag" class="hover:text-foreground transition-colors"> 标签云 </NuxtLink>
-              <NuxtLink to="/archives" class="hover:text-foreground transition-colors"> 文章归档 </NuxtLink>
+              <NuxtLink
+                to="/blog/1"
+                class="hover:text-foreground transition-colors"
+              > 文章列表 </NuxtLink>
+              <NuxtLink
+                to="/tag"
+                class="hover:text-foreground transition-colors"
+              > 标签云 </NuxtLink>
+              <NuxtLink
+                to="/archives"
+                class="hover:text-foreground transition-colors"
+              > 文章归档 </NuxtLink>
             </div>
           </div>
 
           <div class="flex flex-col gap-3">
-            <h4 class="text-sm font-semibold text-center">友链</h4>
+            <h4 class="text-sm font-semibold text-center">
+              友链
+            </h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
               <NuxtLink
                 href="https://tools.sunrise1024.top/"
@@ -63,10 +76,18 @@
           </div>
 
           <div class="flex flex-col gap-3">
-            <h4 class="text-sm font-semibold text-center">支持</h4>
+            <h4 class="text-sm font-semibold text-center">
+              支持
+            </h4>
             <div class="flex flex-col gap-2 text-sm text-muted-foreground">
-              <NuxtLink to="/about" class="hover:text-foreground transition-colors"> 关于本站 </NuxtLink>
-              <NuxtLink to="/rss" class="hover:text-foreground transition-colors"> RSS订阅 </NuxtLink>
+              <NuxtLink
+                to="/about"
+                class="hover:text-foreground transition-colors"
+              > 关于本站 </NuxtLink>
+              <NuxtLink
+                to="/rss"
+                class="hover:text-foreground transition-colors"
+              > RSS订阅 </NuxtLink>
               <NuxtLink
                 href="https://github.com/yourusername/blog"
                 target="_blank"
@@ -87,7 +108,7 @@
               rel="noreferrer"
               class="h-9 w-9 rounded-full bg-muted flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-200"
             >
-              <Github  class="h-4 w-4"  />
+              <Github class="h-4 w-4" />
               <span class="sr-only">GitHub</span>
             </NuxtLink>
             <!-- href="/api/rss" -->
@@ -106,7 +127,11 @@
               >
                 <path d="M4 11a9 9 0 0 1 9 9" />
                 <path d="M4 4a16 16 0 0 1 16 16" />
-                <circle cx="5" cy="19" r="1" />
+                <circle
+                  cx="5"
+                  cy="19"
+                  r="1"
+                />
               </svg>
               <span class="sr-only">RSS</span>
             </NuxtLink>
@@ -123,7 +148,13 @@
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <rect width="20" height="16" x="2" y="4" rx="2" />
+                <rect
+                  width="20"
+                  height="16"
+                  x="2"
+                  y="4"
+                  rx="2"
+                />
                 <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
               </svg>
               <span class="sr-only">Email</span>
@@ -162,7 +193,8 @@
 </template>
 
 <script setup lang="ts">
-import {Github} from "lucide-vue-next"
+import { Github } from "lucide-vue-next"
+
 const SITE_START_TIME = new Date("2024-01-01T00:00:00") // 替换为你的网站上线时间
 
 function getDuration() {

@@ -14,7 +14,7 @@ const emit = defineEmits<{
 
 <template>
   <UContentToc
-  title="本页目录"
+    title="本页目录"
     :open="true"
     highlight
     highlight-color="primary"
