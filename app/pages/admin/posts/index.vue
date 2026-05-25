@@ -74,12 +74,8 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model="showFormModal">
-      <UCard class="max-h-[90vh] overflow-y-auto">
-        <template #header>
-          <h2 class="text-lg font-semibold">{{ editingPost ? '编辑文章' : '新建文章' }}</h2>
-        </template>
-
+    <UModal v-model="showFormModal" :title="editingPost ? '编辑文章' : '新建文章'" class="max-w-2xl">
+      <template #body>
         <UForm :state="postForm" class="space-y-4">
           <UFormField label="标题" required>
             <UInput v-model="postForm.title" class="w-full" />
@@ -144,30 +140,27 @@
             <UTextarea v-model="postForm.content" class="w-full font-mono" :rows="10" />
           </UFormField>
         </UForm>
+      </template>
 
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <UButton variant="outline" @click="closeForm">取消</UButton>
-            <UButton color="primary" :loading="saving" @click="savePost">保存</UButton>
-          </div>
-        </template>
-      </UCard>
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <UButton variant="outline" @click="closeForm">取消</UButton>
+          <UButton color="primary" :loading="saving" @click="savePost">保存</UButton>
+        </div>
+      </template>
     </UModal>
 
     <!-- 删除确认 -->
-    <UModal v-model="showDeleteModal">
-      <UCard>
-        <template #header>
-          <h2 class="text-lg font-semibold">确认删除</h2>
-        </template>
+    <UModal v-model="showDeleteModal" title="确认删除">
+      <template #body>
         <p>确定要删除「{{ deletingPost?.title }}」吗？此操作不可撤销。</p>
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <UButton variant="outline" @click="showDeleteModal = false">取消</UButton>
-            <UButton color="red" :loading="deleting" @click="handleDelete">删除</UButton>
-          </div>
-        </template>
-      </UCard>
+      </template>
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <UButton variant="outline" @click="showDeleteModal = false">取消</UButton>
+          <UButton color="red" :loading="deleting" @click="handleDelete">删除</UButton>
+        </div>
+      </template>
     </UModal>
   </div>
 </template>

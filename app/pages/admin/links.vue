@@ -70,12 +70,8 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model="showFormModal">
-      <UCard>
-        <template #header>
-          <h2 class="text-lg font-semibold">{{ editingItem ? '编辑链接' : '新建链接' }}</h2>
-        </template>
-
+    <UModal v-model="showFormModal" :title="editingItem ? '编辑链接' : '新建链接'">
+      <template #body>
         <UForm :state="form" class="space-y-4">
           <UFormField label="名称" required>
             <UInput v-model="form.name" placeholder="站点名称" class="w-full" />
@@ -93,30 +89,26 @@
             <UInput v-model="form.icon" placeholder="https://.../icon.png" class="w-full" />
           </UFormField>
         </UForm>
-
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <UButton variant="outline" @click="closeForm">取消</UButton>
-            <UButton color="primary" :loading="saving" @click="save">保存</UButton>
-          </div>
-        </template>
-      </UCard>
+      </template>
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <UButton variant="outline" @click="closeForm">取消</UButton>
+          <UButton color="primary" :loading="saving" @click="save">保存</UButton>
+        </div>
+      </template>
     </UModal>
 
     <!-- 删除确认 -->
-    <UModal v-model="showDeleteModal">
-      <UCard>
-        <template #header>
-          <h2 class="text-lg font-semibold">确认删除</h2>
-        </template>
+    <UModal v-model="showDeleteModal" title="确认删除">
+      <template #body>
         <p>确定要删除「{{ deletingItem?.name }}」吗？</p>
-        <template #footer>
-          <div class="flex justify-end gap-2">
-            <UButton variant="outline" @click="showDeleteModal = false">取消</UButton>
-            <UButton color="red" :loading="deleting" @click="handleDelete">删除</UButton>
-          </div>
-        </template>
-      </UCard>
+      </template>
+      <template #footer>
+        <div class="flex justify-end gap-2">
+          <UButton variant="outline" @click="showDeleteModal = false">取消</UButton>
+          <UButton color="red" :loading="deleting" @click="handleDelete">删除</UButton>
+        </div>
+      </template>
     </UModal>
   </div>
 </template>
