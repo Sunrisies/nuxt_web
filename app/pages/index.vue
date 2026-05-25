@@ -57,7 +57,7 @@
 
 <script setup lang="ts">
 import { ref } from "vue"
-import type { IBlog, Tag } from "@/types/blog"
+import type { IBlog, Tag } from "~/types/blog"
 import { http } from "~/composables/http"
 
 const config = useRuntimeConfig()

@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import type { IArticle } from "@/types/article"
+import type { IArticle } from "~/types/article"
 import type { ChangelogVersionProps } from "@nuxt/ui"
 import type { warehouseType } from "~/types/blog"
 
@@ -36,7 +36,7 @@ const pageUrl = `${siteUrl}/timeline`
 const seoTitle = "时光轴 | 朝阳的码农札记"
 const seoDescription = "记录技术成长的点点滴滴，分享学习历程和技术见解，见证每一步成长的足迹。"
 const seoImage = "https://aly.chaoyang1024.top/uploads/2025/2/26/og-timeline.jpg"
-// import type { warehouseType } from '@/types/blog'
+// import type { warehouseType } from '~/types/blog'
 useSeoMeta({
   title: seoTitle,
   description: seoDescription,

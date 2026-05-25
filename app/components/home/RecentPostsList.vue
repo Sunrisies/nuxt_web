@@ -21,8 +21,8 @@
 </template>
 
 <script setup lang="ts">
-import type { IBlog } from "@/types/blog"
-import { formatChineseDateTime } from "../../utils/data"
+import type { IBlog } from "~/types/blog"
+import { formatChineseDateTime } from "~/utils/data"
 
 defineProps<{
   blogs: IBlog[]

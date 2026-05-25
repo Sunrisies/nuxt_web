@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Tag } from "@/types/blog"
+import type { Tag } from "~/types/blog"
 
 defineProps<{
   tags: Tag[]

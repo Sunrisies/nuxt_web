@@ -38,5 +38,5 @@
 
 <script setup lang="ts">
 import { Github } from "lucide-vue-next"
-// import UserAvatar from '@/components/UserAvatar.vue'
+// import UserAvatar from '~/components/UserAvatar.vue'
 </script>

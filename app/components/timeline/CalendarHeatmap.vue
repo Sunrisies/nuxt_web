@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import type { warehouseType } from "@/types/blog"
+import type { warehouseType } from "~/types/blog"
 import { use, type ECElementEvent } from "echarts/core"
 import { CanvasRenderer } from "echarts/renderers"
 import { HeatmapChart } from "echarts/charts"
