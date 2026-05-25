@@ -36,7 +36,10 @@ export default defineNuxtConfig({
   },
   routeRules: {
     // 为 404 页面启用静态生成
-    "/404": { static: true }
+    "/404": { static: true },
+    // 后台管理 → SPA 模式（不进行 SSR）
+    "/admin":    { ssr: false },
+    "/admin/**": { ssr: false }
   },
   compatibilityDate: "2025-07-15",
   nitro: {
