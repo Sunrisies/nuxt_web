@@ -188,11 +188,11 @@ const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
 
 const columns = [
-  { key: "title",       label: "标题" },
-  { key: "status",      label: "状态" },
-  { key: "views",       label: "浏览" },
-  { key: "publish_time",label: "发布时间" },
-  { key: "actions",     label: "操作" },
+  { id: "title",        key: "title",        label: "标题" },
+  { id: "status",       key: "status",       label: "状态" },
+  { id: "views",        key: "views",        label: "浏览" },
+  { id: "publish_time", key: "publish_time", label: "发布时间" },
+  { id: "actions",      key: "actions",      label: "操作" },
 ]
 
 // ─── 分类 / 标签 选项 ────────────────────────────────────
