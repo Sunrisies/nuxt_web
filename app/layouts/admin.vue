@@ -74,10 +74,11 @@ const router = useRouter()
 const sidebarOpen = ref(false)
 
 const navItems = [
-  { label: "仪表盘",  icon: "i-heroicons-home",         to: "/admin/dashboard" },
+  { label: "仪表盘",  icon: "i-heroicons-home",          to: "/admin/dashboard" },
   { label: "文章管理", icon: "i-heroicons-document-text", to: "/admin/posts" },
   { label: "分类管理", icon: "i-heroicons-tag",           to: "/admin/categories" },
   { label: "标签管理", icon: "i-heroicons-hashtag",       to: "/admin/tags" },
+  { label: "链接管理", icon: "i-heroicons-link",          to: "/admin/links" },
 ]
 
 function isActive(path: string) {
@@ -85,7 +86,7 @@ function isActive(path: string) {
 }
 
 function handleLogout() {
-  localStorage.removeItem("admin_token")
+  localStorage.removeItem("admin_user")
   router.push("/admin/login")
 }
 </script>

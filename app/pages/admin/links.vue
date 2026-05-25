@@ -1,19 +1,41 @@
 <template>
   <div>
     <div class="mb-6 flex items-center justify-between">
-      <h1 class="text-2xl font-bold">分类管理</h1>
+      <h1 class="text-2xl font-bold">链接管理</h1>
       <UButton color="primary" icon="i-heroicons-plus" @click="openCreate">
-        新建分类
+        新建链接
       </UButton>
     </div>
 
     <UCard>
       <UTable
-        :rows="categories"
+        :rows="links"
         :columns="columns"
         :loading="loading"
-        :empty-state="{ icon: 'i-heroicons-tag', label: '暂无分类' }"
+        :empty-state="{ icon: 'i-heroicons-link', label: '暂无链接' }"
       >
+        <template #name="{ row }">
+          <div class="flex items-center gap-2">
+            <img
+              v-if="row.icon"
+              :src="row.icon"
+              :alt="row.name"
+              class="h-5 w-5 rounded object-contain"
+              @error="($event.target as HTMLImageElement).style.display='none'"
+            />
+            <span>{{ row.name }}</span>
+          </div>
+        </template>
+        <template #url="{ row }">
+          <a
+            :href="row.url"
+            target="_blank"
+            rel="noreferrer"
+            class="text-sm text-primary hover:underline truncate block max-w-[200px]"
+          >
+            {{ row.url }}
+          </a>
+        </template>
         <template #created_at="{ row }">
           <span class="text-sm text-gray-500">{{ formatDate(row.created_at) }}</span>
         </template>
@@ -51,12 +73,24 @@
     <UModal v-model:open="showFormModal">
       <UCard>
         <template #header>
-          <h2 class="text-lg font-semibold">{{ editingItem ? '编辑分类' : '新建分类' }}</h2>
+          <h2 class="text-lg font-semibold">{{ editingItem ? '编辑链接' : '新建链接' }}</h2>
         </template>
 
         <UForm :state="form" class="space-y-4">
           <UFormField label="名称" required>
-            <UInput v-model="form.name" class="w-full" />
+            <UInput v-model="form.name" placeholder="站点名称" class="w-full" />
+          </UFormField>
+
+          <UFormField label="链接地址" required>
+            <UInput v-model="form.url" placeholder="https://..." class="w-full" />
+          </UFormField>
+
+          <UFormField label="描述">
+            <UInput v-model="form.description" placeholder="简短描述" class="w-full" />
+          </UFormField>
+
+          <UFormField label="图标 URL">
+            <UInput v-model="form.icon" placeholder="https://.../icon.png" class="w-full" />
           </UFormField>
         </UForm>
 
@@ -96,14 +130,14 @@ definePageMeta({
 import { http } from "~/composables/http"
 import { formatChineseDateTime } from "~/utils/data"
 
-const categories = ref<any[]>([])
+const links = ref<any[]>([])
 const page = ref(1)
 const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
 
 const columns = [
-  { key: "id",         label: "ID" },
   { key: "name",       label: "名称" },
+  { key: "url",        label: "链接" },
   { key: "created_at", label: "创建时间" },
   { key: "actions",    label: "操作" },
 ]
@@ -115,18 +149,23 @@ const deletingItem = ref<any>(null)
 const saving = ref(false)
 const deleting = ref(false)
 
-const form = reactive({ name: "" })
+const form = reactive({
+  name: "",
+  url: "",
+  description: "",
+  icon: "",
+})
 
 async function fetchData() {
   loading.value = true
   try {
     const res = await http<{ data: any[], pagination: { total: number, limit: number } }>({
-      url: `/v1/categories?page=${page.value}&limit=10`
+      url: `/v1/links?page=${page.value}&limit=10`
     })
-    categories.value = res.data || []
+    links.value = res.data || []
     pagination.value = res.pagination
   } catch (e) {
-    console.error("获取分类失败", e)
+    console.error("获取链接失败", e)
   } finally {
     loading.value = false
   }
@@ -135,34 +174,40 @@ async function fetchData() {
 function openCreate() {
   editingItem.value = null
   form.name = ""
+  form.url = ""
+  form.description = ""
+  form.icon = ""
   showFormModal.value = true
 }
 
 function openEdit(item: any) {
   editingItem.value = item
-  form.name = item.name
+  form.name = item.name || ""
+  form.url = item.url || ""
+  form.description = item.description || ""
+  form.icon = item.icon || ""
   showFormModal.value = true
 }
 
 function closeForm() {
   showFormModal.value = false
   editingItem.value = null
-  form.name = ""
 }
 
 async function save() {
-  if (!form.name) return
+  if (!form.name || !form.url) return
   saving.value = true
   try {
+    const body = { name: form.name, url: form.url, description: form.description, icon: form.icon }
     if (editingItem.value) {
-      await http({ url: `/v1/categories/${editingItem.value.id}`, method: "PUT", body: { name: form.name } })
+      await http({ url: `/v1/links/${editingItem.value.id}`, method: "PUT", body })
     } else {
-      await http({ url: "/v1/categories", method: "POST", body: { name: form.name } })
+      await http({ url: "/v1/links", method: "POST", body })
     }
     closeForm()
     await fetchData()
   } catch (e) {
-    console.error("保存分类失败", e)
+    console.error("保存链接失败", e)
   } finally {
     saving.value = false
   }
@@ -177,12 +222,12 @@ async function handleDelete() {
   if (!deletingItem.value) return
   deleting.value = true
   try {
-    await http({ url: `/v1/categories/${deletingItem.value.id}`, method: "DELETE" })
+    await http({ url: `/v1/links/${deletingItem.value.id}`, method: "DELETE" })
     showDeleteModal.value = false
     deletingItem.value = null
     await fetchData()
   } catch (e) {
-    console.error("删除分类失败", e)
+    console.error("删除链接失败", e)
   } finally {
     deleting.value = false
   }

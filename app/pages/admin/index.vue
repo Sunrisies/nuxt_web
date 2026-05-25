@@ -12,8 +12,8 @@ definePageMeta({
 const router = useRouter()
 
 onMounted(() => {
-  const token = localStorage.getItem("admin_token")
-  if (token) {
+  const user = localStorage.getItem("admin_user")
+  if (user) {
     router.replace("/admin/dashboard")
   } else {
     router.replace("/admin/login")

@@ -11,7 +11,7 @@
       <UForm :state="form" class="space-y-4" @submit="handleLogin">
         <UFormField label="账号" required>
           <UInput
-            v-model="form.username"
+            v-model="form.account"
             placeholder="请输入账号"
             class="w-full"
           />
@@ -52,14 +52,15 @@ const router = useRouter()
 const toast = useToast()
 
 const form = reactive({
-  username: "",
-  password: ""
+  account: "",
+  password: "",
+  login_type: "password" as const
 })
 const loading = ref(false)
 const errorMsg = ref("")
 
 async function handleLogin() {
-  if (!form.username || !form.password) {
+  if (!form.account || !form.password) {
     errorMsg.value = "请输入账号和密码"
     return
   }
@@ -68,22 +69,31 @@ async function handleLogin() {
   errorMsg.value = ""
 
   try {
-    const config = useRuntimeConfig()
-    const res = await $fetch<{ code: number, data: { token: string }, message: string }>("/v1/login", {
-      baseURL: config.public.apiBase,
+    // 走 Nuxt 服务端代理（/api/v1/* → api.sunrise1024.top/api/v1/*），避免浏览器跨域
+    const res = await $fetch<any>("/api/v1/auth/login", {
       method: "POST",
-      body: { username: form.username, password: form.password }
+      body: form
     })
 
-    if (res.code === 200 && res.data?.token) {
-      localStorage.setItem("admin_token", res.data.token)
-      toast.add({ title: "登录成功", color: "green" })
+    console.log("登录响应:", res)
+
+    // 兼容多种响应格式
+    const code = res.code ?? res.status_code ?? res.status ?? 0
+    const data = res.data ?? res
+    const message = res.message ?? res.msg ?? ""
+
+    if (code === 200 || code === 0) {
+      // 后端用 Cookie/Session 鉴权，无 token；存储用户信息用于前端判断登录状态
+      const user = { id: data.id, uuid: data.uuid, user_name: data.user_name }
+      localStorage.setItem("admin_user", JSON.stringify(user))
+      toast.add({ title: `欢迎回来，${user.user_name}`, color: "green" })
       router.push("/admin/dashboard")
     } else {
-      errorMsg.value = res.message || "登录失败"
+      errorMsg.value = message || "登录失败"
     }
-  } catch {
-    errorMsg.value = "网络错误，请稍后重试"
+  } catch (e: any) {
+    console.error("登录错误:", e)
+    errorMsg.value = e?.data?.message || e?.message || "网络错误，请稍后重试"
   } finally {
     loading.value = false
   }

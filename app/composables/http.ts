@@ -19,9 +19,13 @@ interface ApiResponse<T = unknown> {
 export const http = async <T = unknown>(obj: HttpParams): Promise<T> => {
   try {
     const config = useRuntimeConfig()
+    // 客户端走 Nuxt 同源代理避免跨域，服务端直连后端 API
+    const baseURL = import.meta.client
+      ? (obj.baseURL || "/api")
+      : (config.public.apiBase || BASEURL)
     console.log(process.env.NUXT_PUBLIC_API_BASE, "请求参数------------------------------------")
     const response = await $fetch<ApiResponse<T>>(obj.url, {
-      baseURL: config.public.apiBase || BASEURL,
+      baseURL,
       onRequest: (res) => {
         console.log(res, "请求成功")
       },
