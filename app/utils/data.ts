@@ -1,5 +1,7 @@
 export const formatChineseDateTime = (dateString: string): string => {
-  const date = new Date(dateString)
+  // 兼容 "2026-04-01 13:46:38"（空格分隔）和 ISO "2026-04-01T13:46:38Z" 两种格式
+  const normalized = dateString?.replace(" ", "T")
+  const date = new Date(normalized)
   const year = date.getFullYear()
   const month = String(date.getMonth() + 1).padStart(2, "0")
   const day = String(date.getDate()).padStart(2, "0")

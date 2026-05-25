@@ -125,6 +125,7 @@ async function fetchData() {
     })
     categories.value = res.data || []
     pagination.value = res.pagination
+    console.log("分类数据:", res.data, "分页:", res.pagination)
   } catch (e) {
     console.error("获取分类失败", e)
   } finally {
