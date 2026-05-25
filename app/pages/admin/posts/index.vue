@@ -74,7 +74,7 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model:open="showFormModal">
+    <UModal v-model="showFormModal">
       <UCard class="max-h-[90vh] overflow-y-auto">
         <template #header>
           <h2 class="text-lg font-semibold">{{ editingPost ? '编辑文章' : '新建文章' }}</h2>
@@ -155,7 +155,7 @@
     </UModal>
 
     <!-- 删除确认 -->
-    <UModal v-model:open="showDeleteModal">
+    <UModal v-model="showDeleteModal">
       <UCard>
         <template #header>
           <h2 class="text-lg font-semibold">确认删除</h2>

@@ -70,7 +70,7 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model:open="showFormModal">
+    <UModal v-model="showFormModal">
       <UCard>
         <template #header>
           <h2 class="text-lg font-semibold">{{ editingItem ? '编辑链接' : '新建链接' }}</h2>
@@ -104,7 +104,7 @@
     </UModal>
 
     <!-- 删除确认 -->
-    <UModal v-model:open="showDeleteModal">
+    <UModal v-model="showDeleteModal">
       <UCard>
         <template #header>
           <h2 class="text-lg font-semibold">确认删除</h2>
