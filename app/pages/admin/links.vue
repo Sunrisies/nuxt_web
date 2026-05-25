@@ -128,10 +128,10 @@ const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
 
 const columns = [
-  { id: "name",       key: "name",       label: "名称" },
-  { id: "url",        key: "url",        label: "链接" },
-  { id: "created_at", key: "created_at", label: "创建时间" },
-  { id: "actions",    key: "actions",    label: "操作" },
+  { id: "name",       key: "name",       accessorKey: "name",       label: "名称" },
+  { id: "url",        key: "url",        accessorKey: "url",        label: "链接" },
+  { id: "created_at", key: "created_at", accessorKey: "created_at", label: "创建时间" },
+  { id: "actions",    key: "actions",    accessorKey: "actions",    label: "操作" },
 ]
 
 const showFormModal = ref(false)

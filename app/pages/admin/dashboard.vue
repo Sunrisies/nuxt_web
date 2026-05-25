@@ -75,10 +75,10 @@ const stats = ref([
 
 const recentPosts = ref<any[]>([])
 const postColumns = [
-  { id: "title",        key: "title",        label: "标题" },
-  { id: "status",       key: "status",       label: "状态" },
-  { id: "publish_time", key: "publish_time", label: "发布时间" },
-  { id: "actions",      key: "actions",      label: "操作" },
+  { id: "title",        key: "title",        accessorKey: "title",        label: "标题" },
+  { id: "status",       key: "status",       accessorKey: "status",       label: "状态" },
+  { id: "publish_time", key: "publish_time", accessorKey: "publish_time", label: "发布时间" },
+  { id: "actions",      key: "actions",      accessorKey: "actions",      label: "操作" },
 ]
 
 onMounted(async () => {
