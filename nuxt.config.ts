@@ -43,7 +43,9 @@ export default defineNuxtConfig({
     "/404": { static: true },
     // 后台管理 → SPA 模式（不进行 SSR）
     "/admin": { ssr: false },
-    "/admin/**": { ssr: false }
+    "/admin/**": { ssr: false },
+    // API 请求代理到后端（浏览器同源，避免跨域）
+    "/api/v1/**": { proxy: "https://api.sunrise1024.top/api/v1/**" }
   },
   compatibilityDate: "2025-07-15",
   nitro: {
