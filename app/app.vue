@@ -4,7 +4,7 @@
   <meta
     name="b3fd8ca0bc639bedcd07e98429ae11a6e02e1b2a"
     content="b3fd8ca0bc639bedcd07e98429ae11a6e02e1b2a"
-  >
+  />
   <UApp :locale="zh_cn">
     <NuxtLayout>
       <NuxtPage />
@@ -19,7 +19,7 @@ const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
 console.log(121212)
 useHead({
-  titleTemplate: titleChunk =>
+  titleTemplate: (titleChunk) =>
     titleChunk ? `${titleChunk} | 朝阳的码农札记` : "朝阳的码农札记",
   meta: [
     {
@@ -48,12 +48,12 @@ useHead({
         "logo": `${siteUrl}/favicon.ico`,
         "sameAs": ["https://github.com/Sunrisies"]
       })
-    },
-    {
-      src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5513384447977720",
-      async: true,
-      crossorigin: "anonymous"
     }
+    // {
+    //   src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5513384447977720",
+    //   async: true,
+    //   crossorigin: "anonymous"
+    // }
   ]
 })
 </script>

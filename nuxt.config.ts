@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/device",
     "@nuxtjs/color-mode",
-    // "nuxt-umami", // 暂时禁用，umami.sunrise1024.top 不可达
+    "nuxt-umami", // 暂时禁用，umami.sunrise1024.top 不可达
     "@nuxtjs/sitemap"
   ],
   devtools: {
@@ -30,7 +30,11 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     public: {
-      apiBase: process.env.NUXT_PUBLIC_API_BASE || (process.env.NODE_ENV === "development" ? "http://127.0.0.1:3000/api" : "/api"),
+      apiBase:
+        process.env.NUXT_PUBLIC_API_BASE ||
+        (process.env.NODE_ENV === "development"
+          ? "http://127.0.0.1:3000/api"
+          : "/api"),
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
     }
   },
@@ -38,7 +42,7 @@ export default defineNuxtConfig({
     // 为 404 页面启用静态生成
     "/404": { static: true },
     // 后台管理 → SPA 模式（不进行 SSR）
-    "/admin":    { ssr: false },
+    "/admin": { ssr: false },
     "/admin/**": { ssr: false }
   },
   compatibilityDate: "2025-07-15",
@@ -89,8 +93,8 @@ export default defineNuxtConfig({
   sitemap: {
     sources: ["/api/__sitemap__/urls"]
   },
-  // umami: {
-  //   autoTrack: true,
-  //   ignoreLocalhost: true
-  // }
+  umami: {
+    autoTrack: true,
+    ignoreLocalhost: true
+  }
 })
