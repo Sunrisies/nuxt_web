@@ -2,11 +2,7 @@
   <div>
     <div class="mb-6 flex items-center justify-between">
       <h1 class="text-2xl font-bold">文章管理</h1>
-      <UButton
-        color="primary"
-        icon="i-heroicons-plus"
-        @click="openCreate"
-      >
+      <UButton color="primary" icon="i-heroicons-plus" @click="openCreate">
         新建文章
       </UButton>
     </div>
@@ -18,27 +14,58 @@
         :loading="loading"
         :empty-state="{ icon: 'i-heroicons-document-text', label: '暂无文章' }"
       >
+        <template #index-cell="{ row }">
+          <span class="text-sm text-gray-500">{{ (page - 1) * pagination.limit + row.index + 1 }}</span>
+        </template>
         <template #title-cell="{ row }">
-          <div class="max-w-xs truncate font-medium">{{ row.title }}</div>
+          <div class="max-w-xs truncate font-medium">
+            {{ row.original.title }}
+          </div>
         </template>
         <template #status-cell="{ row }">
           <div class="flex gap-1 flex-wrap">
-            <UBadge v-if="row.featured" label="推荐" color="warning" variant="subtle" size="sm" />
-            <UBadge v-if="row.is_publish" label="已发布" color="green" variant="subtle" size="sm" />
-            <UBadge v-if="row.is_top" label="置顶" color="orange" variant="subtle" size="sm" />
-            <UBadge v-if="row.is_hide" label="隐藏" color="neutral" variant="subtle" size="sm" />
+            <UBadge
+              v-if="row.original.featured"
+              label="推荐"
+              color="warning"
+              variant="subtle"
+              size="sm"
+            />
+            <UBadge
+              v-if="row.original.is_publish"
+              label="已发布"
+              color="green"
+              variant="subtle"
+              size="sm"
+            />
+            <UBadge
+              v-if="row.original.is_top"
+              label="置顶"
+              color="orange"
+              variant="subtle"
+              size="sm"
+            />
+            <UBadge
+              v-if="row.original.is_hide"
+              label="隐藏"
+              color="neutral"
+              variant="subtle"
+              size="sm"
+            />
           </div>
         </template>
         <template #views-cell="{ row }">
-          <span class="text-sm">{{ row.views || 0 }}</span>
+          <span class="text-sm">{{ row.original.views || 0 }}</span>
         </template>
         <template #publish_time-cell="{ row }">
-          <span class="text-sm text-gray-500">{{ formatDate(row.publish_time) }}</span>
+          <span class="text-sm text-gray-500">{{
+            formatDate(row.original.publish_time)
+          }}</span>
         </template>
         <template #actions-cell="{ row }">
           <div class="flex gap-1">
             <UButton
-              :to="`/article/${row.uuid}`"
+              :to="`/article/${row.original.uuid}`"
               color="neutral"
               variant="ghost"
               size="sm"
@@ -65,16 +92,20 @@
 
       <div v-if="pagination.total > 0" class="mt-4 flex justify-center">
         <UPagination
-          v-model:page="page"
+          :page="page"
           :items-per-page="pagination.limit"
           :total="pagination.total"
-          @update:page="fetchPosts"
+          @update:page="onPageChange"
         />
       </div>
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model:open="showFormModal" :title="editingPost ? '编辑文章' : '新建文章'" class="max-w-2xl">
+    <UModal
+      v-model:open="showFormModal"
+      :title="editingPost ? '编辑文章' : '新建文章'"
+      class="max-w-2xl"
+    >
       <template #body>
         <UForm :state="postForm" class="space-y-4">
           <UFormField label="标题" required>
@@ -112,7 +143,11 @@
             </UFormField>
 
             <UFormField label="封面图">
-              <UInput v-model="postForm.cover_image" placeholder="https://..." class="w-full" />
+              <UInput
+                v-model="postForm.cover_image"
+                placeholder="https://..."
+                class="w-full"
+              />
             </UFormField>
           </div>
 
@@ -132,12 +167,21 @@
             <UTextarea v-model="postForm.summary" class="w-full" :rows="3" />
           </UFormField>
 
-          <UFormField label="Markdown 内容" required>
-            <UTextarea v-model="postForm.markdowncontent" class="w-full font-mono" :rows="16" />
+          <UFormField label="Markdown 内容" required hint="支持标准 Markdown 语法">
+            <UTextarea
+              v-model="postForm.markdowncontent"
+              class="w-full font-mono text-sm leading-relaxed"
+              :rows="20"
+              placeholder="在此编写 Markdown 内容..."
+            />
           </UFormField>
 
           <UFormField label="渲染内容（HTML）">
-            <UTextarea v-model="postForm.content" class="w-full font-mono" :rows="10" />
+            <UTextarea
+              v-model="postForm.content"
+              class="w-full font-mono"
+              :rows="10"
+            />
           </UFormField>
         </UForm>
       </template>
@@ -145,7 +189,9 @@
       <template #footer>
         <div class="flex justify-end gap-2">
           <UButton variant="outline" @click="closeForm">取消</UButton>
-          <UButton color="primary" :loading="saving" @click="savePost">保存</UButton>
+          <UButton color="primary" :loading="saving" @click="savePost"
+            >保存</UButton
+          >
         </div>
       </template>
     </UModal>
@@ -157,8 +203,12 @@
       </template>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <UButton variant="outline" @click="showDeleteModal = false">取消</UButton>
-          <UButton color="red" :loading="deleting" @click="handleDelete">删除</UButton>
+          <UButton variant="outline" @click="showDeleteModal = false"
+            >取消</UButton
+          >
+          <UButton color="red" :loading="deleting" @click="handleDelete"
+            >删除</UButton
+          >
         </div>
       </template>
     </UModal>
@@ -166,26 +216,34 @@
 </template>
 
 <script setup lang="ts">
+import { http } from "~/composables/http"
+import { formatChineseDateTime } from "~/utils/data"
+
 definePageMeta({
   layout: "admin",
   middleware: "admin-auth"
 })
 
-import { http } from "~/composables/http"
-import { formatChineseDateTime } from "~/utils/data"
-
 // ─── 数据 ───────────────────────────────────────────────
+const route = useRoute()
+const router = useRouter()
 const posts = ref<any[]>([])
-const page = ref(1)
+const page = ref(Number(route.query.page) || 1)
 const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
 
 const columns = [
-  { id: "title",        key: "title",        accessorKey: "title",        label: "标题" },
-  { id: "status",       key: "status",       accessorKey: "status",       label: "状态" },
-  { id: "views",        key: "views",        accessorKey: "views",        label: "浏览" },
-  { id: "publish_time", key: "publish_time", accessorKey: "publish_time", label: "发布时间" },
-  { id: "actions",      key: "actions",      accessorKey: "actions",      label: "操作" },
+  { id: "index", key: "index", accessorKey: "index", label: "序号" },
+  { id: "title", key: "title", accessorKey: "title", label: "标题" },
+  { id: "status", key: "status", accessorKey: "status", label: "状态" },
+  { id: "views", key: "views", accessorKey: "views", label: "浏览" },
+  {
+    id: "publish_time",
+    key: "publish_time",
+    accessorKey: "publish_time",
+    label: "发布时间"
+  },
+  { id: "actions", key: "actions", accessorKey: "actions", label: "操作" }
 ]
 
 // ─── 分类 / 标签 选项 ────────────────────────────────────
@@ -193,15 +251,15 @@ const categories = ref<any[]>([])
 const tags = ref<any[]>([])
 
 const categoryOptions = computed(() =>
-  categories.value.map(c => ({ label: c.name, value: c.id }))
+  categories.value.map((c) => ({ label: c.name, value: c.id }))
 )
 const tagOptions = computed(() =>
-  tags.value.map(t => ({ label: t.name, value: t.id }))
+  tags.value.map((t) => ({ label: t.name, value: t.id }))
 )
 
 const statusOptions = [
-  { label: "草稿",   value: 0 },
-  { label: "已发布", value: 1 },
+  { label: "草稿", value: 0 },
+  { label: "已发布", value: 1 }
 ]
 
 // ─── 弹窗状态 ────────────────────────────────────────────
@@ -223,7 +281,7 @@ const defaultForm = {
   status: 0,
   featured: false,
   is_top: false,
-  is_hide: false,
+  is_hide: false
 }
 const postForm = reactive({ ...defaultForm })
 
@@ -231,7 +289,10 @@ const postForm = reactive({ ...defaultForm })
 async function fetchPosts() {
   loading.value = true
   try {
-    const res = await http<{ data: any[], pagination: { total: number, limit: number } }>({
+    const res = await http<{
+      data: any[]
+      pagination: { total: number; limit: number }
+    }>({
       url: `/v1/posts?page=${page.value}&limit=10`
     })
     posts.value = res.data || []
@@ -245,16 +306,24 @@ async function fetchPosts() {
 
 async function fetchCategories() {
   try {
-    const res = await http<{ data: any[], pagination: any }>({ url: "/v1/categories?page=1&limit=100" })
+    const res = await http<{ data: any[]; pagination: any }>({
+      url: "/v1/categories?page=1&limit=100"
+    })
     categories.value = res.data || []
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 }
 
 async function fetchTags() {
   try {
-    const res = await http<{ data: any[], pagination: any }>({ url: "/v1/tags?page=1&limit=100" })
+    const res = await http<{ data: any[]; pagination: any }>({
+      url: "/v1/tags?page=1&limit=100"
+    })
     tags.value = res.data || []
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 }
 
 function openCreate() {
@@ -297,11 +366,15 @@ async function savePost() {
       category_id: postForm.category_id,
       tag_ids: postForm.tag_ids,
       status: postForm.status,
-      featured: postForm.featured,
+      featured: postForm.featured
     }
 
     if (editingPost.value) {
-      await http({ url: `/v1/posts/${editingPost.value.uuid}`, method: "PUT", body })
+      await http({
+        url: `/v1/posts/${editingPost.value.uuid}`,
+        method: "PUT",
+        body
+      })
     } else {
       await http({ url: "/v1/posts", method: "POST", body })
     }
@@ -323,7 +396,10 @@ async function handleDelete() {
   if (!deletingPost.value) return
   deleting.value = true
   try {
-    await http({ url: `/v1/posts/${deletingPost.value.uuid}`, method: "DELETE" })
+    await http({
+      url: `/v1/posts/${deletingPost.value.uuid}`,
+      method: "DELETE"
+    })
     showDeleteModal.value = false
     deletingPost.value = null
     await fetchPosts()
@@ -337,6 +413,24 @@ async function handleDelete() {
 function formatDate(date: string) {
   return date ? formatChineseDateTime(date) : "—"
 }
+
+function onPageChange(newPage: number) {
+  page.value = newPage
+  router.replace({ query: { ...route.query, page: newPage } })
+  fetchPosts()
+}
+
+// 监听路由参数中 page 的变化（如浏览器前进/后退），刷新数据
+watch(
+  () => route.query.page,
+  (newVal) => {
+    const p = Number(newVal) || 1
+    if (p !== page.value) {
+      page.value = p
+      fetchPosts()
+    }
+  }
+)
 
 onMounted(async () => {
   await Promise.all([fetchPosts(), fetchCategories(), fetchTags()])

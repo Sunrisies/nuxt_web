@@ -41,10 +41,10 @@
 
       <div v-if="pagination.total > 0" class="mt-4 flex justify-center">
         <UPagination
-          v-model:page="page"
+          :page="page"
           :items-per-page="pagination.limit"
           :total="pagination.total"
-          @update:page="fetchData"
+          @update:page="onPageChange"
         />
       </div>
     </UCard>
@@ -99,8 +99,10 @@ definePageMeta({
   middleware: "admin-auth"
 })
 
+const route = useRoute()
+const router = useRouter()
 const categories = ref<any[]>([])
-const page = ref(1)
+const page = ref(Number(route.query.page) || 1)
 const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
 
@@ -150,8 +152,9 @@ function openCreate() {
 }
 
 function openEdit(item: any) {
-  editingItem.value = item
-  form.name = item.name
+  const data = item.original ?? item
+  editingItem.value = data
+  form.name = data.name
   showFormModal.value = true
 }
 
@@ -188,7 +191,7 @@ async function save() {
 }
 
 function confirmDelete(item: any) {
-  deletingItem.value = item
+  deletingItem.value = item.original ?? item
   showDeleteModal.value = true
 }
 
@@ -213,6 +216,23 @@ async function handleDelete() {
 function formatDate(date: string) {
   return date ? formatChineseDateTime(date) : "—"
 }
+
+function onPageChange(newPage: number) {
+  page.value = newPage
+  router.replace({ query: { ...route.query, page: newPage } })
+  fetchData()
+}
+
+watch(
+  () => route.query.page,
+  (newVal) => {
+    const p = Number(newVal) || 1
+    if (p !== page.value) {
+      page.value = p
+      fetchData()
+    }
+  }
+)
 
 onMounted(fetchData)
 </script>

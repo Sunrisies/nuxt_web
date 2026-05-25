@@ -17,25 +17,25 @@
         <template #name-cell="{ row }">
           <div class="flex items-center gap-2">
             <img
-              v-if="row.icon"
-              :src="row.icon"
-              :alt="row.name"
+              v-if="row.original.icon"
+              :src="row.original.icon"
+              :alt="row.original.name"
               class="h-5 w-5 rounded object-contain"
               @error="
                 ($event.target as HTMLImageElement).style.display = 'none'
               "
             />
-            <span>{{ row.name }}</span>
+            <span>{{ row.original.name }}</span>
           </div>
         </template>
         <template #url-cell="{ row }">
           <a
-            :href="row.url"
+            :href="row.original.url"
             target="_blank"
             rel="noreferrer"
             class="text-sm text-primary hover:underline truncate block max-w-[200px]"
           >
-            {{ row.url }}
+            {{ row.original.url }}
           </a>
         </template>
         <template #created_at-cell="{ row }">
@@ -206,11 +206,12 @@ function openCreate() {
 }
 
 function openEdit(item: any) {
-  editingItem.value = item
-  form.name = item.name || ""
-  form.url = item.url || ""
-  form.description = item.description || ""
-  form.icon = item.icon || ""
+  const data = item.original ?? item
+  editingItem.value = data
+  form.name = data.name || ""
+  form.url = data.url || ""
+  form.description = data.description || ""
+  form.icon = data.icon || ""
   showFormModal.value = true
 }
 
@@ -248,7 +249,7 @@ async function save() {
 }
 
 function confirmDelete(item: any) {
-  deletingItem.value = item
+  deletingItem.value = item.original ?? item
   showDeleteModal.value = true
 }
 

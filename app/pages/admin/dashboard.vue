@@ -38,14 +38,14 @@
       >
         <template #status-cell="{ row }">
           <UBadge
-            :label="row.is_top ? '置顶' : '普通'"
-            :color="row.is_top ? 'warning' : 'neutral'"
+            :label="row.original.is_top ? '置顶' : '普通'"
+            :color="row.original.is_top ? 'warning' : 'neutral'"
             variant="subtle"
           />
         </template>
         <template #actions-cell="{ row }">
           <UButton
-            :to="`/admin/posts/${row.id}`"
+            :to="`/admin/posts/${row.original.id}`"
             color="neutral"
             variant="ghost"
             size="sm"
@@ -83,15 +83,19 @@ const postColumns = [
 
 onMounted(async () => {
   try {
-    const [postsRes, categoriesRes, tagsRes] = await Promise.all([
+    const [postsRes, categoriesRes, tagsRes, allPostsRes] = await Promise.all([
       http<{ data: any[], pagination: { total: number } }>({ url: "/v1/posts?page=1&limit=5" }),
-      http<any[]>({ url: "/v1/categories" }),
-      http<any[]>({ url: "/v1/tags" }),
+      http<{ data: any[], pagination: { total: number } }>({ url: "/v1/categories?page=1&limit=1" }),
+      http<{ data: any[], pagination: { total: number } }>({ url: "/v1/tags?page=1&limit=1" }),
+      http<{ data: any[], pagination: { total: number } }>({ url: "/v1/posts?page=1&limit=200" }),
     ])
     recentPosts.value = postsRes?.data?.slice(0, 5) || []
     stats.value[0].value = String(postsRes?.pagination?.total ?? 0)
-    stats.value[1].value = String(categoriesRes?.length ?? 0)
-    stats.value[2].value = String(tagsRes?.length ?? 0)
+    stats.value[1].value = String(categoriesRes?.pagination?.total ?? 0)
+    stats.value[2].value = String(tagsRes?.pagination?.total ?? 0)
+    // 汇总所有文章浏览量
+    const totalViews = allPostsRes?.data?.reduce((sum: number, post: any) => sum + (post.views || 0), 0) || 0
+    stats.value[3].value = String(totalViews)
   } catch (e) {
     console.error("获取仪表盘数据失败", e)
   } finally {
