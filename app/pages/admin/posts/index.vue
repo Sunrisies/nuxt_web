@@ -13,15 +13,15 @@
 
     <UCard>
       <UTable
-        :rows="posts"
+        :data="posts"
         :columns="columns"
         :loading="loading"
         :empty-state="{ icon: 'i-heroicons-document-text', label: '暂无文章' }"
       >
-        <template #title="{ row }">
+        <template #title-cell="{ row }">
           <div class="max-w-xs truncate font-medium">{{ row.title }}</div>
         </template>
-        <template #status="{ row }">
+        <template #status-cell="{ row }">
           <div class="flex gap-1 flex-wrap">
             <UBadge v-if="row.featured" label="推荐" color="warning" variant="subtle" size="sm" />
             <UBadge v-if="row.is_publish" label="已发布" color="green" variant="subtle" size="sm" />
@@ -29,13 +29,13 @@
             <UBadge v-if="row.is_hide" label="隐藏" color="neutral" variant="subtle" size="sm" />
           </div>
         </template>
-        <template #views="{ row }">
+        <template #views-cell="{ row }">
           <span class="text-sm">{{ row.views || 0 }}</span>
         </template>
-        <template #publish_time="{ row }">
+        <template #publish_time-cell="{ row }">
           <span class="text-sm text-gray-500">{{ formatDate(row.publish_time) }}</span>
         </template>
-        <template #actions="{ row }">
+        <template #actions-cell="{ row }">
           <div class="flex gap-1">
             <UButton
               :to="`/article/${row.uuid}`"

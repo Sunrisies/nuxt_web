@@ -9,15 +9,17 @@
 
     <UCard>
       <UTable
-        :rows="categories"
+        :data="categories"
         :columns="columns"
         :loading="loading"
         :empty-state="{ icon: 'i-heroicons-tag', label: '暂无分类' }"
       >
-        <template #created_at="{ row }">
-          <span class="text-sm text-gray-500">{{ formatDate(row.created_at) }}</span>
+        <template #created_at-cell="{ row }">
+          <span class="text-sm text-gray-500">{{
+            formatDate(row.created_at)
+          }}</span>
         </template>
-        <template #actions="{ row }">
+        <template #actions-cell="{ row }">
           <div class="flex gap-1">
             <UButton
               color="neutral"
@@ -48,7 +50,10 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model:open="showFormModal" :title="editingItem ? '编辑分类' : '新建分类'">
+    <UModal
+      v-model:open="showFormModal"
+      :title="editingItem ? '编辑分类' : '新建分类'"
+    >
       <template #body>
         <UForm :state="form" class="space-y-4">
           <UFormField label="名称" required>
@@ -59,7 +64,9 @@
       <template #footer>
         <div class="flex justify-end gap-2">
           <UButton variant="outline" @click="closeForm">取消</UButton>
-          <UButton color="primary" :loading="saving" @click="save">保存</UButton>
+          <UButton color="primary" :loading="saving" @click="save"
+            >保存</UButton
+          >
         </div>
       </template>
     </UModal>
@@ -71,8 +78,12 @@
       </template>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <UButton variant="outline" @click="showDeleteModal = false">取消</UButton>
-          <UButton color="red" :loading="deleting" @click="handleDelete">删除</UButton>
+          <UButton variant="outline" @click="showDeleteModal = false"
+            >取消</UButton
+          >
+          <UButton color="red" :loading="deleting" @click="handleDelete"
+            >删除</UButton
+          >
         </div>
       </template>
     </UModal>
@@ -80,13 +91,13 @@
 </template>
 
 <script setup lang="ts">
+import { http } from "~/composables/http"
+import { formatChineseDateTime } from "~/utils/data"
+
 definePageMeta({
   layout: "admin",
   middleware: "admin-auth"
 })
-
-import { http } from "~/composables/http"
-import { formatChineseDateTime } from "~/utils/data"
 
 const categories = ref<any[]>([])
 const page = ref(1)
@@ -94,10 +105,10 @@ const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
 
 const columns = [
-  { id: "id",         key: "id",         label: "ID" },
-  { id: "name",       key: "name",       label: "名称" },
+  { id: "id", key: "id", label: "ID" },
+  { id: "name", key: "name", label: "名称" },
   { id: "created_at", key: "created_at", label: "创建时间" },
-  { id: "actions",    key: "actions",    label: "操作" },
+  { id: "actions", key: "actions", label: "操作" }
 ]
 
 const showFormModal = ref(false)
@@ -112,7 +123,10 @@ const form = reactive({ name: "" })
 async function fetchData() {
   loading.value = true
   try {
-    const res = await http<{ data: any[], pagination: { total: number, limit: number } }>({
+    const res = await http<{
+      data: any[]
+      pagination: { total: number; limit: number }
+    }>({
       url: `/v1/categories?page=${page.value}&limit=10`
     })
     categories.value = res.data || []
@@ -147,9 +161,17 @@ async function save() {
   saving.value = true
   try {
     if (editingItem.value) {
-      await http({ url: `/v1/categories/${editingItem.value.id}`, method: "PUT", body: { name: form.name } })
+      await http({
+        url: `/v1/categories/${editingItem.value.id}`,
+        method: "PUT",
+        body: { name: form.name }
+      })
     } else {
-      await http({ url: "/v1/categories", method: "POST", body: { name: form.name } })
+      await http({
+        url: "/v1/categories",
+        method: "POST",
+        body: { name: form.name }
+      })
     }
     closeForm()
     await fetchData()
@@ -169,7 +191,10 @@ async function handleDelete() {
   if (!deletingItem.value) return
   deleting.value = true
   try {
-    await http({ url: `/v1/categories/${deletingItem.value.id}`, method: "DELETE" })
+    await http({
+      url: `/v1/categories/${deletingItem.value.id}`,
+      method: "DELETE"
+    })
     showDeleteModal.value = false
     deletingItem.value = null
     await fetchData()

@@ -9,12 +9,12 @@
 
     <UCard>
       <UTable
-        :rows="links"
+        :data="links"
         :columns="columns"
         :loading="loading"
         :empty-state="{ icon: 'i-heroicons-link', label: '暂无链接' }"
       >
-        <template #name="{ row }">
+        <template #name-cell="{ row }">
           <div class="flex items-center gap-2">
             <img
               v-if="row.icon"
@@ -26,7 +26,7 @@
             <span>{{ row.name }}</span>
           </div>
         </template>
-        <template #url="{ row }">
+        <template #url-cell="{ row }">
           <a
             :href="row.url"
             target="_blank"
@@ -36,10 +36,10 @@
             {{ row.url }}
           </a>
         </template>
-        <template #created_at="{ row }">
+        <template #created_at-cell="{ row }">
           <span class="text-sm text-gray-500">{{ formatDate(row.created_at) }}</span>
         </template>
-        <template #actions="{ row }">
+        <template #actions-cell="{ row }">
           <div class="flex gap-1">
             <UButton
               color="neutral"

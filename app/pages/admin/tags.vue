@@ -9,15 +9,15 @@
 
     <UCard>
       <UTable
-        :rows="tags"
+        :data="tags"
         :columns="columns"
         :loading="loading"
         :empty-state="{ icon: 'i-heroicons-hashtag', label: '暂无标签' }"
       >
-        <template #created_at="{ row }">
+        <template #created_at-cell="{ row }">
           <span class="text-sm text-gray-500">{{ formatDate(row.created_at) }}</span>
         </template>
-        <template #actions="{ row }">
+        <template #actions-cell="{ row }">
           <div class="flex gap-1">
             <UButton
               color="neutral"

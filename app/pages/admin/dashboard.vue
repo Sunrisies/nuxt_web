@@ -31,19 +31,19 @@
       </template>
 
       <UTable
-        :rows="recentPosts"
+        :data="recentPosts"
         :columns="postColumns"
         :loading="loading"
         :empty-state="{ icon: 'i-heroicons-document-text', label: '暂无文章' }"
       >
-        <template #status="{ row }">
+        <template #status-cell="{ row }">
           <UBadge
             :label="row.is_top ? '置顶' : '普通'"
             :color="row.is_top ? 'warning' : 'neutral'"
             variant="subtle"
           />
         </template>
-        <template #actions="{ row }">
+        <template #actions-cell="{ row }">
           <UButton
             :to="`/admin/posts/${row.id}`"
             color="neutral"
