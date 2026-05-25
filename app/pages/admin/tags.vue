@@ -15,7 +15,9 @@
         :empty-state="{ icon: 'i-heroicons-hashtag', label: '暂无标签' }"
       >
         <template #created_at-cell="{ row }">
-          <span class="text-sm text-gray-500">{{ formatDate(row.created_at) }}</span>
+          <span class="text-sm text-gray-500">{{
+            formatDate(row.original.created_at)
+          }}</span>
         </template>
         <template #actions-cell="{ row }">
           <div class="flex gap-1">
@@ -48,7 +50,10 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model:open="showFormModal" :title="editingItem ? '编辑标签' : '新建标签'">
+    <UModal
+      v-model:open="showFormModal"
+      :title="editingItem ? '编辑标签' : '新建标签'"
+    >
       <template #body>
         <UForm :state="form" class="space-y-4">
           <UFormField label="名称" required>
@@ -59,7 +64,9 @@
       <template #footer>
         <div class="flex justify-end gap-2">
           <UButton variant="outline" @click="closeForm">取消</UButton>
-          <UButton color="primary" :loading="saving" @click="save">保存</UButton>
+          <UButton color="primary" :loading="saving" @click="save"
+            >保存</UButton
+          >
         </div>
       </template>
     </UModal>
@@ -71,8 +78,12 @@
       </template>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <UButton variant="outline" @click="showDeleteModal = false">取消</UButton>
-          <UButton color="red" :loading="deleting" @click="handleDelete">删除</UButton>
+          <UButton variant="outline" @click="showDeleteModal = false"
+            >取消</UButton
+          >
+          <UButton color="red" :loading="deleting" @click="handleDelete"
+            >删除</UButton
+          >
         </div>
       </template>
     </UModal>
@@ -80,13 +91,13 @@
 </template>
 
 <script setup lang="ts">
+import { http } from "~/composables/http"
+import { formatChineseDateTime } from "~/utils/data"
+
 definePageMeta({
   layout: "admin",
   middleware: "admin-auth"
 })
-
-import { http } from "~/composables/http"
-import { formatChineseDateTime } from "~/utils/data"
 
 const tags = ref<any[]>([])
 const page = ref(1)
@@ -94,10 +105,15 @@ const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
 
 const columns = [
-  { id: "id",         key: "id",         accessorKey: "id",         label: "ID" },
-  { id: "name",       key: "name",       accessorKey: "name",       label: "名称" },
-  { id: "created_at", key: "created_at", accessorKey: "created_at", label: "创建时间" },
-  { id: "actions",    key: "actions",    accessorKey: "actions",    label: "操作" },
+  { id: "id", key: "id", accessorKey: "id", label: "ID" },
+  { id: "name", key: "name", accessorKey: "name", label: "名称" },
+  {
+    id: "created_at",
+    key: "created_at",
+    accessorKey: "created_at",
+    label: "创建时间"
+  },
+  { id: "actions", key: "actions", accessorKey: "actions", label: "操作" }
 ]
 
 const showFormModal = ref(false)
@@ -112,7 +128,10 @@ const form = reactive({ name: "" })
 async function fetchData() {
   loading.value = true
   try {
-    const res = await http<{ data: any[], pagination: { total: number, limit: number } }>({
+    const res = await http<{
+      data: any[]
+      pagination: { total: number; limit: number }
+    }>({
       url: `/v1/tags?page=${page.value}&limit=10`
     })
     tags.value = res.data || []
@@ -147,7 +166,11 @@ async function save() {
   saving.value = true
   try {
     if (editingItem.value) {
-      await http({ url: `/v1/tags/${editingItem.value.id}`, method: "PUT", body: { name: form.name } })
+      await http({
+        url: `/v1/tags/${editingItem.value.id}`,
+        method: "PUT",
+        body: { name: form.name }
+      })
     } else {
       await http({ url: "/v1/tags", method: "POST", body: { name: form.name } })
     }

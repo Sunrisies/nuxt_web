@@ -21,7 +21,9 @@
               :src="row.icon"
               :alt="row.name"
               class="h-5 w-5 rounded object-contain"
-              @error="($event.target as HTMLImageElement).style.display='none'"
+              @error="
+                ($event.target as HTMLImageElement).style.display = 'none'
+              "
             />
             <span>{{ row.name }}</span>
           </div>
@@ -37,7 +39,9 @@
           </a>
         </template>
         <template #created_at-cell="{ row }">
-          <span class="text-sm text-gray-500">{{ formatDate(row.created_at) }}</span>
+          <span class="text-sm text-gray-500">{{
+            formatDate(row.original.created_at)
+          }}</span>
         </template>
         <template #actions-cell="{ row }">
           <div class="flex gap-1">
@@ -70,7 +74,10 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model:open="showFormModal" :title="editingItem ? '编辑链接' : '新建链接'">
+    <UModal
+      v-model:open="showFormModal"
+      :title="editingItem ? '编辑链接' : '新建链接'"
+    >
       <template #body>
         <UForm :state="form" class="space-y-4">
           <UFormField label="名称" required>
@@ -78,22 +85,36 @@
           </UFormField>
 
           <UFormField label="链接地址" required>
-            <UInput v-model="form.url" placeholder="https://..." class="w-full" />
+            <UInput
+              v-model="form.url"
+              placeholder="https://..."
+              class="w-full"
+            />
           </UFormField>
 
           <UFormField label="描述">
-            <UInput v-model="form.description" placeholder="简短描述" class="w-full" />
+            <UInput
+              v-model="form.description"
+              placeholder="简短描述"
+              class="w-full"
+            />
           </UFormField>
 
           <UFormField label="图标 URL">
-            <UInput v-model="form.icon" placeholder="https://.../icon.png" class="w-full" />
+            <UInput
+              v-model="form.icon"
+              placeholder="https://.../icon.png"
+              class="w-full"
+            />
           </UFormField>
         </UForm>
       </template>
       <template #footer>
         <div class="flex justify-end gap-2">
           <UButton variant="outline" @click="closeForm">取消</UButton>
-          <UButton color="primary" :loading="saving" @click="save">保存</UButton>
+          <UButton color="primary" :loading="saving" @click="save"
+            >保存</UButton
+          >
         </div>
       </template>
     </UModal>
@@ -105,8 +126,12 @@
       </template>
       <template #footer>
         <div class="flex justify-end gap-2">
-          <UButton variant="outline" @click="showDeleteModal = false">取消</UButton>
-          <UButton color="red" :loading="deleting" @click="handleDelete">删除</UButton>
+          <UButton variant="outline" @click="showDeleteModal = false"
+            >取消</UButton
+          >
+          <UButton color="red" :loading="deleting" @click="handleDelete"
+            >删除</UButton
+          >
         </div>
       </template>
     </UModal>
@@ -114,13 +139,13 @@
 </template>
 
 <script setup lang="ts">
+import { http } from "~/composables/http"
+import { formatChineseDateTime } from "~/utils/data"
+
 definePageMeta({
   layout: "admin",
   middleware: "admin-auth"
 })
-
-import { http } from "~/composables/http"
-import { formatChineseDateTime } from "~/utils/data"
 
 const links = ref<any[]>([])
 const page = ref(1)
@@ -128,10 +153,15 @@ const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
 
 const columns = [
-  { id: "name",       key: "name",       accessorKey: "name",       label: "名称" },
-  { id: "url",        key: "url",        accessorKey: "url",        label: "链接" },
-  { id: "created_at", key: "created_at", accessorKey: "created_at", label: "创建时间" },
-  { id: "actions",    key: "actions",    accessorKey: "actions",    label: "操作" },
+  { id: "name", key: "name", accessorKey: "name", label: "名称" },
+  { id: "url", key: "url", accessorKey: "url", label: "链接" },
+  {
+    id: "created_at",
+    key: "created_at",
+    accessorKey: "created_at",
+    label: "创建时间"
+  },
+  { id: "actions", key: "actions", accessorKey: "actions", label: "操作" }
 ]
 
 const showFormModal = ref(false)
@@ -145,13 +175,16 @@ const form = reactive({
   name: "",
   url: "",
   description: "",
-  icon: "",
+  icon: ""
 })
 
 async function fetchData() {
   loading.value = true
   try {
-    const res = await http<{ data: any[], pagination: { total: number, limit: number } }>({
+    const res = await http<{
+      data: any[]
+      pagination: { total: number; limit: number }
+    }>({
       url: `/v1/links?page=${page.value}&limit=10`
     })
     links.value = res.data || []
@@ -190,9 +223,18 @@ async function save() {
   if (!form.name || !form.url) return
   saving.value = true
   try {
-    const body = { name: form.name, url: form.url, description: form.description, icon: form.icon }
+    const body = {
+      name: form.name,
+      url: form.url,
+      description: form.description,
+      icon: form.icon
+    }
     if (editingItem.value) {
-      await http({ url: `/v1/links/${editingItem.value.id}`, method: "PUT", body })
+      await http({
+        url: `/v1/links/${editingItem.value.id}`,
+        method: "PUT",
+        body
+      })
     } else {
       await http({ url: "/v1/links", method: "POST", body })
     }

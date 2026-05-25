@@ -87,6 +87,6 @@ function isActive(path: string) {
 
 function handleLogout() {
   localStorage.removeItem("admin_user")
-  router.push("/admin/login")
+  router.push("/")
 }
 </script>

@@ -15,9 +15,9 @@
         :empty-state="{ icon: 'i-heroicons-tag', label: '暂无分类' }"
       >
         <template #created_at-cell="{ row }">
-          <span class="text-sm text-gray-500">{{
-            formatDate(row.created_at)
-          }}</span>
+          <span class="text-sm text-gray-500">
+            {{ formatDate(row.original.created_at) }}</span
+          >
         </template>
         <template #actions-cell="{ row }">
           <div class="flex gap-1">
@@ -107,7 +107,12 @@ const loading = ref(true)
 const columns = [
   { id: "id", key: "id", accessorKey: "id", label: "ID" },
   { id: "name", key: "name", accessorKey: "name", label: "名称" },
-  { id: "created_at", key: "created_at", accessorKey: "created_at", label: "创建时间" },
+  {
+    id: "created_at",
+    key: "created_at",
+    accessorKey: "created_at",
+    label: "创建时间"
+  },
   { id: "actions", key: "actions", accessorKey: "actions", label: "操作" }
 ]
 
