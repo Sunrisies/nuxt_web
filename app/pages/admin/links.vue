@@ -70,7 +70,7 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model="showFormModal" :title="editingItem ? '编辑链接' : '新建链接'">
+    <UModal v-model:open="showFormModal" :title="editingItem ? '编辑链接' : '新建链接'">
       <template #body>
         <UForm :state="form" class="space-y-4">
           <UFormField label="名称" required>
@@ -99,7 +99,7 @@
     </UModal>
 
     <!-- 删除确认 -->
-    <UModal v-model="showDeleteModal" title="确认删除">
+    <UModal v-model:open="showDeleteModal" title="确认删除">
       <template #body>
         <p>确定要删除「{{ deletingItem?.name }}」吗？</p>
       </template>

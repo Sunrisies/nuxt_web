@@ -74,7 +74,7 @@
     </UCard>
 
     <!-- 新建/编辑弹窗 -->
-    <UModal v-model="showFormModal" :title="editingPost ? '编辑文章' : '新建文章'" class="max-w-2xl">
+    <UModal v-model:open="showFormModal" :title="editingPost ? '编辑文章' : '新建文章'" class="max-w-2xl">
       <template #body>
         <UForm :state="postForm" class="space-y-4">
           <UFormField label="标题" required>
@@ -151,7 +151,7 @@
     </UModal>
 
     <!-- 删除确认 -->
-    <UModal v-model="showDeleteModal" title="确认删除">
+    <UModal v-model:open="showDeleteModal" title="确认删除">
       <template #body>
         <p>确定要删除「{{ deletingPost?.title }}」吗？此操作不可撤销。</p>
       </template>
