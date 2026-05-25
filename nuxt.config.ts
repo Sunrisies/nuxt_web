@@ -10,7 +10,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/device",
     "@nuxtjs/color-mode",
-    "nuxt-umami",
+    // "nuxt-umami", // 暂时禁用，umami.sunrise1024.top 不可达
     "@nuxtjs/sitemap"
   ],
   devtools: {
@@ -89,8 +89,8 @@ export default defineNuxtConfig({
   sitemap: {
     sources: ["/api/__sitemap__/urls"]
   },
-  umami: {
-    autoTrack: true,
-    ignoreLocalhost: true
-  }
+  // umami: {
+  //   autoTrack: true,
+  //   ignoreLocalhost: true
+  // }
 })
