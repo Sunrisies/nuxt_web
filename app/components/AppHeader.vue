@@ -2,7 +2,7 @@
   <UHeader>
     <template #title>
       <div class="flex items-center gap-2 mr-4">
-        <ClientOnly
+        <!-- <ClientOnly
           fallback-tag="span"
           fallback="Loading comments..."
         >
@@ -12,7 +12,7 @@
           >
             <span class="text-lg font-bold">中文博客</span>
           </NuxtLink>
-        </ClientOnly>
+        </ClientOnly> -->
       </div>
     </template>
 
@@ -52,10 +52,7 @@
         </template>
       </ClientOnly>
 
-      <UTooltip
-        text="Open on GitHub"
-        :kbds="['meta', 'G']"
-      >
+      <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
         <UButton
           color="neutral"
           variant="ghost"
