@@ -79,7 +79,7 @@ const navItems = [
   { label: "分类管理",   icon: "i-heroicons-tag",               to: "/admin/categories" },
   { label: "标签管理",   icon: "i-heroicons-hashtag",           to: "/admin/tags" },
   { label: "链接管理",   icon: "i-heroicons-link",              to: "/admin/links" },
-  { label: "云剪贴板",   icon: "i-heroicons-clipboard-document", to: "/admin/clipboard" },
+  { label: "频道管理",   icon: "i-heroicons-clipboard-document", to: "/admin/channels" },
 ]
 
 function isActive(path: string) {

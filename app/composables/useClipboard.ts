@@ -1,163 +1,159 @@
 import type { ClipboardEntry, ClipboardListResponse } from "~/types/clipboard"
 import { http } from "~/composables/http"
 
-export function useClipboard() {
-  const entries = ref<ClipboardEntry[]>([])
-  const loading = ref(false)
-  const uploading = ref(false)
-  const hasMore = ref(true)
-  const page = ref(1)
-  const limit = 20
+// 频道 token 管理
+const STORAGE_KEY = "clipboard_token"
 
-  // 当前筛选条件（给前端绑定用）
-  const filterType = ref("")
-  const searchQuery = ref("")
-  const dateRange = ref({ start: "", end: "" })
+export function getStoredToken(): string | null {
+  if (import.meta.client) return localStorage.getItem(STORAGE_KEY)
+  return null
+}
 
-  function buildUrl(): string {
-    let url = `/v1/clipboard?page=${page.value}&limit=${limit}`
-    if (filterType.value) url += `&type=${filterType.value}`
-    if (searchQuery.value.trim()) url += `&q=${encodeURIComponent(searchQuery.value.trim())}`
-    if (dateRange.value.start) url += `&start_date=${dateRange.value.start}`
-    if (dateRange.value.end) url += `&end_date=${dateRange.value.end}`
-    return url
-  }
+export function setStoredToken(token: string) {
+  if (import.meta.client) localStorage.setItem(STORAGE_KEY, token)
+}
 
-  async function fetchPage(): Promise<ClipboardListResponse | null> {
-    try {
-      return await http<ClipboardListResponse>({ url: buildUrl() })
-    } catch {
-      return null
+export function clearToken() {
+  if (import.meta.client) localStorage.removeItem(STORAGE_KEY)
+}
+
+/** 是否已登录频道 */
+export function hasToken(): boolean {
+  return !!getStoredToken()
+}
+
+// ─── 频道认证 ───────────────────────────────────────
+export async function authChannel(name: string, password: string): Promise<string | null> {
+  try {
+    const res = await $fetch<any>("/api/v1/clipboard/channel/auth", {
+      method: "POST",
+      body: { name, password }
+    })
+    if (res.code === 200) {
+      const token = res.data?.token || res.token
+      if (token) return token
     }
+    return null
+  } catch {
+    return null
   }
+}
 
-  async function loadMore() {
-    if (loading.value || !hasMore.value) return
-    loading.value = true
-    const res = await fetchPage()
-    if (res) {
-      entries.value = [...(res.data || []).reverse(), ...entries.value]
-      const total = res.pagination?.total ?? 0
-      hasMore.value = entries.value.length < total
-      page.value++
-    } else {
-      hasMore.value = false
-    }
-    loading.value = false
+export async function createChannel(name: string, password: string): Promise<string | null> {
+  try {
+    const res = await $fetch<any>("/api/v1/clipboard/channel", {
+      method: "POST",
+      body: { name, password }
+    })
+    if (res.code === 200) return "created"
+    return null
+  } catch {
+    return null
   }
+}
 
-  /** 重置并重新加载（应用当前筛选条件） */
-  async function refresh() {
-    page.value = 1
-    hasMore.value = true
-    entries.value = []
-    await loadMore()
-  }
+// ─── API 调用（带 token） ───────────────────────────
+function headers() {
+  const t = getStoredToken()
+  return t ? { Authorization: `Bearer ${t}` } : {}
+}
 
-  /** 设置日期范围并刷新 */
-  function setDateRange(start: string, end: string) {
-    dateRange.value = { start, end }
-  }
+function buildListUrl(page: number, limit: number, type: string, q: string, start: string, end: string): string {
+  let url = `/api/v1/clipboard?page=${page}&limit=${limit}`
+  if (type) url += `&type=${type}`
+  if (q) url += `&q=${encodeURIComponent(q)}`
+  if (start) url += `&start_date=${start}`
+  if (end) url += `&end_date=${end}`
+  return url
+}
 
-  /** 获取今天的 YYYY-MM-DD */
-  function todayStr(): string {
-    const d = new Date()
-    const pad = (n: number) => String(n).padStart(2, "0")
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+export async function fetchClipboardList(
+  page: number, limit: number,
+  type = "", q = "", start = "", end = ""
+): Promise<ClipboardListResponse | null> {
+  try {
+    const res = await $fetch<any>(buildListUrl(page, limit, type, q, start, end), {
+      headers: headers()
+    })
+    if (res.code === 200) return res.data
+    if (res.code === 401) { clearToken(); return null }
+    return null
+  } catch {
+    return null
   }
+}
 
-  /** 获取 N 天前的 YYYY-MM-DD */
-  function daysAgoStr(n: number): string {
-    const d = new Date()
-    d.setDate(d.getDate() - n)
-    const pad = (n: number) => String(n).padStart(2, "0")
-    return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+export async function uploadClipboardText(content: string): Promise<ClipboardEntry | null> {
+  try {
+    const res = await $fetch<any>("/api/v1/clipboard/text", {
+      method: "POST",
+      headers: { ...headers(), "Content-Type": "application/json" },
+      body: JSON.stringify({ content })
+    })
+    if (res.code === 200) return res.data
+    if (res.code === 401) clearToken()
+    return null
+  } catch {
+    return null
   }
+}
 
-  async function uploadText(content: string): Promise<ClipboardEntry | null> {
-    uploading.value = true
-    try {
-      const res = await http<ClipboardEntry>({
-        url: "/v1/clipboard/text",
-        method: "POST",
-        body: { content }
-      })
-      if (res) entries.value.push(res)
-      return res ?? null
-    } catch (e: any) {
-      console.error("上传文本失败", e)
-      return null
-    } finally {
-      uploading.value = false
-    }
+export async function uploadClipboardFile(file: File): Promise<ClipboardEntry | null> {
+  try {
+    const form = new FormData()
+    form.append("file", file)
+    const res = await $fetch<any>("/api/v1/clipboard/file", {
+      method: "POST",
+      headers: headers(),
+      body: form
+    })
+    if (res.code === 200) return res.data
+    if (res.code === 401) clearToken()
+    return null
+  } catch {
+    return null
   }
+}
 
-  async function uploadFile(file: File): Promise<ClipboardEntry | null> {
-    uploading.value = true
-    try {
-      const form = new FormData()
-      form.append("file", file)
-      const res = await http<ClipboardEntry>({
-        url: "/v1/clipboard/file",
-        method: "POST",
-        body: form
-      })
-      if (res) entries.value.push(res)
-      return res ?? null
-    } catch (e: any) {
-      console.error("上传文件失败", e)
-      return null
-    } finally {
-      uploading.value = false
-    }
+export async function deleteClipboardEntry(uuid: string): Promise<boolean> {
+  try {
+    const res = await $fetch<any>(`/api/v1/clipboard/${uuid}`, {
+      method: "DELETE",
+      headers: headers()
+    })
+    if (res.code === 200) return true
+    if (res.code === 401) clearToken()
+    return false
+  } catch {
+    return false
   }
+}
 
-  async function remove(uuid: string) {
-    try {
-      await http({ url: `/v1/clipboard/${uuid}`, method: "DELETE" })
-      entries.value = entries.value.filter((e) => e.uuid !== uuid)
-    } catch (e: any) {
-      console.error("删除失败", e)
-    }
-  }
+// ─── 工具函数 ───────────────────────────────────────
+export function formatClipboardTime(dateStr: string): string {
+  const d = new Date(dateStr.replace(" ", "T"))
+  const now = new Date()
+  const isToday = d.toDateString() === now.toDateString()
+  const pad = (n: number) => String(n).padStart(2, "0")
+  if (isToday) return `${pad(d.getHours())}:${pad(d.getMinutes())}`
+  return `${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
+}
 
-  async function copyToClipboard(entry: ClipboardEntry): Promise<void> {
-    const text = entry.type === "text" ? entry.content || "" : entry.file_url || ""
-    try {
-      await navigator.clipboard.writeText(text)
-    } catch {
-      const ta = document.createElement("textarea")
-      ta.value = text
-      ta.style.position = "fixed"
-      ta.style.left = "-9999px"
-      document.body.appendChild(ta)
-      ta.select()
-      document.execCommand("copy")
-      document.body.removeChild(ta)
-    }
-  }
+export function formatClipboardSize(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+}
 
-  function formatTime(dateStr: string): string {
-    const d = new Date(dateStr.replace(" ", "T"))
-    const now = new Date()
-    const isToday = d.toDateString() === now.toDateString()
-    const pad = (n: number) => String(n).padStart(2, "0")
-    if (isToday) return `${pad(d.getHours())}:${pad(d.getMinutes())}`
-    return `${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`
-  }
+export function todayStr(): string {
+  const d = new Date()
+  const pad = (n: number) => String(n).padStart(2, "0")
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+}
 
-  function formatSize(bytes: number): string {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-  }
-
-  return {
-    entries, loading, uploading, hasMore,
-    loadMore, refresh,
-    filterType, searchQuery, dateRange,
-    setDateRange, todayStr, daysAgoStr,
-    uploadText, uploadFile, remove, copyToClipboard,
-    formatTime, formatSize
-  }
+export function daysAgoStr(n: number): string {
+  const d = new Date()
+  d.setDate(d.getDate() - n)
+  const pad = (n: number) => String(n).padStart(2, "0")
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
 }
