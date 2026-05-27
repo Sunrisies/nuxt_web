@@ -1,7 +1,0 @@
-powershell.exe : 只应将 ScriptBlock 指定为 Command 参数值。
-所在位置 行:1 字符: 389
-+ ... e.value__ } powershell -Command try { $r = Invoke-WebRequest -Uri 'ht ...
-+                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : InvalidArgument: (:) []，ParameterBindingException
-    + FullyQualifiedErrorId : IncorrectValueForCommandParameter
- 
