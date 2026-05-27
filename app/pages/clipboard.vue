@@ -1,6 +1,6 @@
 <template>
   <!-- 未登录：频道输入 -->
-  <div class="border border-red-400 flex-1 flex">
+  <div class="flex-1 flex">
     <div v-if="!loggedIn" class="flex-1 flex items-center justify-center px-4">
       <UCard class="w-full max-w-sm">
         <template #header>
@@ -40,10 +40,10 @@
       </UCard>
     </div>
     <!-- 已登录：剪贴板界面 -->
-    <div v-else class="flex flex-col flex-1">
+    <div v-else class="flex flex-col flex-1 min-h-0">
       <div
         ref="topRef"
-        class="border-b bg-white dark:bg-zinc-950 px-4 py-3 space-y-3"
+        class="border-b bg-white dark:bg-zinc-950 px-4 py-3 space-y-3 shrink-0"
       >
         <div class="flex items-center justify-between">
           <h1 class="text-lg font-bold">云剪贴板</h1>
@@ -105,7 +105,7 @@
 
       <div
         ref="scrollRef"
-        class="overflow-y-auto px-4 py-4 space-y-3 flex-1"
+        class="overflow-y-auto px-4 py-4 space-y-3 flex-1 min-h-0"
         @scroll="onScroll"
       >
         <div
@@ -141,7 +141,7 @@
             :key="entry.uuid"
             class="flex justify-end"
           >
-            <div class="relative w-full sm:max-w-[70%]">
+            <div class="relative max-w-[85%] sm:max-w-[65%]">
               <div class="text-right text-xs text-gray-400 mb-1">
                 {{ formatClipboardTime(entry.created_at) }}
               </div>
@@ -226,7 +226,7 @@
         ></template>
       </UModal>
 
-      <div ref="bottomRef" class="border-t bg-white dark:bg-zinc-950 px-4 py-3">
+      <div ref="bottomRef" class="border-t bg-white dark:bg-zinc-950 px-4 py-3 shrink-0">
         <div class="flex items-end gap-2">
           <div class="flex shrink-0 gap-1">
             <UButton
@@ -278,19 +278,18 @@
 
 <script setup lang="ts">
 import {
-  hasToken,
-  getStoredToken,
-  setStoredToken,
-  clearToken,
   authChannel,
-  fetchClipboardList,
-  uploadClipboardText,
-  uploadClipboardFile,
+  clearToken,
+  daysAgoStr,
   deleteClipboardEntry,
-  formatClipboardTime,
+  fetchClipboardList,
   formatClipboardSize,
+  formatClipboardTime,
+  hasToken,
+  setStoredToken,
   todayStr,
-  daysAgoStr
+  uploadClipboardFile,
+  uploadClipboardText
 } from "~/composables/useClipboard"
 import type { ClipboardEntry } from "~/types/clipboard"
 
@@ -536,6 +535,12 @@ function onScroll() {
     })
   }
 }
+onMounted(() => {
+  if (loggedIn.value) {
+    loadInitialData().then(scrollToBottom)
+  }
+})
+
 const toast = useToast()
 </script>
 <style scoped>

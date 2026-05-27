@@ -2,15 +2,17 @@
   <div class="min-h-screen flex flex-col antialiased">
     <ScrollProgressBar />
     <div ref="headerRef"><AppHeader /></div>
-    <main class="flex-1 flex flex-col">
+    <main class="flex-1 flex flex-col" :style="{ height: mainMinHeight + 'px' }">
       <slot />
     </main>
-    <div ref="footerRef" class="hidden md:block"><AppFooter /></div>
+    <div ref="footerRef" :class="{ 'hidden md:block': isClipboard }"><AppFooter /></div>
     <ScrollToTopButton />
   </div>
 </template>
 
 <script setup lang="ts">
+const route = useRoute()
+const isClipboard = computed(() => route.path === "/clipboard" || route.path.startsWith("/clipboard"))
 const headerRef = useTemplateRef<HTMLDivElement>("headerRef")
 const footerRef = useTemplateRef<HTMLDivElement>("footerRef")
 const mainMinHeight = ref(

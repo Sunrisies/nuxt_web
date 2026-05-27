@@ -2,17 +2,11 @@
   <UHeader>
     <template #title>
       <div class="flex items-center gap-2 mr-4">
-        <!-- <ClientOnly
-          fallback-tag="span"
-          fallback="Loading comments..."
-        >
-          <NuxtLink
-            href="/"
-            class="flex items-center gap-2"
-          >
+        <ClientOnly fallback-tag="span" fallback="Loading comments...">
+          <NuxtLink href="/" class="flex items-center gap-2">
             <span class="text-lg font-bold">中文博客</span>
           </NuxtLink>
-        </ClientOnly> -->
+        </ClientOnly>
       </div>
     </template>
 
@@ -79,6 +73,7 @@ const items = [
   { label: "归档", to: "/archives" },
   { label: "时光轴", to: "/timeline" },
   { label: "导航", to: "/navigationBar" },
+  { label: "剪贴板", to: "/clipboard" },
   { label: "关于", to: "/about" }
 ]
 
