@@ -39,5 +39,18 @@
     "lucide-vue-next": "^0.563.0",
     "sass-embedded": "^1.97.3"
   },
-  "version": "0.0.18"
+  "version": "0.0.18",
+  "description": "Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Sunrisies/nuxt_web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sunrisies/nuxt_web/issues"
+  },
+  "homepage": "https://github.com/Sunrisies/nuxt_web#readme"
 }

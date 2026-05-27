@@ -23,9 +23,15 @@ export const http = async <T = unknown>(obj: HttpParams): Promise<T> => {
     const baseURL = import.meta.client
       ? (obj.baseURL || "/api")
       : (config.public.apiBase || BASEURL)
-    console.log(process.env.NUXT_PUBLIC_API_BASE, "请求参数------------------------------------")
+
+    // 构造 $fetch 参数，只传非空字段
+    const fetchOptions: Record<string, any> = { baseURL }
+    if (obj.method) fetchOptions.method = obj.method
+    if (obj.body != null) fetchOptions.body = obj.body
+    if (obj.query) fetchOptions.params = obj.query
+
     const response = await $fetch<ApiResponse<T>>(obj.url, {
-      baseURL,
+      ...fetchOptions,
       onRequest: (res) => {
         console.log(res, "请求成功")
       },

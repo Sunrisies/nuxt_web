@@ -45,7 +45,10 @@ export default defineNuxtConfig({
     "/admin": { ssr: false },
     "/admin/**": { ssr: false },
     // API 请求代理到后端（浏览器同源，避免跨域）
-    "/api/v1/**": { proxy: "https://api.sunrise1024.top/api/v1/**" }
+    // "/api/v1/**": { proxy: "https://api.sunrise1024.top/api/v1/**" }
+    "/api/v1/**": {
+      proxy: "http://127.0.0.1:2345/api/v1/**"
+    }
   },
   compatibilityDate: "2025-07-15",
   nitro: {
