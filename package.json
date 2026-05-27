@@ -39,7 +39,7 @@
     "lucide-vue-next": "^0.563.0",
     "sass-embedded": "^1.97.3"
   },
-  "version": "0.0.18",
+  "version": "0.0.20",
   "description": "Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.",
   "main": "index.js",
   "repository": {
