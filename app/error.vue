@@ -28,7 +28,7 @@
 
 <script setup>
 definePageMeta({
-  layout: "default"
+  layout: false
 })
 // 错误对象会自动注入
 const props = defineProps({

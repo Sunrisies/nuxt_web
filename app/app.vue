@@ -6,7 +6,7 @@
     content="b3fd8ca0bc639bedcd07e98429ae11a6e02e1b2a"
   />
   <UApp :locale="zh_cn">
-    <NuxtLayout>
+    <NuxtLayout :key="route.path">
       <NuxtPage />
     </NuxtLayout>
   </UApp>
@@ -15,6 +15,7 @@
 <script setup lang="ts">
 import { zh_cn } from "@nuxt/ui/locale"
 
+const route = useRoute()
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
 console.log(121212)

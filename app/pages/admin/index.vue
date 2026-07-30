@@ -8,15 +8,5 @@
 definePageMeta({
   layout: false
 })
-
-const router = useRouter()
-
-onMounted(() => {
-  const user = localStorage.getItem("admin_user")
-  if (user) {
-    router.replace("/admin/dashboard")
-  } else {
-    router.replace("/admin/login")
-  }
-})
+// 重定向逻辑已移至 middleware/admin-auth.ts
 </script>
