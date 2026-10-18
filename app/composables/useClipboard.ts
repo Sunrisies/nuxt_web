@@ -22,6 +22,12 @@ export function hasToken(): boolean {
   return !!getStoredToken()
 }
 
+export interface ClipboardSpace {
+  channel_id: number
+  channel_name: string
+  token: string
+}
+
 // ─── 频道认证 ───────────────────────────────────────
 export async function authChannel(name: string, password: string): Promise<string | null> {
   try {
@@ -39,14 +45,24 @@ export async function authChannel(name: string, password: string): Promise<strin
   }
 }
 
-export async function createChannel(name: string, password: string): Promise<string | null> {
+export async function createChannel(name: string, password: string): Promise<ClipboardSpace | null> {
   try {
-    const res = await $fetch<ApiResponse<unknown>>("/api/v1/clipboard/channel", {
+    const res = await $fetch<ApiResponse<ClipboardSpace>>("/api/v1/clipboard/channel", {
       method: "POST",
       body: { name, password }
     })
-    if (res.code === 200) return "created"
+    if (res.code === 200 && res.data?.token) return res.data
     return null
+  } catch {
+    return null
+  }
+}
+
+/** 已登录账号在新设备上直接打开自己的空间。 */
+export async function openMyClipboard(): Promise<ClipboardSpace | null> {
+  try {
+    const res = await $fetch<ApiResponse<ClipboardSpace>>("/api/v1/clipboard/my-channel")
+    return res.code === 200 && res.data?.token ? res.data : null
   } catch {
     return null
   }

@@ -9,11 +9,15 @@
             class="h-10 w-10 mx-auto mb-2 text-primary"
           />
           <h1 class="text-xl font-bold">云剪贴板</h1>
-          <p class="text-sm text-gray-500 mt-1">输入频道名称和密码进入</p>
+          <p class="text-sm text-gray-500 mt-1">跨设备保存文本、图片和文件</p>
         </div>
       </template>
 
       <UForm :state="form" class="space-y-4" @submit="handleEnter">
+        <UButton color="primary" variant="soft" block :loading="mySpaceLoading" @click="handleOpenMySpace">
+          登录后直接打开我的空间
+        </UButton>
+        <div class="flex items-center gap-2 text-xs text-gray-400"><span class="h-px flex-1 bg-gray-200" />或使用空间码<span class="h-px flex-1 bg-gray-200" /></div>
         <UFormField label="频道名称" required>
           <UInput
             v-model="form.name"
@@ -35,8 +39,16 @@
         <UButton type="submit" color="primary" block :loading="authLoading"
           >进入频道</UButton
         >
+        <UButton color="neutral" variant="outline" block :loading="creatingSpace" @click="handleCreateSpace">创建新的存储空间</UButton>
       </UForm>
     </UCard>
+    <UModal v-model:open="showSpaceCode">
+      <template #content><UCard><template #header><h2 class="font-semibold">保存你的空间凭证</h2></template>
+        <p class="text-sm text-muted">在其他设备输入以下空间码和访问码即可打开同一个列表。</p>
+        <div class="mt-4 space-y-3"><div><p class="text-xs text-muted">空间码</p><code class="block rounded bg-muted px-3 py-2">{{ createdSpace.name }}</code></div><div><p class="text-xs text-muted">访问码</p><code class="block rounded bg-muted px-3 py-2">{{ createdSpace.password }}</code></div></div>
+        <template #footer><UButton block @click="showSpaceCode = false">我已保存</UButton></template>
+      </UCard></template>
+    </UModal>
   </div>
   <!-- 已登录：剪贴板界面 -->
   <div v-else class="flex flex-col flex-1 min-h-0">
@@ -280,6 +292,7 @@
 <script setup lang="ts">
 import {
   authChannel,
+  createChannel,
   clearToken,
   daysAgoStr,
   deleteClipboardEntry,
@@ -288,6 +301,7 @@ import {
   formatClipboardTime,
   hasToken,
   setStoredToken,
+  openMyClipboard,
   todayStr,
   uploadClipboardFile,
   uploadClipboardText
@@ -297,6 +311,10 @@ import type { ClipboardEntry } from "~/types/clipboard"
 const loggedIn = ref(hasToken())
 const form = reactive({ name: "", password: "" })
 const authLoading = ref(false)
+const mySpaceLoading = ref(false)
+const creatingSpace = ref(false)
+const showSpaceCode = ref(false)
+const createdSpace = reactive({ name: "", password: "" })
 const errorMsg = ref("")
 
 async function handleEnter() {
@@ -317,6 +335,38 @@ async function handleEnter() {
   await loadInitialData()
   scrollToBottom()
   authLoading.value = false
+}
+
+async function handleOpenMySpace() {
+  mySpaceLoading.value = true
+  const space = await openMyClipboard()
+  mySpaceLoading.value = false
+  if (!space) { errorMsg.value = "请先登录管理端，或先创建一个存储空间"; return }
+  setStoredToken(space.token)
+  loggedIn.value = true
+  await loadInitialData()
+  scrollToBottom()
+}
+
+function makeCode(prefix: string, length: number) {
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+  return prefix + Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join("")
+}
+
+async function handleCreateSpace() {
+  creatingSpace.value = true
+  errorMsg.value = ""
+  const name = makeCode("BOX-", 6)
+  const password = makeCode("", 8)
+  const space = await createChannel(name, password)
+  creatingSpace.value = false
+  if (!space) { errorMsg.value = "请先登录管理端后再创建空间"; return }
+  createdSpace.name = name
+  createdSpace.password = password
+  setStoredToken(space.token)
+  loggedIn.value = true
+  showSpaceCode.value = true
+  await loadInitialData()
 }
 
 function handleLeave() {
