@@ -9,7 +9,7 @@ export default defineNuxtConfig({
     "@nuxt/image",
     "@nuxtjs/device",
     "@nuxtjs/color-mode",
-    "nuxt-umami", // 暂时禁用，umami.sunrise1024.top 不可达
+    "nuxt-umami",
     "@nuxtjs/sitemap"
   ],
   devtools: {
@@ -96,7 +96,13 @@ export default defineNuxtConfig({
     sources: ["/api/__sitemap__/urls"]
   },
   umami: {
+    // 这两个值是 Umami 的公开追踪配置，而非管理凭证。环境变量可覆盖，
+    // 默认值保证 Docker 构建阶段也不会意外退回测试模式。
+    host: process.env.NUXT_UMAMI_HOST || "https://umami.sunrise1024.top",
+    id: process.env.NUXT_UMAMI_ID || "354a3bc7-6b49-4725-b444-417dbead9686",
     autoTrack: true,
-    ignoreLocalhost: true
+    ignoreLocalhost: true,
+    // 由站点同源转发采集请求，避免浏览器拦截跨域统计脚本。
+    proxy: "cloak"
   }
 })

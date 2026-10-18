@@ -23,6 +23,10 @@
       <UCard><p class="text-sm text-muted">近 7 日读者反馈</p><p class="mt-1 text-2xl font-bold">{{ analytics.feedback_7d }}</p></UCard>
       <UCard><p class="text-sm text-muted">邮件订阅</p><p class="mt-1 text-2xl font-bold">{{ analytics.subscribers }}</p></UCard>
     </div>
+    <div class="mt-4 flex items-center justify-between rounded-lg border border-default bg-muted/30 px-4 py-3">
+      <div><p class="font-medium">访问分析</p><p class="text-sm text-muted">查看访问来源、设备、地区、页面路径和停留趋势。</p></div>
+      <UButton href="https://umami.sunrise1024.top" target="_blank" icon="i-heroicons-arrow-top-right-on-square">打开 Umami</UButton>
+    </div>
 
     <div class="mt-8 grid gap-6 lg:grid-cols-3">
       <UCard class="lg:col-span-2">
