@@ -20,7 +20,12 @@ export const formatDateForDisplay = (
   options: FormatOptions = {}
 ): string => {
   try {
-    const date = new Date(dateString)
+    // 后端的 "YYYY-MM-DD HH:mm:ss" 已经是北京时间。为它补上 +08:00，
+    // 避免浏览器按访客本地时区或 UTC 猜测，导致发布时间偏移。
+    const normalized = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}$/.test(dateString)
+      ? `${dateString.replace(" ", "T")}+08:00`
+      : dateString
+    const date = new Date(normalized)
     // 检查是否有效日期
     if (isNaN(date.getTime())) {
       return dateString
@@ -49,7 +54,7 @@ export const formatDateForDisplay = (
       dateOptions.hour12 = false // 24小时制
     }
 
-    return date.toLocaleString("zh-CN", dateOptions)
+    return date.toLocaleString("zh-CN", { ...dateOptions, timeZone: "Asia/Shanghai" })
   } catch (error) {
     console.error(error)
     return dateString
