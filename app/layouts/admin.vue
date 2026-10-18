@@ -47,7 +47,7 @@
     <!-- 主内容区 -->
     <div class="flex flex-1 flex-col min-w-0 min-h-0 lg:ml-60">
       <!-- 顶部栏 -->
-      <header :class="isEditor ? 'lg:hidden h-10' : 'h-16'" class="shrink-0 z-30 flex items-center gap-4 border-b bg-white/80 px-4 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80">
+      <header :class="isEditor ? 'lg:hidden h-10' : 'h-12'" class="shrink-0 z-30 flex items-center gap-3 border-b bg-white/80 px-4 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80">
         <button
           class="lg:hidden"
           @click="sidebarOpen = true"
@@ -55,13 +55,14 @@
           <UIcon name="i-heroicons-bars-3" class="h-6 w-6" />
         </button>
 
+        <p v-if="!isEditor" class="hidden text-sm text-muted sm:block">内容管理</p>
         <div class="flex-1" />
 
         <span class="text-sm text-gray-500">管理员</span>
       </header>
 
       <!-- 页面内容 -->
-      <main class="flex-1 min-h-0 min-w-0" :class="isEditor ? 'overflow-hidden flex' : 'overflow-y-auto p-6'">
+      <main class="flex-1 min-h-0 min-w-0" :class="isEditor ? 'overflow-hidden flex' : 'overflow-y-auto p-4 lg:p-5'">
         <slot />
       </main>
     </div>

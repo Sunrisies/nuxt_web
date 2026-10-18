@@ -11,6 +11,8 @@
           </time>
           <span class="text-muted">&middot;</span>
           <span class="text-muted">{{ readingTime }}</span>
+          <span class="text-muted">&middot;</span>
+          <span class="text-muted">{{ article.views || 0 }} 次观看</span>
         </template>
 
         <div class="flex flex-wrap items-center gap-3 mt-4">
