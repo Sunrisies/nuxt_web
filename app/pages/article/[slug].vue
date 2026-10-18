@@ -1,5 +1,6 @@
 <template>
   <article class="container">
+    <div class="fixed inset-x-0 top-0 z-50 h-1 bg-primary transition-[width]" :style="{ width: `${readingProgress}%` }" aria-hidden="true" />
     <UContainer v-if="article">
       <UPageHeader :title="article.title" :description="article.description">
         <template #headline>
@@ -36,6 +37,11 @@
           <section v-if="relatedPosts.length" class="border-t pt-8" aria-label="相关文章">
             <div class="mb-4 flex items-center justify-between"><h2 class="text-xl font-semibold">相关文章</h2><NuxtLink :to="`/blog/1?category=${article?.category?.id}`" class="text-sm text-primary">查看同分类文章</NuxtLink></div>
             <div class="grid gap-3 sm:grid-cols-2"><NuxtLink v-for="post in relatedPosts" :key="post.uuid" :to="`/article/${post.uuid}`" class="rounded-lg border p-4 transition hover:border-primary hover:bg-muted/30"><p class="line-clamp-1 font-medium">{{ post.title }}</p><p class="mt-1 line-clamp-2 text-sm text-muted">{{ post.description }}</p><p class="mt-2 text-xs text-muted">{{ post.views || 0 }} 浏览</p></NuxtLink></div>
+          </section>
+          <section class="rounded-xl border bg-muted/20 p-5" aria-label="读者反馈">
+            <h2 class="font-semibold">这篇文章对你有帮助吗？</h2>
+            <div class="mt-3 flex flex-wrap gap-2"><UButton size="sm" variant="soft" :loading="feedbackSending" @click="sendFeedback('helpful')">有帮助</UButton><UButton size="sm" color="neutral" variant="soft" :loading="feedbackSending" @click="sendFeedback('not_helpful')">需要改进</UButton><UButton size="sm" color="neutral" variant="ghost" @click="showFeedback = !showFeedback">留下建议</UButton></div>
+            <div v-if="showFeedback" class="mt-4 space-y-3"><UTextarea v-model="feedbackMessage" placeholder="告诉我哪里还可以改进" :rows="3" maxlength="2000" /><UButton size="sm" :loading="feedbackSending" @click="sendFeedback('message')">提交反馈</UButton></div>
           </section>
 
           <div class="mt-12 pt-8 border-t">
@@ -103,7 +109,8 @@ async function recordView() {
   if (!import.meta.client) return
   await http({ url: `/v1/posts/${encodeURIComponent(slug.value)}/view`, method: "POST", timeout: 3000 }).catch(() => {})
 }
-onMounted(() => { void recordView() })
+onMounted(() => { void recordView(); updateReadingProgress(); window.addEventListener("scroll", updateReadingProgress, { passive: true }) })
+onBeforeUnmount(() => window.removeEventListener("scroll", updateReadingProgress))
 watch(slug, () => { void recordView() })
 const article = computed(() => data.value?.article)
 const ast = computed(() => data.value?.ast)
@@ -147,6 +154,17 @@ const articleToc = computed(() => {
 })
 const neighbors = computed(() => data.value?.neighbors || { prev: null, next: null })
 const readingTime = computed(() => `约 ${data.value?.readingMinutes || 1} 分钟读完`)
+const readingProgress = ref(0)
+const feedbackSending = ref(false)
+const feedbackMessage = ref("")
+const showFeedback = ref(false)
+const toast = useToast()
+function updateReadingProgress() { const max = document.documentElement.scrollHeight - window.innerHeight; readingProgress.value = max > 0 ? Math.min(100, Math.max(0, Math.round(window.scrollY / max * 100))) : 0 }
+async function sendFeedback(kind: "helpful" | "not_helpful" | "message") {
+  if (kind === "message" && !feedbackMessage.value.trim()) { toast.add({ title: "请先填写反馈内容", color: "warning" }); return }
+  feedbackSending.value = true
+  try { await http({ url: "/v1/feedback", method: "POST", body: { kind, post_uuid: slug.value, message: kind === "message" ? feedbackMessage.value.trim() : undefined } }); toast.add({ title: "感谢你的反馈", color: "success" }); feedbackMessage.value = ""; showFeedback.value = false } catch { toast.add({ title: "提交失败，请稍后重试", color: "error" }) } finally { feedbackSending.value = false }
+}
 
 const seoTitle = computed(() => `${article.value?.title || "文章详情"} | 朝阳的码农札记`)
 const seoDescription = computed(() => article.value?.description || "技术文章详情页。")

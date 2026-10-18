@@ -18,6 +18,11 @@
         </div>
       </UCard>
     </div>
+    <div class="mt-6 grid gap-4 sm:grid-cols-3">
+      <UCard><p class="text-sm text-muted">近 7 日有效浏览</p><p class="mt-1 text-2xl font-bold">{{ analytics.views_7d }}</p></UCard>
+      <UCard><p class="text-sm text-muted">近 7 日读者反馈</p><p class="mt-1 text-2xl font-bold">{{ analytics.feedback_7d }}</p></UCard>
+      <UCard><p class="text-sm text-muted">邮件订阅</p><p class="mt-1 text-2xl font-bold">{{ analytics.subscribers }}</p></UCard>
+    </div>
 
     <div class="mt-8 grid gap-6 lg:grid-cols-3">
       <UCard class="lg:col-span-2">
@@ -90,6 +95,7 @@ const stats = ref([
 const recentPosts = ref<AdminPost[]>([])
 const publishStats = ref({ published: 0, drafts: 0, offline: 0 })
 const topPosts = ref<AdminPost[]>([])
+const analytics = ref({ views_7d: 0, feedback_7d: 0, subscribers: 0 })
 const publishRate = computed(() => {
   const total = publishStats.value.published + publishStats.value.drafts + publishStats.value.offline
   return total ? Math.round(publishStats.value.published / total * 100) : 0
@@ -103,14 +109,15 @@ const postColumns = [
 
 onMounted(async () => {
   try {
-    const [postsRes, categoriesRes, tagsRes, allPostsRes] = await Promise.all([
+    const [postsRes, categoriesRes, tagsRes, allPostsRes, analyticsRes] = await Promise.all([
       http<{ data: AdminPost[], pagination: { total: number } }>({ url: "/v1/posts?page=1&limit=5" }),
       http<{ data: AdminNamedItem[], pagination: { total: number } }>({ url: "/v1/categories?page=1&limit=1" }),
       http<{ data: AdminNamedItem[], pagination: { total: number } }>({ url: "/v1/tags?page=1&limit=1" }),
       http<{ data: AdminPost[], pagination: { total: number } }>({ url: "/v1/posts?page=1&limit=100" }),
+      http<{ total_posts: number, total_views: number, published: number, drafts: number, offline: number, views_7d: number, feedback_7d: number, subscribers: number }>({ url: "/v1/analytics/dashboard" }),
     ])
     recentPosts.value = postsRes?.data?.slice(0, 5) || []
-    stats.value[0].value = String(postsRes?.pagination?.total ?? 0)
+    stats.value[0].value = String(analyticsRes?.total_posts ?? postsRes?.pagination?.total ?? 0)
     stats.value[1].value = String(categoriesRes?.pagination?.total ?? 0)
     stats.value[2].value = String(tagsRes?.pagination?.total ?? 0)
     // 汇总所有文章浏览量
@@ -120,9 +127,10 @@ onMounted(async () => {
       if (!result.data.length) throw new Error("文章统计数据不完整")
       allPosts.push(...result.data)
     }
-    const totalViews = allPosts.reduce((sum: number, post: AdminPost) => sum + (post.views || 0), 0) || 0
+    const totalViews = analyticsRes?.total_views ?? (allPosts.reduce((sum: number, post: AdminPost) => sum + (post.views || 0), 0) || 0)
     stats.value[3].value = String(totalViews)
-    publishStats.value = { published: allPosts.filter(post => post.is_publish).length, drafts: allPosts.filter(post => !post.is_publish && !post.is_hide).length, offline: allPosts.filter(post => post.is_hide).length }
+    publishStats.value = { published: analyticsRes?.published ?? allPosts.filter(post => post.is_publish).length, drafts: analyticsRes?.drafts ?? allPosts.filter(post => !post.is_publish && !post.is_hide).length, offline: analyticsRes?.offline ?? allPosts.filter(post => post.is_hide).length }
+    analytics.value = analyticsRes || analytics.value
     topPosts.value = [...allPosts].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5)
   } catch (e) {
     console.error("获取仪表盘数据失败", e)

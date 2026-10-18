@@ -101,6 +101,10 @@
         </div>
 
         <div class="flex flex-col items-center md:items-end gap-4">
+          <form class="flex w-full max-w-xs gap-2" @submit.prevent="subscribe">
+            <UInput v-model="email" type="email" required aria-label="订阅邮箱" placeholder="订阅更新邮件" size="sm" class="min-w-0 flex-1" />
+            <UButton type="submit" size="sm" :loading="subscribing">订阅</UButton>
+          </form>
           <div class="flex items-center gap-4">
             <NuxtLink
               href="https://github.com/yourusername/blog"
@@ -114,6 +118,7 @@
             <!-- href="/api/rss" -->
 
             <NuxtLink
+              href="/rss.xml"
               class="h-9 w-9 rounded-full bg-muted flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all duration-200"
             >
               <svg
@@ -194,6 +199,7 @@
 
 <script setup lang="ts">
 import { Github } from "lucide-vue-next"
+import { http } from "~/composables/http"
 
 const SITE_START_TIME = new Date("2024-01-01T00:00:00") // 替换为你的网站上线时间
 
@@ -208,6 +214,13 @@ function getDuration() {
 }
 const duration = ref("")
 const timer = ref<ReturnType<typeof setInterval> | null>(null)
+const email = ref("")
+const subscribing = ref(false)
+const toast = useToast()
+async function subscribe() {
+  subscribing.value = true
+  try { await http({ url: "/v1/subscriptions", method: "POST", body: { email: email.value } }); toast.add({ title: "订阅已登记", description: "有新内容时会发送到此邮箱", color: "success" }); email.value = "" } catch { toast.add({ title: "订阅失败，请检查邮箱后重试", color: "error" }) } finally { subscribing.value = false }
+}
 onMounted(() => {
   timer.value = setInterval(() => {
     duration.value = getDuration()
