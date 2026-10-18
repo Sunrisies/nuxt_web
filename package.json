@@ -9,7 +9,13 @@
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"
+    "lint:fix": "eslint . --fix",
+    "test:performance": "node scripts/test-performance.mjs",
+    "test:contracts": "node scripts/test-contracts.mjs",
+    "test:local": "node scripts/test-local-acceptance.mjs",
+    "test:authoring": "node scripts/test-article-authoring.mjs",
+    "test:authoring:browser": "node scripts/test-article-editor-page.cjs",
+    "test:media:browser": "node scripts/test-media-management-browser.cjs"
   },
   "dependencies": {
     "@nuxt/content": "^3.14.0",
@@ -30,6 +36,7 @@
     "nuxt-umami": "3.2.1",
     "reka-ui": "^2.9.8",
     "tailwindcss": "^4.3.0",
+    "undici": "^7.30.0",
     "vue": "^3.5.34",
     "vue-echarts": "^8.0.1",
     "vue-router": "^4.6.4"
@@ -39,7 +46,7 @@
     "lucide-vue-next": "^0.563.0",
     "sass-embedded": "^1.100.0"
   },
-  "version": "0.0.22",
+  "version": "0.0.23",
   "description": "Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.",
   "main": "index.js",
   "repository": {
@@ -52,5 +59,6 @@
   "bugs": {
     "url": "https://github.com/Sunrisies/nuxt_web/issues"
   },
-  "homepage": "https://github.com/Sunrisies/nuxt_web#readme"
+  "homepage": "https://github.com/Sunrisies/nuxt_web#readme",
+  "packageManager": "pnpm@12.6.0"
 }
