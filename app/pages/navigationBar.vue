@@ -124,6 +124,10 @@
                   v-if="item.icon"
                   :src="item.icon"
                   :alt="item.name"
+                  width="56"
+                  height="56"
+                  loading="lazy"
+                  decoding="async"
                   class="w-full h-full rounded-xl object-contain p-1 bg-gray-100 dark:bg-zinc-700"
                 >
                 <span
@@ -259,28 +263,21 @@ const scrollToCategory = (categoryId: number) => {
   }
 }
 
-// 监听滚动，更新激活的分类
+// 只在分类跨越观察区域时更新，避免滚动时逐个读取布局。
+let sectionObserver: IntersectionObserver | undefined
 onMounted(() => {
-  const handleScroll = () => {
-    const sections = document.querySelectorAll(".category-section")
-    let currentSection = null
-
-    sections.forEach((section) => {
-      const sectionTop = section.getBoundingClientRect().top
-      if (sectionTop <= 100) {
-        currentSection = section.id.replace("category-", "")
-      }
-    })
-
-    if (currentSection) {
-      activeCategory.value = Number(currentSection)
+  sectionObserver = new IntersectionObserver(entries => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) activeCategory.value = Number(entry.target.id.replace("category-", ""))
     }
-  }
-
-  window.addEventListener("scroll", handleScroll)
-  onUnmounted(() => {
-    window.removeEventListener("scroll", handleScroll)
-  })
+  }, { rootMargin: "-10% 0px -70% 0px" })
+  document.querySelectorAll(".category-section").forEach(section => sectionObserver?.observe(section))
+})
+onBeforeUnmount(() => sectionObserver?.disconnect())
+watch(filteredCategories, async () => {
+  await nextTick()
+  sectionObserver?.disconnect()
+  document.querySelectorAll(".category-section").forEach(section => sectionObserver?.observe(section))
 })
 </script>
 

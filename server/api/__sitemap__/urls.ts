@@ -1,51 +1,19 @@
-interface PostItem {
-  uuid: string
-  publish_time?: string
-}
-
-interface TagItem {
-  name: string
-}
-
-export default defineSitemapEventHandler(async () => {
-  const config = useRuntimeConfig()
-  const apiBase = config.public.apiBase || "/api"
-
+export default defineSitemapEventHandler(async (event) => {
+  const [archive, tags] = await Promise.all([publicArchive(event), publicTags(event)])
   const routes: Array<{ loc: string, lastmod?: string }> = [
-    { loc: "/" },
-    { loc: "/about" },
-    { loc: "/archives" },
-    { loc: "/timeline" },
-    { loc: "/navigationBar" },
-    { loc: "/blog/1" }
+    { loc: "/" }, { loc: "/about" }, { loc: "/archives" },
+    { loc: "/timeline" }, { loc: "/navigationBar" }
   ]
-
-  try {
-    const postsRes = await $fetch<{ code: number, data: PostItem[] }>("/v1/posts?page=1&limit=500", { baseURL: apiBase })
-    const posts = Array.isArray(postsRes?.data) ? postsRes.data : []
-
-    for (const post of posts) {
-      if (!post?.uuid) continue
-      routes.push({
-        loc: `/article/${post.uuid}`,
-        lastmod: post.publish_time ? new Date(post.publish_time).toISOString() : undefined
-      })
-    }
-  } catch {
-    // Keep base routes available even if post fetch fails.
+  for (let page = 1; page <= Math.max(1, Math.ceil(archive.pagination.total / 9)); page++) {
+    routes.push({ loc: `/blog/${page}` })
   }
-
-  try {
-    const tagsRes = await $fetch<{ code: number, data: TagItem[] }>("/v1/tags/count", { baseURL: apiBase })
-    const tags = Array.isArray(tagsRes?.data) ? tagsRes.data : []
-
-    for (const tag of tags) {
-      if (!tag?.name) continue
-      routes.push({ loc: `/tag/${encodeURIComponent(tag.name)}` })
-    }
-  } catch {
-    // Keep sitemap generation resilient when tag fetch fails.
+  for (const post of archive.data) {
+    const published = new Date(post.publish_time)
+    routes.push({
+      loc: `/article/${encodeURIComponent(post.uuid)}`,
+      lastmod: Number.isNaN(published.getTime()) ? undefined : published.toISOString()
+    })
   }
-
+  for (const tag of tags) routes.push({ loc: `/tag/${encodeURIComponent(tag.name)}` })
   return routes
 })

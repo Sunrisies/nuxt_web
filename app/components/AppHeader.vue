@@ -2,17 +2,14 @@
   <UHeader>
     <template #title>
       <div class="flex items-center gap-2 mr-4">
-        <ClientOnly fallback-tag="span" fallback="Loading comments...">
-          <NuxtLink href="/" class="flex items-center gap-2">
-            <span class="text-lg font-bold">中文博客</span>
-          </NuxtLink>
-        </ClientOnly>
+          <span class="text-lg font-bold">中文博客</span>
       </div>
     </template>
 
     <UNavigationMenu :items="items" />
 
     <template #right>
+      <UButton color="neutral" variant="ghost" icon="i-heroicons-magnifying-glass" aria-label="搜索文章" @click="showSearch = true" />
       <ThemeToggle />
 
       <ClientOnly>
@@ -59,13 +56,17 @@
     </template>
   </UHeader>
 
-  <LoginModal v-model:open="showLogin" />
+  <LazyLoginModal v-if="showLogin" v-model:open="showLogin" />
+  <UModal v-model:open="showSearch" title="搜索文章"><template #body><form class="flex gap-2" @submit.prevent="submitSearch"><UInput v-model="search" autofocus aria-label="搜索关键词" placeholder="输入标题或摘要关键词" :maxlength="100" class="flex-1" /><UButton type="submit" :disabled="!search.trim()">搜索</UButton></form></template></UModal>
 </template>
 
 <script setup lang="ts">
 const router = useRouter()
-const loggedIn = ref(false)
+const { loggedIn, check, logout } = useAdminSession()
+const toast = useToast()
 const showLogin = ref(false)
+const showSearch = ref(false)
+const search = ref("")
 
 const items = [
   { label: "首页", to: "/" },
@@ -78,14 +79,18 @@ const items = [
 ]
 
 onMounted(() => {
-  loggedIn.value = !!localStorage.getItem("admin_user")
+  void check().catch(() => {})
 })
 
-function handleLogout() {
-  localStorage.removeItem("admin_user")
-  loggedIn.value = false
-  router.push("/")
+async function handleLogout() {
+  try {
+    await logout()
+    await router.push("/")
+  } catch {
+    toast.add({ title: "退出失败，请重试", color: "error" })
+  }
 }
+async function submitSearch() { const q = search.value.trim(); if (!q) return; showSearch.value = false; await router.push({ path: "/search", query: { q } }) }
 </script>
 
 <style lang="scss" scoped></style>

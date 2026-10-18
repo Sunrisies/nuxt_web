@@ -8,27 +8,29 @@
 
       <!-- 日历热图 - 大屏显示 -->
       <div class="flex justify-start mb-8">
-        <div class="my-4 w-full border-red-400 hidden lg:block">
-          <TimelineCalendarHeatmap
-            v-if="warehouse.length > 0"
-            :warehouse="warehouse"
-          />
+        <div ref="chartTarget" class="my-4 w-full hidden lg:block min-h-72">
+          <ClientOnly>
+            <LazyTimelineCalendarHeatmap
+              v-if="showChart && warehouse.length > 0"
+              :warehouse="warehouse"
+            />
+            <template #fallback><div class="h-72" /></template>
+          </ClientOnly>
         </div>
       </div>
 
       <!-- 使用 NuxtUI 的 UChangelogVersions 组件 -->
-      <UChangelogVersions :versions="versions" />
+      <PostChangelogVersions :versions="versions" />
+      <UAlert v-if="feedError" color="warning" title="加载失败，请重试" class="mt-4" />
+      <UButton v-if="hasMore" :loading="feedLoading" class="mt-6" @click="loadMore">加载更多</UButton>
     </div>
 
-    <!-- 回到顶部按钮 -->
-    <ScrollToTopButton />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IArticle } from "~/types/article"
+import type { PostList, warehouseType } from "~/types/blog"
 import type { ChangelogVersionProps } from "@nuxt/ui"
-import type { warehouseType } from "~/types/blog"
 
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
@@ -36,7 +38,6 @@ const pageUrl = `${siteUrl}/timeline`
 const seoTitle = "时光轴 | 朝阳的码农札记"
 const seoDescription = "记录技术成长的点点滴滴，分享学习历程和技术见解，见证每一步成长的足迹。"
 const seoImage = "https://aly.chaoyang1024.top/uploads/2025/2/26/og-timeline.jpg"
-// import type { warehouseType } from '~/types/blog'
 useSeoMeta({
   title: seoTitle,
   description: seoDescription,
@@ -64,45 +65,27 @@ useHead({
   ]
 })
 
-// 响应式数据
-const articles = ref<IArticle[]>([])
-const warehouse = ref<warehouseType>([])
-const loading = ref(true)
-
-// 获取时光轴文章
-const getTimelineArticles = async () => {
-  try {
-    const { data } = await useAsyncData("timeline", () =>
-      http({
-        url: `/v1/posts?page=1&limit=100`
-      })
-    )
-    articles.value = data.value?.data || []
-  } catch (error) {
-    console.error("获取文章失败:", error)
-    articles.value = []
-  }
-}
-
-// 获取仓库数据（用于热图）
-const getWarehouse = async () => {
-  try {
-    const { data } = await useAsyncData("warehouse", () =>
-      http({
-        url: `/v1/posts/uploadTime`
-      })
-    )
-    warehouse.value = data.value || []
-  } catch (error) {
-    console.error("获取仓库数据失败:", error)
-    warehouse.value = []
-  }
-}
-
-// 初始化数据
-// onMounted(async () => {
-await Promise.all([getTimelineArticles(), getWarehouse()])
-loading.value = false
+const [{ data: posts, error: postsError }, { data: warehouseData }] = await Promise.all([
+  useAsyncData("timeline:posts", (_app, { signal }) => http<PostList>({ url: "/public/posts", query: { page: 1, limit: 100 }, signal })),
+  useAsyncData("warehouse", (_app, { signal }) => http<warehouseType>({ url: "/public/warehouse", signal }))
+])
+if (postsError.value) throw publicPageError(postsError.value)
+const chartTarget = ref<HTMLElement>()
+const showChart = ref(false)
+let observer: IntersectionObserver | undefined
+onMounted(() => {
+  if (!chartTarget.value) return
+  observer = new IntersectionObserver(([entry]) => {
+    if (entry?.isIntersecting && window.matchMedia("(min-width: 1024px)").matches) {
+      showChart.value = true
+      observer?.disconnect()
+    }
+  }, { rootMargin: "100px" })
+  observer.observe(chartTarget.value)
+})
+onBeforeUnmount(() => observer?.disconnect())
+const { posts: articles, hasMore, loading: feedLoading, error: feedError, loadMore } = usePostFeed(posts, () => ({}), () => "timeline")
+const warehouse = computed(() => warehouseData.value || [])
 
 // 将文章数据转换为 UChangelogVersions 需要的格式
 const versions = computed<ChangelogVersionProps[]>(() => {
@@ -123,7 +106,6 @@ const versions = computed<ChangelogVersionProps[]>(() => {
   }))
 })
 
-// })
 </script>
 
 <style scoped>

@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-const model = defineModel<boolean>({ required: true })
+const model = defineModel<boolean>("open", { required: true })
 
 const toast = useToast()
 const router = useRouter()
@@ -38,6 +38,7 @@ const loading = ref(false)
 const errorMsg = ref("")
 
 async function handleLogin() {
+  if (loading.value) return
   if (!form.account || !form.password) {
     errorMsg.value = "请输入账号和密码"
     return
@@ -47,25 +48,12 @@ async function handleLogin() {
   errorMsg.value = ""
 
   try {
-    const res = await $fetch<any>("/api/v1/auth/login", {
-      method: "POST",
-      body: form
-    })
-
-    const code = res.code ?? res.status_code ?? res.status ?? 0
-    const data = res.data ?? res
-
-    if (code === 200 || code === 0) {
-      const user = { id: data.id, uuid: data.uuid, user_name: data.user_name }
-      localStorage.setItem("admin_user", JSON.stringify(user))
-      toast.add({ title: `欢迎回来，${user.user_name}`, color: "green" })
-      model.value = false
-      router.push("/admin/dashboard")
-    } else {
-      errorMsg.value = res.message || res.msg || "登录失败"
-    }
-  } catch (e: any) {
-    errorMsg.value = e?.data?.message || e?.message || "网络错误，请稍后重试"
+    const user = await loginAdmin(form)
+    toast.add({ title: `欢迎回来，${user.user_name}`, color: "success" })
+    model.value = false
+    await router.push("/admin/dashboard")
+  } catch (error: unknown) {
+    errorMsg.value = loginErrorMessage(error)
   } finally {
     loading.value = false
   }

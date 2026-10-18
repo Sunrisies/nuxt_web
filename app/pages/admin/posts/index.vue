@@ -7,12 +7,24 @@
       </UButton>
     </div>
 
+    <form class="mb-4 flex flex-wrap items-end gap-3" @submit.prevent="applyFilters">
+      <UFormField label="标题搜索"><UInput v-model="filters.search" aria-label="搜索文章标题" placeholder="输入标题关键词" :maxlength="100" class="w-full sm:w-64" /></UFormField>
+      <UFormField label="分类"><USelect v-model="filters.category" aria-label="筛选文章分类" :items="[{ label: '全部分类', value: 0 }, ...categoryOptions]" class="w-40" /></UFormField>
+      <UFormField label="标签"><USelect v-model="filters.tag" aria-label="筛选文章标签" :items="[{ label: '全部标签', value: 0 }, ...tagOptions]" class="w-40" /></UFormField>
+      <UFormField label="状态"><USelect v-model="filters.status" aria-label="筛选文章状态" :items="[{ label: '全部状态', value: -1 }, ...statusOptions]" class="w-36" /></UFormField>
+      <UButton type="submit" :loading="loading">筛选</UButton>
+      <UButton variant="outline" @click="resetFilters">重置筛选</UButton>
+    </form>
+    <UAlert v-if="listError" class="mb-4" color="error" :title="listError">
+      <template #actions><UButton variant="outline" @click="fetchPosts">重试</UButton></template>
+    </UAlert>
     <UCard>
+      <p class="mb-3 text-sm text-gray-500">共 {{ pagination.total }} 篇文章</p>
       <UTable
         :data="posts"
         :columns="columns"
         :loading="loading"
-        :empty-state="{ icon: 'i-heroicons-document-text', label: '暂无文章' }"
+        empty="暂无文章"
       >
         <template #index-cell="{ row }">
           <span class="text-sm text-gray-500">{{ (page - 1) * pagination.limit + row.index + 1 }}</span>
@@ -24,6 +36,7 @@
         </template>
         <template #status-cell="{ row }">
           <div class="flex gap-1 flex-wrap">
+            <UBadge v-if="!row.original.is_publish && !row.original.is_hide" label="草稿" color="neutral" variant="subtle" size="sm" />
             <UBadge
               v-if="row.original.featured"
               label="推荐"
@@ -34,26 +47,28 @@
             <UBadge
               v-if="row.original.is_publish"
               label="已发布"
-              color="green"
+              color="success"
               variant="subtle"
               size="sm"
             />
             <UBadge
               v-if="row.original.is_top"
               label="置顶"
-              color="orange"
+              color="warning"
               variant="subtle"
               size="sm"
             />
             <UBadge
               v-if="row.original.is_hide"
-              label="隐藏"
+              label="已下线"
               color="neutral"
               variant="subtle"
               size="sm"
             />
           </div>
         </template>
+        <template #category-cell="{ row }"><span>{{ row.original.category?.name || '未分类' }}</span></template>
+        <template #tags-cell="{ row }"><span>{{ row.original.tags?.map(tag => tag.name).join('、') || '—' }}</span></template>
         <template #views-cell="{ row }">
           <span class="text-sm">{{ row.original.views || 0 }}</span>
         </template>
@@ -65,27 +80,31 @@
         <template #actions-cell="{ row }">
           <div class="flex gap-1">
             <UButton
+              v-if="row.original.is_publish"
               :to="`/article/${row.original.uuid}`"
+              aria-label="查看文章"
               color="neutral"
               variant="ghost"
               size="sm"
               icon="i-heroicons-eye"
               target="_blank"
-            />
+            >查看</UButton>
             <UButton
               color="neutral"
               variant="ghost"
               size="sm"
               icon="i-heroicons-pencil-square"
-              @click="openEdit(row)"
-            />
+              aria-label="编辑文章"
+              @click="openEdit(row.original)"
+            >编辑</UButton>
             <UButton
-              color="red"
+              color="error"
               variant="ghost"
               size="sm"
               icon="i-heroicons-trash"
-              @click="confirmDelete(row)"
-            />
+              aria-label="删除文章"
+              @click="confirmDelete(row.original)"
+            >删除</UButton>
           </div>
         </template>
       </UTable>
@@ -100,102 +119,6 @@
       </div>
     </UCard>
 
-    <!-- 新建/编辑弹窗 -->
-    <UModal
-      v-model:open="showFormModal"
-      :title="editingPost ? '编辑文章' : '新建文章'"
-      class="max-w-2xl"
-    >
-      <template #body>
-        <UForm :state="postForm" class="space-y-4">
-          <UFormField label="标题" required>
-            <UInput v-model="postForm.title" class="w-full" />
-          </UFormField>
-
-          <div class="grid grid-cols-2 gap-4">
-            <UFormField label="分类">
-              <USelect
-                v-model="postForm.category_id"
-                :items="categoryOptions"
-                placeholder="选择分类"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField label="标签">
-              <USelect
-                v-model="postForm.tag_ids"
-                :items="tagOptions"
-                placeholder="选择标签"
-                multiple
-                class="w-full"
-              />
-            </UFormField>
-          </div>
-
-          <div class="grid grid-cols-2 gap-4">
-            <UFormField label="状态">
-              <USelect
-                v-model="postForm.status"
-                :items="statusOptions"
-                class="w-full"
-              />
-            </UFormField>
-
-            <UFormField label="封面图">
-              <UInput
-                v-model="postForm.cover_image"
-                placeholder="https://..."
-                class="w-full"
-              />
-            </UFormField>
-          </div>
-
-          <div class="flex items-center gap-6">
-            <UFormField label="推荐">
-              <UToggle v-model="postForm.featured" />
-            </UFormField>
-            <UFormField label="置顶">
-              <UToggle v-model="postForm.is_top" />
-            </UFormField>
-            <UFormField label="隐藏">
-              <UToggle v-model="postForm.is_hide" />
-            </UFormField>
-          </div>
-
-          <UFormField label="摘要">
-            <UTextarea v-model="postForm.summary" class="w-full" :rows="3" />
-          </UFormField>
-
-          <UFormField label="Markdown 内容" required hint="支持标准 Markdown 语法">
-            <UTextarea
-              v-model="postForm.markdowncontent"
-              class="w-full font-mono text-sm leading-relaxed"
-              :rows="20"
-              placeholder="在此编写 Markdown 内容..."
-            />
-          </UFormField>
-
-          <UFormField label="渲染内容（HTML）">
-            <UTextarea
-              v-model="postForm.content"
-              class="w-full font-mono"
-              :rows="10"
-            />
-          </UFormField>
-        </UForm>
-      </template>
-
-      <template #footer>
-        <div class="flex justify-end gap-2">
-          <UButton variant="outline" @click="closeForm">取消</UButton>
-          <UButton color="primary" :loading="saving" @click="savePost"
-            >保存</UButton
-          >
-        </div>
-      </template>
-    </UModal>
-
     <!-- 删除确认 -->
     <UModal v-model:open="showDeleteModal" title="确认删除">
       <template #body>
@@ -206,7 +129,7 @@
           <UButton variant="outline" @click="showDeleteModal = false"
             >取消</UButton
           >
-          <UButton color="red" :loading="deleting" @click="handleDelete"
+          <UButton color="error" :loading="deleting" @click="handleDelete"
             >删除</UButton
           >
         </div>
@@ -216,6 +139,7 @@
 </template>
 
 <script setup lang="ts">
+import type { AdminPost, AdminNamedItem } from "~/types/admin"
 import { http } from "~/composables/http"
 import { formatChineseDateTime } from "~/utils/data"
 
@@ -227,28 +151,35 @@ definePageMeta({
 // ─── 数据 ───────────────────────────────────────────────
 const route = useRoute()
 const router = useRouter()
-const posts = ref<any[]>([])
+const posts = ref<AdminPost[]>([])
 const page = ref(Number(route.query.page) || 1)
 const pagination = ref({ total: 0, limit: 10 })
+const filters = reactive({ search: String(route.query.search || ""), category: Number(route.query.category) || 0, tag: Number(route.query.tag) || 0, status: route.query.status === undefined ? -1 : Number(route.query.status) })
+const appliedFilters = ref({ ...filters })
+const listError = ref("")
+let listVersion = 0
 const loading = ref(true)
+const toast = useToast()
 
 const columns = [
-  { id: "index", key: "index", accessorKey: "index", label: "序号" },
-  { id: "title", key: "title", accessorKey: "title", label: "标题" },
-  { id: "status", key: "status", accessorKey: "status", label: "状态" },
-  { id: "views", key: "views", accessorKey: "views", label: "浏览" },
+  { id: "index", key: "index", accessorKey: "index", header: "序号" },
+  { id: "title", key: "title", accessorKey: "title", header: "标题" },
+  { id: "status", key: "status", accessorKey: "status", header: "状态" },
+  { id: "category", accessorKey: "category", header: "分类" },
+  { id: "tags", accessorKey: "tags", header: "标签" },
+  { id: "views", key: "views", accessorKey: "views", header: "浏览" },
   {
     id: "publish_time",
     key: "publish_time",
     accessorKey: "publish_time",
-    label: "发布时间"
+    header: "发布时间"
   },
-  { id: "actions", key: "actions", accessorKey: "actions", label: "操作" }
+  { id: "actions", key: "actions", accessorKey: "actions", header: "操作" }
 ]
 
 // ─── 分类 / 标签 选项 ────────────────────────────────────
-const categories = ref<any[]>([])
-const tags = ref<any[]>([])
+const categories = ref<AdminNamedItem[]>([])
+const tags = ref<AdminNamedItem[]>([])
 
 const categoryOptions = computed(() =>
   categories.value.map((c) => ({ label: c.name, value: c.id }))
@@ -259,135 +190,58 @@ const tagOptions = computed(() =>
 
 const statusOptions = [
   { label: "草稿", value: 0 },
-  { label: "已发布", value: 1 }
+  { label: "已发布", value: 1 },
+  { label: "已下线", value: 2 }
 ]
 
 // ─── 弹窗状态 ────────────────────────────────────────────
-const showFormModal = ref(false)
 const showDeleteModal = ref(false)
-const editingPost = ref<any>(null)
-const deletingPost = ref<any>(null)
-const saving = ref(false)
+const deletingPost = ref<AdminPost | null>(null)
 const deleting = ref(false)
-
-const defaultForm = {
-  title: "",
-  summary: "",
-  content: "",
-  markdowncontent: "",
-  cover_image: "",
-  category_id: null as number | null,
-  tag_ids: [] as number[],
-  status: 0,
-  featured: false,
-  is_top: false,
-  is_hide: false
-}
-const postForm = reactive({ ...defaultForm })
-
 // ─── 方法 ────────────────────────────────────────────────
 async function fetchPosts() {
+  const version = ++listVersion
   loading.value = true
+  listError.value = ""
   try {
     const res = await http<{
-      data: any[]
+      data: AdminPost[]
       pagination: { total: number; limit: number }
     }>({
-      url: `/v1/posts?page=${page.value}&limit=10`
+      url: "/v1/posts",
+      query: { page: page.value, limit: 10, search: appliedFilters.value.search || undefined, category: appliedFilters.value.category || undefined, tag: appliedFilters.value.tag || undefined, status: appliedFilters.value.status < 0 ? undefined : appliedFilters.value.status }
     })
+    if (version !== listVersion) return
     posts.value = res.data || []
     pagination.value = res.pagination
+    if (page.value > 1 && !posts.value.length) await onPageChange(Math.max(1, Math.ceil(res.pagination.total / res.pagination.limit)))
   } catch (e) {
-    console.error("获取文章列表失败", e)
+    if (version === listVersion) { posts.value = []; listError.value = requestErrorMessage(e, "获取文章列表失败") }
   } finally {
-    loading.value = false
+    if (version === listVersion) loading.value = false
   }
 }
 
 async function fetchCategories() {
   try {
-    const res = await http<{ data: any[]; pagination: any }>({
-      url: "/v1/categories?page=1&limit=100"
-    })
-    categories.value = res.data || []
-  } catch {
-    /* ignore */
+    categories.value = await allAdminItems<AdminNamedItem>("/v1/categories")
+  } catch (error) {
+    toast.add({ title: requestErrorMessage(error, "选项加载失败"), color: "error" })
   }
 }
 
 async function fetchTags() {
   try {
-    const res = await http<{ data: any[]; pagination: any }>({
-      url: "/v1/tags?page=1&limit=100"
-    })
-    tags.value = res.data || []
-  } catch {
-    /* ignore */
+    tags.value = await allAdminItems<AdminNamedItem>("/v1/tags")
+  } catch (error) {
+    toast.add({ title: requestErrorMessage(error, "选项加载失败"), color: "error" })
   }
 }
 
-function openCreate() {
-  editingPost.value = null
-  Object.assign(postForm, defaultForm)
-  showFormModal.value = true
-}
+function openCreate() { return navigateTo("/admin/posts/new") }
+function openEdit(post: Pick<AdminPost, "uuid">) { return navigateTo(`/admin/posts/${encodeURIComponent(post.uuid)}/edit`) }
 
-function openEdit(post: any) {
-  editingPost.value = post
-  postForm.title = post.title || ""
-  postForm.summary = post.summary || post.description || ""
-  postForm.content = post.content || ""
-  postForm.markdowncontent = post.markdowncontent || ""
-  postForm.cover_image = post.cover || post.cover_image || ""
-  postForm.category_id = post.category?.id ?? null
-  postForm.tag_ids = post.tags?.map((t: any) => t.id) || []
-  postForm.status = post.is_publish ? 1 : 0
-  postForm.featured = post.featured ?? post.is_recommend ?? false
-  postForm.is_top = post.is_top ?? false
-  postForm.is_hide = post.is_hide ?? false
-  showFormModal.value = true
-}
-
-function closeForm() {
-  showFormModal.value = false
-  editingPost.value = null
-}
-
-async function savePost() {
-  if (!postForm.title || !postForm.markdowncontent) return
-  saving.value = true
-  try {
-    const body: Record<string, any> = {
-      title: postForm.title,
-      summary: postForm.summary,
-      content: postForm.content,
-      markdowncontent: postForm.markdowncontent,
-      cover_image: postForm.cover_image,
-      category_id: postForm.category_id,
-      tag_ids: postForm.tag_ids,
-      status: postForm.status,
-      featured: postForm.featured
-    }
-
-    if (editingPost.value) {
-      await http({
-        url: `/v1/posts/${editingPost.value.uuid}`,
-        method: "PUT",
-        body
-      })
-    } else {
-      await http({ url: "/v1/posts", method: "POST", body })
-    }
-    closeForm()
-    await fetchPosts()
-  } catch (e) {
-    console.error("保存文章失败", e)
-  } finally {
-    saving.value = false
-  }
-}
-
-function confirmDelete(post: any) {
+function confirmDelete(post: AdminPost) {
   deletingPost.value = post
   showDeleteModal.value = true
 }
@@ -404,7 +258,7 @@ async function handleDelete() {
     deletingPost.value = null
     await fetchPosts()
   } catch (e) {
-    console.error("删除文章失败", e)
+    toast.add({ title: requestErrorMessage(e, "删除文章失败，请重试"), color: "error" })
   } finally {
     deleting.value = false
   }
@@ -414,25 +268,24 @@ function formatDate(date: string) {
   return date ? formatChineseDateTime(date) : "—"
 }
 
-function onPageChange(newPage: number) {
+async function onPageChange(newPage: number) {
   page.value = newPage
-  router.replace({ query: { ...route.query, page: newPage } })
-  fetchPosts()
+  const active = appliedFilters.value
+  await router.replace({ query: { page: newPage, ...(active.search ? { search: active.search } : {}), ...(active.category ? { category: active.category } : {}), ...(active.tag ? { tag: active.tag } : {}), ...(active.status >= 0 ? { status: active.status } : {}) } })
+  await fetchPosts()
 }
-
-// 监听路由参数中 page 的变化（如浏览器前进/后退），刷新数据
-watch(
-  () => route.query.page,
-  (newVal) => {
-    const p = Number(newVal) || 1
-    if (p !== page.value) {
-      page.value = p
-      fetchPosts()
-    }
+async function applyFilters() { appliedFilters.value = { ...filters, search: filters.search.trim() }; await onPageChange(1) }
+async function resetFilters() { Object.assign(filters, { search: "", category: 0, tag: 0, status: -1 }); await applyFilters() }
+watch(() => [route.query.page, route.query.search, route.query.category, route.query.tag, route.query.status], () => {
+  const nextPage = Math.max(1, Number(route.query.page) || 1)
+  const next = { search: String(route.query.search || ""), category: Number(route.query.category) || 0, tag: Number(route.query.tag) || 0, status: route.query.status === undefined ? -1 : Number(route.query.status) }
+  if (nextPage !== page.value || JSON.stringify(next) !== JSON.stringify(appliedFilters.value)) {
+    page.value = nextPage; Object.assign(filters, next); appliedFilters.value = next; fetchPosts()
   }
-)
+})
 
 onMounted(async () => {
   await Promise.all([fetchPosts(), fetchCategories(), fetchTags()])
+  if (typeof route.query.edit === "string") await openEdit({ uuid: route.query.edit })
 })
 </script>

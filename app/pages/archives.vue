@@ -53,12 +53,16 @@
           </div>
         </div>
       </div>
+      <UAlert v-if="loadError" class="mb-4" color="warning" :title="loadError" />
+      <div v-if="articles.length < totalArticles" class="flex justify-center">
+        <UButton :loading="loadingMore" @click="loadMore">加载更多文章</UButton>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IBlog } from "~/types/blog"
+import type { PostList, PostSummary } from "~/types/blog"
 
 useHead({
   title: "文章归档 | 朝阳的码农札记",
@@ -67,24 +71,35 @@ useHead({
   ]
 })
 
-const articles = ref<IBlog[]>([])
-
-try {
-  const { data } = await useAsyncData("archives", () =>
-    http<{ data: IBlog[], pagination: { total: number } }>({
-      url: `/v1/posts?page=1&limit=200`
-    })
-  )
-  articles.value = data.value?.data || []
-} catch (error) {
-  console.error("获取归档数据失败:", error)
+const { data, error } = await useAsyncData("archives:first", (_app, { signal }) =>
+  http<PostList>({ url: "/public/posts", query: { page: 1, limit: 100 }, signal })
+)
+if (error.value) throw publicPageError(error.value)
+const articles = ref<PostSummary[]>(data.value?.data || [])
+const nextPage = ref(2)
+const loadingMore = ref(false)
+const loadError = ref("")
+async function loadMore() {
+  if (loadingMore.value) return
+  loadingMore.value = true
+  loadError.value = ""
+  try {
+    const result = await http<PostList>({ url: "/public/posts", query: { page: nextPage.value, limit: 100 } })
+    if (!result.data.length) throw new Error("归档数据暂时不完整，请稍后重试")
+    const existing = new Set(articles.value.map(article => article.uuid))
+    articles.value.push(...result.data.filter(article => !existing.has(article.uuid)))
+    nextPage.value++
+  } catch {
+    loadError.value = "更多文章暂时无法加载，请重试"
+  } finally {
+    loadingMore.value = false
+  }
 }
-
-const totalArticles = computed(() => articles.value.length)
+const totalArticles = computed(() => data.value?.pagination.total || 0)
 
 interface MonthGroup {
   month: number
-  articles: IBlog[]
+  articles: PostSummary[]
 }
 
 interface YearGroup {
@@ -93,7 +108,7 @@ interface YearGroup {
 }
 
 const groupedArticles = computed<YearGroup[]>(() => {
-  const map = new Map<number, Map<number, IBlog[]>>()
+  const map = new Map<number, Map<number, PostSummary[]>>()
 
   for (const article of articles.value) {
     const date = new Date(article.publish_time)

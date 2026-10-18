@@ -12,7 +12,7 @@
         :data="categories"
         :columns="columns"
         :loading="loading"
-        :empty-state="{ icon: 'i-heroicons-tag', label: '暂无分类' }"
+        empty="暂无分类"
       >
         <template #created_at-cell="{ row }">
           <span class="text-sm text-gray-500">
@@ -29,7 +29,7 @@
               @click="openEdit(row)"
             />
             <UButton
-              color="red"
+              color="error"
               variant="ghost"
               size="sm"
               icon="i-heroicons-trash"
@@ -81,7 +81,7 @@
           <UButton variant="outline" @click="showDeleteModal = false"
             >取消</UButton
           >
-          <UButton color="red" :loading="deleting" @click="handleDelete"
+          <UButton color="error" :loading="deleting" @click="handleDelete"
             >删除</UButton
           >
         </div>
@@ -91,6 +91,7 @@
 </template>
 
 <script setup lang="ts">
+import type { AdminNamedItem, AdminTableItem } from "~/types/admin"
 import { http } from "~/composables/http"
 import { formatChineseDateTime } from "~/utils/data"
 
@@ -101,27 +102,28 @@ definePageMeta({
 
 const route = useRoute()
 const router = useRouter()
-const categories = ref<any[]>([])
+const categories = ref<AdminNamedItem[]>([])
 const page = ref(Number(route.query.page) || 1)
 const pagination = ref({ total: 0, limit: 10 })
 const loading = ref(true)
+const toast = useToast()
 
 const columns = [
-  { id: "id", key: "id", accessorKey: "id", label: "ID" },
-  { id: "name", key: "name", accessorKey: "name", label: "名称" },
+  { id: "id", key: "id", accessorKey: "id", header: "ID" },
+  { id: "name", key: "name", accessorKey: "name", header: "名称" },
   {
     id: "created_at",
     key: "created_at",
     accessorKey: "created_at",
-    label: "创建时间"
+    header: "创建时间"
   },
-  { id: "actions", key: "actions", accessorKey: "actions", label: "操作" }
+  { id: "actions", key: "actions", accessorKey: "actions", header: "操作" }
 ]
 
 const showFormModal = ref(false)
 const showDeleteModal = ref(false)
-const editingItem = ref<any>(null)
-const deletingItem = ref<any>(null)
+const editingItem = ref<AdminNamedItem | null>(null)
+const deletingItem = ref<AdminNamedItem | null>(null)
 const saving = ref(false)
 const deleting = ref(false)
 
@@ -131,7 +133,7 @@ async function fetchData() {
   loading.value = true
   try {
     const res = await http<{
-      data: any[]
+      data: AdminNamedItem[]
       pagination: { total: number; limit: number }
     }>({
       url: `/v1/categories?page=${page.value}&limit=10`
@@ -140,6 +142,7 @@ async function fetchData() {
     pagination.value = res.pagination
   } catch (e) {
     console.error("获取分类失败", e)
+    toast.add({ title: requestErrorMessage(e, "获取分类失败"), color: "error" })
   } finally {
     loading.value = false
   }
@@ -151,8 +154,8 @@ function openCreate() {
   showFormModal.value = true
 }
 
-function openEdit(item: any) {
-  const data = item.original ?? item
+function openEdit(item: AdminTableItem<AdminNamedItem>) {
+  const data = (item as { original?: AdminNamedItem }).original ?? (item as AdminNamedItem)
   editingItem.value = data
   form.name = data.name
   showFormModal.value = true
@@ -185,13 +188,14 @@ async function save() {
     await fetchData()
   } catch (e) {
     console.error("保存分类失败", e)
+    toast.add({ title: requestErrorMessage(e, "保存分类失败"), color: "error" })
   } finally {
     saving.value = false
   }
 }
 
-function confirmDelete(item: any) {
-  deletingItem.value = item.original ?? item
+function confirmDelete(item: AdminTableItem<AdminNamedItem>) {
+  deletingItem.value = (item as { original?: AdminNamedItem }).original ?? (item as AdminNamedItem)
   showDeleteModal.value = true
 }
 
@@ -208,6 +212,7 @@ async function handleDelete() {
     await fetchData()
   } catch (e) {
     console.error("删除分类失败", e)
+    toast.add({ title: requestErrorMessage(e, "删除分类失败"), color: "error" })
   } finally {
     deleting.value = false
   }

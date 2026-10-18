@@ -39,6 +39,7 @@
       </UCard>
     </div>
 
+    <UAlert v-if="error" color="warning" title="最新笔记暂时无法加载" />
     <!-- Recent Notes -->
     <UCard>
       <template #header>
@@ -78,7 +79,7 @@
 
           <h3
             class="text-lg font-semibold mb-2 group-hover:text-primary cursor-pointer transition-colors"
-            @click="navigateToPost(note.id)"
+            @click="navigateToPost(note.uuid)"
           >
             {{ note.title }}
           </h3>
@@ -121,10 +122,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue"
 
-const blogs = ref([])
-const loading = ref(false)
+const { data, error } = await useAsyncData("about:posts", (_app, { signal }) =>
+  http({ url: "/public/posts", query: { page: 1, limit: 5 }, signal })
+)
+const { data: categoryData } = await useAsyncData("categories:list", (_app, { signal }) =>
+  http({ url: "/public/categories", signal })
+)
+const blogs = computed(() => data.value?.data || [])
 
 const noteCategories = [
   {
@@ -148,42 +153,16 @@ const noteCategories = [
 ]
 
 const navigateToCategory = (category) => {
-  navigateTo(`/blog?category=${encodeURIComponent(category)}`)
+  const matched = categoryData.value?.find(item => item.name === category)
+  navigateTo({ path: "/blog/1", query: matched ? { category: String(matched.id) } : {} })
 }
 
 const navigateToPost = (postId) => {
-  navigateTo(`/blog/${postId}`)
+  navigateTo(`/article/${postId}`)
 }
 
 const navigateToTag = (tagName) => {
-  navigateTo(`/blog?tag=${encodeURIComponent(tagName)}`)
+  navigateTo(`/tag/${encodeURIComponent(tagName)}`)
 }
 
-const fetchPosts = async () => {
-  try {
-    loading.value = true
-    const { data } = await useAsyncData("blogs", () =>
-      http({
-        url: `/v1/posts?page=1&limit=5`
-      })
-    )
-
-    blogs.value = data.value.data || []
-  } catch (error) {
-    console.error("Failed to fetch posts:", error)
-    // 使用 NuxtUI 的通知
-    useToast().add({
-      title: "加载失败",
-      description: "无法加载博客文章，请稍后重试",
-      color: "red"
-    })
-  } finally {
-    loading.value = false
-  }
-}
-console.log("请求数据111222")
-
-// onMounted(() => {
-fetchPosts()
-// })
 </script>

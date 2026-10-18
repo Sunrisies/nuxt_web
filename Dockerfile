@@ -1,48 +1,28 @@
-# 使用 Node.js 官方镜像作为基础镜像
 FROM node:24-alpine AS builder
-
-# 设置工作目录
 WORKDIR /app
-
-# 复制 package.json 和 package-lock.json (如果存在)
-COPY package*.json ./
-
-# 安装依赖,使用淘宝镜像源
-RUN npm i --registry=https://registry.npmmirror.com
-
-# 复制项目文件
+# Nitro bundles the server graph during the production build. Its default
+# 2 GiB Node heap is insufficient for this application under Linux/amd64.
+ENV NODE_OPTIONS=--max-old-space-size=4096
+RUN npm install --global pnpm@12.6.0
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY . .
+RUN pnpm run build
 
-# 构建应用
-RUN npm run build
-
-# 生产环境阶段
-FROM node:22_alpine AS runner
-
-# 设置工作目录
+FROM node:24-alpine AS runner
 WORKDIR /app
-
-# 创建非root用户
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nuxtjs
-
-# 复制构建产物
+RUN addgroup --system --gid 1001 nodejs \
+    && adduser --system --uid 1001 nuxtjs
 COPY --from=builder --chown=nuxtjs:nodejs /app/.output ./.output
-COPY --from=builder --chown=nuxtjs:nodejs /app/package.json ./package.json
-
-# 设置环境变量
-ARG NUXT_PUBLIC_API_BASE
-ENV NUXT_PUBLIC_API_BASE=${NUXT_PUBLIC_API_BASE:-https://api.sunrise1024.top/api}
+ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
 ENV NITRO_HOST=0.0.0.0
 ENV NITRO_PORT=3000
-
-# 暴露端口
+ARG NUXT_PUBLIC_API_BASE
+ENV NUXT_API_BASE=${NUXT_PUBLIC_API_BASE:-https://api.sunrise1024.top/api}
 EXPOSE 3000
-
-# 切换到非root用户
+HEALTHCHECK --interval=30s --timeout=5s --start-period=15s \
+    CMD node -e "fetch('http://127.0.0.1:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
 USER nuxtjs
-
-# 启动应用
 CMD ["node", ".output/server/index.mjs"]

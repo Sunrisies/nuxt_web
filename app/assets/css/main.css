@@ -55,12 +55,12 @@
 /* 页面切换动画 */
 .page-enter-active,
 .page-leave-active {
-  transition: all 1s;
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 .page-enter-from,
 .page-leave-to {
   opacity: 0;
-  filter: blur(1rem);
+  transform: translateY(4px);
 }
 
 /* layout 切换动画 — 与 layoutTransition { name: "layout", mode: "out-in" } 配合 */
@@ -71,4 +71,11 @@
 .layout-enter-from,
 .layout-leave-to {
   opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page-enter-active, .page-leave-active,
+  .layout-enter-active, .layout-leave-active {
+    transition: none;
+  }
 }

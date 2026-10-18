@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen flex bg-gray-50 dark:bg-zinc-900">
+  <div class="h-dvh overflow-hidden flex bg-gray-50 dark:bg-zinc-900">
     <!-- 移动端遮罩 -->
     <div
       v-if="sidebarOpen"
@@ -9,7 +9,7 @@
 
     <!-- 侧边栏 -->
     <aside
-      class="fixed inset-y-0 left-0 z-50 w-60 transform border-r bg-white dark:border-zinc-800 dark:bg-zinc-950 transition-transform duration-200 lg:static lg:translate-x-0"
+      class="fixed inset-y-0 left-0 z-50 w-60 transform border-r bg-white dark:border-zinc-800 dark:bg-zinc-950 transition-transform duration-200 flex flex-col lg:translate-x-0"
       :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     >
       <div class="flex h-16 items-center gap-3 border-b px-6 dark:border-zinc-800">
@@ -45,9 +45,9 @@
     </aside>
 
     <!-- 主内容区 -->
-    <div class="flex flex-1 flex-col min-w-0">
+    <div class="flex flex-1 flex-col min-w-0 min-h-0 lg:ml-60">
       <!-- 顶部栏 -->
-      <header class="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-white/80 px-4 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80">
+      <header :class="isEditor ? 'lg:hidden h-10' : 'h-16'" class="shrink-0 z-30 flex items-center gap-4 border-b bg-white/80 px-4 backdrop-blur-sm dark:border-zinc-800 dark:bg-zinc-950/80">
         <button
           class="lg:hidden"
           @click="sidebarOpen = true"
@@ -61,7 +61,7 @@
       </header>
 
       <!-- 页面内容 -->
-      <main class="flex-1 overflow-y-auto p-6">
+      <main class="flex-1 min-h-0 min-w-0" :class="isEditor ? 'overflow-hidden flex' : 'overflow-y-auto p-6'">
         <slot />
       </main>
     </div>
@@ -71,11 +71,15 @@
 <script setup lang="ts">
 const route = useRoute()
 const router = useRouter()
+const isEditor = computed(() => /^\/admin\/posts\/(new|[^/]+\/edit)\/?$/.test(route.path))
+const { logout } = useAdminSession()
+const toast = useToast()
 const sidebarOpen = ref(false)
 
 const navItems = [
   { label: "仪表盘",    icon: "i-heroicons-home",              to: "/admin/dashboard" },
   { label: "文章管理",   icon: "i-heroicons-document-text",     to: "/admin/posts" },
+  { label: "图片管理", icon: "i-heroicons-photo", to: "/admin/images" },
   { label: "分类管理",   icon: "i-heroicons-tag",               to: "/admin/categories" },
   { label: "标签管理",   icon: "i-heroicons-hashtag",           to: "/admin/tags" },
   { label: "链接管理",   icon: "i-heroicons-link",              to: "/admin/links" },
@@ -86,8 +90,12 @@ function isActive(path: string) {
   return route.path === path || route.path.startsWith(path + "/")
 }
 
-function handleLogout() {
-  localStorage.removeItem("admin_user")
-  router.push("/")
+async function handleLogout() {
+  try {
+    await logout()
+    await router.push("/")
+  } catch {
+    toast.add({ title: "退出失败，请重试", color: "error" })
+  }
 }
 </script>

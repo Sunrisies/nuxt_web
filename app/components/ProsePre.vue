@@ -129,18 +129,13 @@ const hiddenCount = computed(() =>
 )
 
 const copyCode = async () => {
-  console.log("打印")
   const content = props.code || ""
   if (!content) {
-    toast.add({ title: "复制失败", description: "代码内容为空", color: "red" })
+    toast.add({ title: "复制失败", description: "代码内容为空", color: "error" })
     return
   }
 
   try {
-    console.log(
-      navigator?.clipboard?.writeText,
-      "navigator?.clipboard?.writeText"
-    )
     if (navigator?.clipboard?.writeText) {
       await navigator.clipboard.writeText(content)
     } else {
@@ -164,14 +159,14 @@ const copyCode = async () => {
     toast.add({
       title: "复制成功",
       description: "代码已复制到剪贴板",
-      color: "green"
+      color: "success"
     })
   } catch (error) {
     console.error("Copy failed:", error)
     toast.add({
       title: "复制失败",
       description: "请检查浏览器权限后重试",
-      color: "red"
+      color: "error"
     })
   }
 }
@@ -183,7 +178,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900 border-red-400"
+    class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-900"
   >
     <div
       class="flex items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800"

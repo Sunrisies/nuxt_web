@@ -39,11 +39,11 @@
 </template>
 
 <script setup lang="ts">
-import type { IBlog } from "~/types/blog"
+import type { PostSummary } from "~/types/blog"
 import { formatChineseDateTime } from "~/utils/data"
 
 const props = defineProps<{
-  blog: IBlog
+  blog: PostSummary
 }>()
 
 const formattedDate = computed(() => formatChineseDateTime(props.blog.publish_time))

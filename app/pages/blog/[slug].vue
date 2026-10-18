@@ -6,85 +6,64 @@
       :pagination="pagination"
       :categories="categories"
       :tags="tags"
+      :category="category"
+      :tag="tag"
+      @filter="setFilter"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IBlog } from "~/types/blog"
+import type { PostList } from "~/types/blog"
 
 const route = useRoute()
-const id = route.params.slug as string
-const toast = useToast()
+definePageMeta({
+  validate: route => /^[1-9]\d*$/.test(String(route.params.slug))
+    && [route.query.category, route.query.tag].every(value => value === undefined || (typeof value === "string" && /^[1-9]\d*$/.test(value)))
+})
+const id = computed(() => Number(route.params.slug))
+const category = computed(() => typeof route.query.category === "string" ? route.query.category : "all")
+const tag = computed(() => typeof route.query.tag === "string" ? route.query.tag : "all")
+const filters = computed(() => ({
+  ...(category.value !== "all" ? { category: category.value } : {}),
+  ...(tag.value !== "all" ? { tag: tag.value } : {})
+}))
+function setFilter(key: "category" | "tag", value: string) {
+  const query = { ...filters.value, [key]: value === "all" ? undefined : value }
+  return navigateTo({ path: "/blog/1", query })
+}
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
-const pageUrl = `${siteUrl}/blog/${id}`
+const pageUrl = computed(() => `${siteUrl}${route.path}${new URLSearchParams(filters.value).size ? `?${new URLSearchParams(filters.value)}` : ""}`)
 
-// 并行获取分类和文章数据
-const [{ data: postRes, error: postError }, { data: categoriesRes }, { data: tagsRes }] = await Promise.all([
-  useAsyncData(`post-${id}`, () =>
-    http({
-      url: `/v1/posts?page=${id}&limit=9`
-    })
-  ),
-  useAsyncData("categories", () =>
-    http({
-      url: "/v1/categories"
-    })
-  ),
-  useAsyncData("tags", () =>
-    http({
-      url: "/v1/tags"
-    })
-  )
+const [{ data: postRes, error: postError }, { data: categoriesRes, error: categoriesError }, { data: tagsRes, error: tagsError }] = await Promise.all([
+  useAsyncData(() => `posts:page:${id.value}:category:${category.value}:tag:${tag.value}`, (_app, { signal }) => http<PostList>({
+    url: "/public/posts", query: { page: id.value, limit: 9, ...filters.value }, signal
+  })),
+  useAsyncData("categories:list", (_app, { signal }) => http<{ id: number, name: string }[]>({ url: "/public/categories", signal })),
+  usePublicTags()
 ])
-if (postError.value) {
-  console.error("Failed to fetch posts:", postError.value)
-  // 使用 NuxtUI 的通知组件显示错误
-
-  // 使用 NuxtUI 的通知组件显示错误
-  toast.add({
-    title: "数据加载失败",
-    description: "无法获取博客文章，请稍后再试。",
-    icon: "i-lucide-calendar-days"
-  })
-  // 抛出错误
-  // throw postError.value;
-  throw createError({
-    status: 500,
-    statusText: "服务端响应错误",
-    data: {
-      myCustomField: true
-    }
-  })
+if (postError.value || categoriesError.value || tagsError.value) {
+  throw publicPageError(postError.value || categoriesError.value || tagsError.value)
 }
-console.log(tagsRes.value, "文章列表数据")
-const blogs = postRes.value.data?.map((blog: IBlog) => ({
-  path: `/article/${blog.uuid}`, // 生成文章路径
+const blogs = computed(() => (postRes.value?.data || []).map(blog => ({
+  uuid: blog.uuid,
+  path: `/article/${blog.uuid}`,
   title: blog.title,
   description: blog.description,
-  image: blog.cover, // cover 映射到 image
-  date: blog.publish_time, // 使用 publish_time 作为日期
-  authors: [blog.author], // 将 author 转换为数组
-  badge: blog.is_top ? "置顶" : blog.category.name, // 根据是否置顶显示不同的徽章
-  // 可以添加其他需要的字段
-  views: blog.views,
-  category: blog.category,
-  tags: blog.tags
-}))
-// console.log("打印数据", categoriesRes.value);
-const pagination = postRes.value?.pagination ?? { total: 0, limit: 8 }
-const categories = categoriesRes.value?.data.map((category: { id: number | string, name: string }) => ({
-  value: category.id, // 生成分类路径
-  label: category.name
-}))
-const tags = tagsRes.value?.data.map((tag: { id: number | string, name: string }) => ({
-  value: tag.id, // 生成标签路径
-  label: tag.name
-}))
+  image: blog.cover,
+  date: blog.publish_time,
+  authors: [{ name: blog.author }],
+  badge: blog.is_top ? "置顶" : blog.category?.name,
+  views: blog.views
+})))
+const pagination = computed(() => postRes.value?.pagination || { total: 0, limit: 9, page: id.value })
+const categories = computed(() => (categoriesRes.value || []).map(item => ({ value: String(item.id), label: item.name })))
+const tags = computed(() => (tagsRes.value || []).map(item => ({ value: String(item.id), label: item.name })))
+watch(postError, error => { if (error) showError(publicPageError(error)) })
 
-const seoTitle = `博客列表第 ${id} 页 | 朝阳的码农札记`
-const seoDescription = `朝阳的码农札记博客分页列表，第 ${id} 页，包含最新技术文章与分类导航。`
+const seoTitle = computed(() => `博客列表第 ${id.value} 页 | 朝阳的码农札记`)
+const seoDescription = computed(() => `朝阳的码农札记博客分页列表，第 ${id.value} 页，包含最新技术文章与分类导航。`)
 const seoImage = `${siteUrl}/blog.webp`
 
 useSeoMeta({
@@ -102,12 +81,12 @@ useSeoMeta({
   robots: "index, follow"
 })
 
-useHead({
+useHead(() => ({
   link: [
     {
       rel: "canonical",
-      href: pageUrl
+      href: pageUrl.value
     }
   ]
-})
+}))
 </script>

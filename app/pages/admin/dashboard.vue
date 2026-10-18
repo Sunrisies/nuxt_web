@@ -19,6 +19,19 @@
       </UCard>
     </div>
 
+    <div class="mt-8 grid gap-6 lg:grid-cols-3">
+      <UCard class="lg:col-span-2">
+        <template #header><h2 class="text-lg font-semibold">发布概览</h2></template>
+        <div class="grid grid-cols-3 gap-3 text-center"><div><p class="text-2xl font-bold">{{ publishStats.published }}</p><p class="text-sm text-muted">已发布</p></div><div><p class="text-2xl font-bold">{{ publishStats.drafts }}</p><p class="text-sm text-muted">草稿</p></div><div><p class="text-2xl font-bold">{{ publishStats.offline }}</p><p class="text-sm text-muted">已下线</p></div></div>
+      </UCard>
+      <UCard><template #header><h2 class="text-lg font-semibold">内容健康度</h2></template><p class="text-sm text-muted">已发布文章占比</p><p class="mt-2 text-3xl font-bold">{{ publishRate }}%</p></UCard>
+    </div>
+
+    <UCard class="mt-6">
+      <template #header><h2 class="text-lg font-semibold">热门文章</h2></template>
+      <div v-if="topPosts.length" class="space-y-3"><div v-for="(post, index) in topPosts" :key="post.uuid" class="flex items-center gap-3"><span class="w-5 text-sm text-muted">{{ index + 1 }}</span><NuxtLink :to="`/admin/posts/${post.uuid}/edit`" class="min-w-0 flex-1 truncate hover:text-primary">{{ post.title }}</NuxtLink><span class="text-sm text-muted">{{ post.views || 0 }} 浏览</span></div></div><p v-else class="text-sm text-muted">暂无浏览数据</p>
+    </UCard>
+
     <!-- 最近文章 -->
     <UCard class="mt-8">
       <template #header>
@@ -34,7 +47,7 @@
         :data="recentPosts"
         :columns="postColumns"
         :loading="loading"
-        :empty-state="{ icon: 'i-heroicons-document-text', label: '暂无文章' }"
+        empty="暂无文章"
       >
         <template #status-cell="{ row }">
           <UBadge
@@ -45,7 +58,7 @@
         </template>
         <template #actions-cell="{ row }">
           <UButton
-            :to="`/admin/posts/${row.original.id}`"
+            :to="`/admin/posts?edit=${encodeURIComponent(row.original.uuid)}`"
             color="neutral"
             variant="ghost"
             size="sm"
@@ -58,12 +71,13 @@
 </template>
 
 <script setup lang="ts">
+import type { AdminPost, AdminNamedItem } from "~/types/admin"
+import { http } from "~/composables/http"
+
 definePageMeta({
   layout: "admin",
   middleware: "admin-auth"
 })
-
-import { http } from "~/composables/http"
 
 const loading = ref(true)
 const stats = ref([
@@ -73,29 +87,43 @@ const stats = ref([
   { label: "总浏览量", value: "—", icon: "i-heroicons-eye",           bg: "bg-amber-500" },
 ])
 
-const recentPosts = ref<any[]>([])
+const recentPosts = ref<AdminPost[]>([])
+const publishStats = ref({ published: 0, drafts: 0, offline: 0 })
+const topPosts = ref<AdminPost[]>([])
+const publishRate = computed(() => {
+  const total = publishStats.value.published + publishStats.value.drafts + publishStats.value.offline
+  return total ? Math.round(publishStats.value.published / total * 100) : 0
+})
 const postColumns = [
-  { id: "title",        key: "title",        accessorKey: "title",        label: "标题" },
-  { id: "status",       key: "status",       accessorKey: "status",       label: "状态" },
-  { id: "publish_time", key: "publish_time", accessorKey: "publish_time", label: "发布时间" },
-  { id: "actions",      key: "actions",      accessorKey: "actions",      label: "操作" },
+  { id: "title",        key: "title",        accessorKey: "title",        header: "标题" },
+  { id: "status",       key: "status",       accessorKey: "status",       header: "状态" },
+  { id: "publish_time", key: "publish_time", accessorKey: "publish_time", header: "发布时间" },
+  { id: "actions",      key: "actions",      accessorKey: "actions",      header: "操作" },
 ]
 
 onMounted(async () => {
   try {
     const [postsRes, categoriesRes, tagsRes, allPostsRes] = await Promise.all([
-      http<{ data: any[], pagination: { total: number } }>({ url: "/v1/posts?page=1&limit=5" }),
-      http<{ data: any[], pagination: { total: number } }>({ url: "/v1/categories?page=1&limit=1" }),
-      http<{ data: any[], pagination: { total: number } }>({ url: "/v1/tags?page=1&limit=1" }),
-      http<{ data: any[], pagination: { total: number } }>({ url: "/v1/posts?page=1&limit=200" }),
+      http<{ data: AdminPost[], pagination: { total: number } }>({ url: "/v1/posts?page=1&limit=5" }),
+      http<{ data: AdminNamedItem[], pagination: { total: number } }>({ url: "/v1/categories?page=1&limit=1" }),
+      http<{ data: AdminNamedItem[], pagination: { total: number } }>({ url: "/v1/tags?page=1&limit=1" }),
+      http<{ data: AdminPost[], pagination: { total: number } }>({ url: "/v1/posts?page=1&limit=100" }),
     ])
     recentPosts.value = postsRes?.data?.slice(0, 5) || []
     stats.value[0].value = String(postsRes?.pagination?.total ?? 0)
     stats.value[1].value = String(categoriesRes?.pagination?.total ?? 0)
     stats.value[2].value = String(tagsRes?.pagination?.total ?? 0)
     // 汇总所有文章浏览量
-    const totalViews = allPostsRes?.data?.reduce((sum: number, post: any) => sum + (post.views || 0), 0) || 0
+    const allPosts = [...(allPostsRes?.data || [])]
+    for (let page = 2; allPosts.length < allPostsRes.pagination.total; page++) {
+      const result = await http<{ data: AdminPost[] }>({ url: `/v1/posts?page=${page}&limit=100` })
+      if (!result.data.length) throw new Error("文章统计数据不完整")
+      allPosts.push(...result.data)
+    }
+    const totalViews = allPosts.reduce((sum: number, post: AdminPost) => sum + (post.views || 0), 0) || 0
     stats.value[3].value = String(totalViews)
+    publishStats.value = { published: allPosts.filter(post => post.is_publish).length, drafts: allPosts.filter(post => !post.is_publish && !post.is_hide).length, offline: allPosts.filter(post => post.is_hide).length }
+    topPosts.value = [...allPosts].sort((a, b) => (b.views || 0) - (a.views || 0)).slice(0, 5)
   } catch (e) {
     console.error("获取仪表盘数据失败", e)
   } finally {

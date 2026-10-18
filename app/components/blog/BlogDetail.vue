@@ -1,22 +1,26 @@
 <template>
   <div class="container mx-auto px-4 py-4">
-    <div class="flex justify-between">
+    <div class="flex flex-col gap-2 md:flex-row md:justify-between">
       <h1 class="text-3xl font-bold mb-4">
         文章列表
       </h1>
-      <!-- 桌面端分类/标签筛选 -->
-      <div class="hidden md:flex justify-between items-center mb-4">
+      <!-- 筛选条件同步到 URL -->
+      <div class="flex items-center mb-4">
         <div class="flex space-x-4">
           <USelect
-            v-model="selectedCategory"
+            :model-value="category"
+            aria-label="按分类筛选"
             :items="categoryOptions"
             placeholder="所有分类"
+            @update:model-value="value => emit('filter', 'category', String(value))"
           />
           <USelect
-            v-model="selectedTag"
+            :model-value="tag"
+            aria-label="按标签筛选"
             :items="tagOptions"
             placeholder="所有标签"
             class="w-48"
+            @update:model-value="value => emit('filter', 'tag', String(value))"
           />
         </div>
       </div>
@@ -25,6 +29,8 @@
     <h2 class="text-2xl font-semibold mb-2">
       最新文章
     </h2>
+
+    <p v-if="!blogs.length" class="py-8 text-muted">当前筛选条件下没有文章。</p>
 
     <UBlogPosts
       class="flex w-full flex-col gap-8 lg:gap-y-16 sm:grid sm:grid-cols-2 pc:grid-cols-4"
@@ -55,53 +61,56 @@
 
     <div class="mt-8 flex justify-center">
       <UPagination
-        v-model:page="page"
+        :page="id"
+        :to="value => ({ path: `/blog/${value}`, query: filterQuery })"
         :items-per-page="pagination.limit"
         :total="pagination.total"
-        @update:page="(page:number) => {
-          console.log('挑战', page)
-          navigateTo(`/blog/${page}`, { external: true })
-        }"
       />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import type { IBlog } from "~/types/blog"
+interface BlogCard {
+  uuid: string
+  path: string
+  title: string
+  description: string
+  image: string
+  date: string
+  authors: { name: string }[]
+  badge?: string
+  views: number
+}
 
 interface optionsType {
   label: string
   value: string
 }
 const props = defineProps<{
-  blogs: IBlog[]
+  blogs: BlogCard[]
   categories: optionsType[]
   pagination: { total: number, limit: number }
   id: number
   tags: optionsType[]
+  category: string
+  tag: string
 }>()
-// 状态
-const page = ref(props.id)
-const selectedCategory = ref("all")
-const selectedTag = ref("all")
+const emit = defineEmits<{ filter: [key: "category" | "tag", value: string] }>()
+const filterQuery = computed(() => ({
+  ...(props.category !== "all" ? { category: props.category } : {}),
+  ...(props.tag !== "all" ? { tag: props.tag } : {})
+}))
 
 // 分类选项
 const categoryOptions = computed(() => [
   { label: "所有分类", value: "all" },
-  ...props.categories.map(c => ({ label: c.label, value: c.value }))
+  ...(props.categories || []).map(c => ({ label: c.label, value: c.value }))
 ])
 
-console.log(categoryOptions.value, "分类")
-// 标签选项（硬编码，与原代码保持一致）
+// 标签选项
 const tagOptions = computed(() => [
   { label: "所有标签", value: "all" },
-  ...props.tags.map(t => ({ label: t.label, value: t.value }))
+  ...(props.tags || []).map(t => ({ label: t.label, value: t.value }))
 ])
 </script>
-
-<style scoped lang="scss">
-:deep(.header) {
-  border: 1px solid red;
-}
-</style>

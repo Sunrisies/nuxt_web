@@ -60,6 +60,7 @@ const loading = ref(false)
 const errorMsg = ref("")
 
 async function handleLogin() {
+  if (loading.value) return
   if (!form.account || !form.password) {
     errorMsg.value = "请输入账号和密码"
     return
@@ -69,31 +70,11 @@ async function handleLogin() {
   errorMsg.value = ""
 
   try {
-    // 走 Nuxt 服务端代理（/api/v1/* → api.sunrise1024.top/api/v1/*），避免浏览器跨域
-    const res = await $fetch<any>("/api/v1/auth/login", {
-      method: "POST",
-      body: form
-    })
-
-    console.log("登录响应:", res)
-
-    // 兼容多种响应格式
-    const code = res.code ?? res.status_code ?? res.status ?? 0
-    const data = res.data ?? res
-    const message = res.message ?? res.msg ?? ""
-
-    if (code === 200 || code === 0) {
-      // 后端用 Cookie/Session 鉴权，无 token；存储用户信息用于前端判断登录状态
-      const user = { id: data.id, uuid: data.uuid, user_name: data.user_name }
-      localStorage.setItem("admin_user", JSON.stringify(user))
-      toast.add({ title: `欢迎回来，${user.user_name}`, color: "green" })
-      router.push("/admin/dashboard")
-    } else {
-      errorMsg.value = message || "登录失败"
-    }
-  } catch (e: any) {
-    console.error("登录错误:", e)
-    errorMsg.value = e?.data?.message || e?.message || "网络错误，请稍后重试"
+    const user = await loginAdmin(form)
+    toast.add({ title: `欢迎回来，${user.user_name}`, color: "success" })
+    await router.push("/admin/dashboard")
+  } catch (error: unknown) {
+    errorMsg.value = loginErrorMessage(error)
   } finally {
     loading.value = false
   }

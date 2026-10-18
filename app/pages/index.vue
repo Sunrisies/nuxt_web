@@ -51,13 +51,11 @@
         </div>
       </section>
     </main>
-    <ScrollToTopButton />
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue"
-import type { IBlog, Tag } from "~/types/blog"
+import type { PostList } from "~/types/blog"
 import { http } from "~/composables/http"
 
 const config = useRuntimeConfig()
@@ -65,7 +63,7 @@ const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
 const seoTitle = "朝阳的码农札记 | 全栈开发者的技术分享与经验总结"
 const seoDescription
   = "这是一个专注于全栈开发、Web技术、云原生和DevOps的技术博客。在这里，我分享实用的编程技巧、项目经验和技术见解，帮助开发者解决实际问题，提升编程技能。欢迎加入我的学习社区！"
-const seoImage = `${siteUrl}/og-image.png`
+const seoImage = `${siteUrl}/blog.webp`
 
 useSeoMeta({
   title: seoTitle,
@@ -105,7 +103,7 @@ useHead({
     },
     {
       rel: "apple-touch-icon",
-      href: "/apple-touch-icon.png"
+      href: "/blog.webp"
     }
   ],
   script: [
@@ -126,35 +124,12 @@ useHead({
   ]
 })
 
-// 响应式数据
-const blogs = ref<IBlog[]>([])
-const tags = ref<Tag[]>([])
-
-// API 函数
-const getPostApi = async () => {
-  const { data } = await useAsyncData("posts", () =>
-    http({
-      url: `/v1/posts?page=1&limit=12`
-    })
-  )
-  return data.value || []
-}
-
-const getTags = async () => {
-  const { data } = await useAsyncData("tagsCount", () =>
-    http({
-      url: "/v1/tags/count"
-    })
-  )
-  return data.value || []
-}
-
-// 获取数据
-try {
-  const [postsResponse, tagsResponse] = await Promise.all([getPostApi(), getTags()])
-  blogs.value = postsResponse.data
-  tags.value = tagsResponse
-} catch (error) {
-  console.error("获取数据失败:", error)
-}
+const [{ data: posts, error: postsError }, { data: tags, error: tagsError }] = await Promise.all([
+  useAsyncData("home:posts", (_app, { signal }) => http<PostList>({
+    url: "/public/posts", query: { page: 1, limit: 12 }, signal
+  })),
+  usePublicTags()
+])
+if (postsError.value || tagsError.value) throw publicPageError(postsError.value || tagsError.value)
+const blogs = computed(() => posts.value?.data || [])
 </script>

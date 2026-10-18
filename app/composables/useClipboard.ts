@@ -1,5 +1,5 @@
 import type { ClipboardEntry, ClipboardListResponse } from "~/types/clipboard"
-import { http } from "~/composables/http"
+import type { ApiResponse } from "~/types/api"
 
 // 频道 token 管理
 const STORAGE_KEY = "clipboard_token"
@@ -25,7 +25,7 @@ export function hasToken(): boolean {
 // ─── 频道认证 ───────────────────────────────────────
 export async function authChannel(name: string, password: string): Promise<string | null> {
   try {
-    const res = await $fetch<any>("/api/v1/clipboard/channel/auth", {
+    const res = await $fetch<ApiResponse<{ token?: string }> & { token?: string }>("/api/v1/clipboard/channel/auth", {
       method: "POST",
       body: { name, password }
     })
@@ -41,7 +41,7 @@ export async function authChannel(name: string, password: string): Promise<strin
 
 export async function createChannel(name: string, password: string): Promise<string | null> {
   try {
-    const res = await $fetch<any>("/api/v1/clipboard/channel", {
+    const res = await $fetch<ApiResponse<unknown>>("/api/v1/clipboard/channel", {
       method: "POST",
       body: { name, password }
     })
@@ -50,6 +50,11 @@ export async function createChannel(name: string, password: string): Promise<str
   } catch {
     return null
   }
+}
+
+function clearExpiredClipboardToken(error: unknown) {
+  const value = error as { status?: number, statusCode?: number, data?: { code?: number } }
+  if (value?.status === 401 || value?.statusCode === 401 || value?.data?.code === 401) clearToken()
 }
 
 // ─── API 调用（带 token） ───────────────────────────
@@ -72,20 +77,21 @@ export async function fetchClipboardList(
   type = "", q = "", start = "", end = ""
 ): Promise<ClipboardListResponse | null> {
   try {
-    const res = await $fetch<any>(buildListUrl(page, limit, type, q, start, end), {
+    const res = await $fetch<ApiResponse<ClipboardListResponse>>(buildListUrl(page, limit, type, q, start, end), {
       headers: headers()
     })
     if (res.code === 200) return res.data
     if (res.code === 401) { clearToken(); return null }
     return null
-  } catch {
+  } catch (error: unknown) {
+    clearExpiredClipboardToken(error)
     return null
   }
 }
 
 export async function uploadClipboardText(content: string): Promise<ClipboardEntry | null> {
   try {
-    const res = await $fetch<any>("/api/v1/clipboard/text", {
+    const res = await $fetch<ApiResponse<ClipboardEntry>>("/api/v1/clipboard/text", {
       method: "POST",
       headers: { ...headers(), "Content-Type": "application/json" },
       body: JSON.stringify({ content })
@@ -93,7 +99,8 @@ export async function uploadClipboardText(content: string): Promise<ClipboardEnt
     if (res.code === 200) return res.data
     if (res.code === 401) clearToken()
     return null
-  } catch {
+  } catch (error: unknown) {
+    clearExpiredClipboardToken(error)
     return null
   }
 }
@@ -102,7 +109,7 @@ export async function uploadClipboardFile(file: File): Promise<ClipboardEntry | 
   try {
     const form = new FormData()
     form.append("file", file)
-    const res = await $fetch<any>("/api/v1/clipboard/file", {
+    const res = await $fetch<ApiResponse<ClipboardEntry>>("/api/v1/clipboard/file", {
       method: "POST",
       headers: headers(),
       body: form
@@ -110,21 +117,23 @@ export async function uploadClipboardFile(file: File): Promise<ClipboardEntry | 
     if (res.code === 200) return res.data
     if (res.code === 401) clearToken()
     return null
-  } catch {
+  } catch (error: unknown) {
+    clearExpiredClipboardToken(error)
     return null
   }
 }
 
 export async function deleteClipboardEntry(uuid: string): Promise<boolean> {
   try {
-    const res = await $fetch<any>(`/api/v1/clipboard/${uuid}`, {
+    const res = await $fetch<ApiResponse<unknown>>(`/api/v1/clipboard/${uuid}`, {
       method: "DELETE",
       headers: headers()
     })
     if (res.code === 200) return true
     if (res.code === 401) clearToken()
     return false
-  } catch {
+  } catch (error: unknown) {
+    clearExpiredClipboardToken(error)
     return false
   }
 }

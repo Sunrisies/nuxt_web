@@ -14,6 +14,9 @@
         v-if="imageSrc"
         :src="imageSrc"
         :alt="alt"
+        width="96"
+        height="96"
+        decoding="async"
         class="w-full h-full object-cover"
         @error="handleImageError"
       >
@@ -38,7 +41,7 @@ const props = defineProps({
   },
   src: {
     type: String,
-    default: "/blog.webp"
+    default: "/api/v1/users/default-avatar.webp?v=3"
   },
   alt: {
     type: String,

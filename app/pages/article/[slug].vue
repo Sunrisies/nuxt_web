@@ -3,7 +3,7 @@
     <UContainer v-if="article">
       <UPageHeader :title="article.title" :description="article.description">
         <template #headline>
-          <UBadge :label="article.category.name" variant="subtle" />
+          <UBadge :label="article.category?.name || '未分类'" variant="subtle" />
           <span class="text-muted">&middot;</span>
           <time class="text-muted">
             {{ formatDateForDisplay(article.publish_time) }}
@@ -14,7 +14,7 @@
 
         <div class="flex flex-wrap items-center gap-3 mt-4">
           <UButton color="neutral" variant="subtle" size="sm">
-            <UAvatar :src="article.cover" alt="Author avatar" size="2xs" />
+            <UAvatar :src="article.author_avatar || '/api/v1/users/default-avatar.webp?v=3'" :alt="`${article.author} 的头像`" size="2xs" />
             {{ article.author }}
           </UButton>
         </div>
@@ -30,8 +30,13 @@
       </UPageHeader>
 
       <UPage>
-        <UPageBody>
-          <ContentRenderer :value="ast" />
+        <UPageBody class="space-y-6">
+          <MDCRenderer v-if="ast" :body="ast.body" :data="ast.data" :components="proseComponents" />
+
+          <section v-if="relatedPosts.length" class="border-t pt-8" aria-label="相关文章">
+            <div class="mb-4 flex items-center justify-between"><h2 class="text-xl font-semibold">相关文章</h2><NuxtLink :to="`/blog/1?category=${article?.category?.id}`" class="text-sm text-primary">查看同分类文章</NuxtLink></div>
+            <div class="grid gap-3 sm:grid-cols-2"><NuxtLink v-for="post in relatedPosts" :key="post.uuid" :to="`/article/${post.uuid}`" class="rounded-lg border p-4 transition hover:border-primary hover:bg-muted/30"><p class="line-clamp-1 font-medium">{{ post.title }}</p><p class="mt-1 line-clamp-2 text-sm text-muted">{{ post.description }}</p><p class="mt-2 text-xs text-muted">{{ post.views || 0 }} 浏览</p></NuxtLink></div>
+          </section>
 
           <div class="mt-12 pt-8 border-t">
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -66,10 +71,10 @@
           </div>
         </UPageBody>
 
-        <template v-if="ast?.toc?.links?.length" #right>
-          <div class="hidden lg:block">
-            <ArticleToc :toc="ast.toc" />
-          </div>
+        <template #right>
+          <UPageAside>
+            <ArticleToc :toc="articleToc" />
+          </UPageAside>
         </template>
       </UPage>
     </UContainer>
@@ -77,30 +82,75 @@
 </template>
 
 <script setup lang="ts">
-import type { IArticle } from "~/types/article"
+import type { ArticlePage } from "~/types/article"
+import MDCRenderer from "@nuxtjs/mdc/runtime/components/MDCRenderer.vue"
+import ProsePre from "~/components/ProsePre.vue"
+
+const proseComponents = { pre: ProsePre, ProsePre }
 
 const route = useRoute()
-const slug = route.params.slug as string
+const slug = computed(() => String(route.params.slug))
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
-const pageUrl = `${siteUrl}/article/${slug}`
-
-const article = ref<IArticle | null>(null)
-
-// 获取文章详情
-const { data } = await useAsyncData(`article-${slug}`, () =>
-  http({
-    url: `/v1/posts/${slug}`
-  })
+const pageUrl = computed(() => `${siteUrl}/article/${encodeURIComponent(slug.value)}`)
+const { data, error } = await useAsyncData(() => `article:${slug.value}`, (_app, { signal }) =>
+  http<ArticlePage>({ url: `/public/articles/${encodeURIComponent(slug.value)}`, signal })
 )
-article.value = data.value || {}
-const ast = await parseMarkdown(data.value?.content || "")
+if (error.value) throw publicPageError(error.value)
+if (!data.value) throw createError({ statusCode: 404, statusMessage: "Article not found" })
+watch(error, value => { if (value) showError(publicPageError(value)) })
+async function recordView() {
+  if (!import.meta.client) return
+  await http({ url: `/v1/posts/${encodeURIComponent(slug.value)}/view`, method: "POST", timeout: 3000 }).catch(() => {})
+}
+onMounted(() => { void recordView() })
+watch(slug, () => { void recordView() })
+const article = computed(() => data.value?.article)
+const ast = computed(() => data.value?.ast)
+const { data: relatedResponse } = await useAsyncData(() => `related:${slug.value}:${article.value?.category?.id || 0}`, (_app, { signal }) => article.value?.category?.id ? http<{ data: Array<{ uuid: string, title: string, description: string, views?: number }> }>({ url: "/public/posts", query: { page: 1, limit: 8, category: article.value.category.id }, signal }) : Promise.resolve(null))
+const relatedPosts = computed(() => (relatedResponse.value?.data || []).filter(post => post.uuid !== slug.value).slice(0, 4))
 
-const seoTitle = article.value?.title
-  ? `${article.value.title} | 朝阳的码农札记`
-  : "文章详情 | 朝阳的码农札记"
-const seoDescription = article.value?.description || "技术文章详情页。"
-const seoImage = article.value?.cover || `${siteUrl}/blog.webp`
+type TocLink = {
+  id: string
+  text: string
+  depth: number
+}
+
+function textFromNode(node: unknown): string {
+  if (!node || typeof node !== "object") return ""
+  const value = node as { value?: unknown; children?: unknown[] }
+  if (typeof value.value === "string") return value.value
+  return (value.children || []).map(textFromNode).join("")
+}
+
+const fallbackTocLinks = computed<TocLink[]>(() => {
+  const children = ast.value?.body?.children || []
+  return children.flatMap((node: unknown) => {
+    if (!node || typeof node !== "object") return []
+    const heading = node as {
+      tag?: string
+      props?: { id?: string }
+      children?: unknown[]
+    }
+    const depth = Number(heading.tag?.slice(1))
+    const id = heading.props?.id
+    const text = textFromNode(heading)
+    return /^h[1-6]$/.test(heading.tag || "") && id && text
+      ? [{ id, text, depth }]
+      : []
+  })
+})
+
+const articleToc = computed(() => {
+  const links = ast.value?.toc?.links
+  return { links: links?.length ? links : fallbackTocLinks.value }
+})
+const neighbors = computed(() => data.value?.neighbors || { prev: null, next: null })
+const readingTime = computed(() => `约 ${data.value?.readingMinutes || 1} 分钟读完`)
+
+const seoTitle = computed(() => `${article.value?.title || "文章详情"} | 朝阳的码农札记`)
+const seoDescription = computed(() => article.value?.description || "技术文章详情页。")
+const seoImage = computed(() => article.value?.cover || `${siteUrl}/blog.webp`)
 
 useSeoMeta({
   title: seoTitle,
@@ -117,7 +167,7 @@ useSeoMeta({
   robots: "index, follow"
 })
 
-useHead({
+useHead(() => ({
   script: [
     {
       type: "application/ld+json",
@@ -125,8 +175,8 @@ useHead({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": article.value?.title || "文章详情",
-        "description": seoDescription,
-        "image": [seoImage],
+        "description": seoDescription.value,
+        "image": [seoImage.value],
         "datePublished": article.value?.publish_time
           ? new Date(article.value.publish_time).toISOString()
           : undefined,
@@ -147,7 +197,7 @@ useHead({
         },
         "mainEntityOfPage": {
           "@type": "WebPage",
-          "@id": pageUrl
+          "@id": pageUrl.value
         },
         "articleSection": article.value?.category?.name || "技术文章",
         "keywords":
@@ -176,7 +226,7 @@ useHead({
             "@type": "ListItem",
             "position": 3,
             "name": article.value?.title || "文章详情",
-            "item": pageUrl
+            "item": pageUrl.value
           }
         ]
       })
@@ -185,47 +235,9 @@ useHead({
   link: [
     {
       rel: "canonical",
-      href: pageUrl
+      href: pageUrl.value
     }
   ]
-})
+}))
 
-// 阅读时长估算（中文按 400 字/分钟）
-const readingTime = computed(() => {
-  const content = article.value?.content || ""
-  const charCount = content.replace(/\s/g, "").length
-  const minutes = Math.max(1, Math.ceil(charCount / 400))
-  return `约 ${minutes} 分钟读完`
-})
-
-// 获取上下篇文章
-const neighbors = ref<{
-  prev: { uuid: string; title: string } | null
-  next: { uuid: string; title: string } | null
-}>({
-  prev: null,
-  next: null
-})
-
-try {
-  const { data: listData } = await useAsyncData(`article-list-${slug}`, () =>
-    http<{ data: { uuid: string; title: string }[] }>({
-      url: `/v1/posts?page=1&limit=200`
-    })
-  )
-
-  const list = listData.value?.data || []
-  const currentIndex = list.findIndex((item) => item.uuid === slug)
-
-  if (currentIndex > 0) {
-    neighbors.value.prev = list[currentIndex - 1]
-  }
-  if (currentIndex >= 0 && currentIndex < list.length - 1) {
-    neighbors.value.next = list[currentIndex + 1]
-  }
-} catch {
-  // 上下篇获取失败不影响文章展示
-}
 </script>
-
-<style lang="scss" scoped></style>

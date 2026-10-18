@@ -1,35 +1,39 @@
 <template>
   <div class="container mx-auto w-full md:w-3/4 px-2 xs:px-4 lg:px-0 py-8">
-    <UChangelogVersions
+    <PostChangelogVersions
       :versions="versions"
-      :ui="{ indicator: 'start-56' }"
+      indicator-class="start-56"
     />
+    <UAlert v-if="feedError" color="warning" title="加载失败，请重试" class="mt-4" />
+    <UButton v-if="hasMore" :loading="feedLoading" class="mt-6" @click="loadMore">加载更多</UButton>
   </div>
 </template>
 
 <script setup lang="ts">
 import type { ChangelogVersionProps } from "@nuxt/ui"
 
+import type { PostList } from "~/types/blog"
+
 const route = useRoute()
 const config = useRuntimeConfig()
 const siteUrl = config.public.siteUrl || "https://sunrise1024.top"
-// 获取所有的标签，并保存下来
-const id = route.params.slug
-const { data: tagsRes } = await useAsyncData("tags", () =>
-  http({
-    url: "/v1/tags/count"
-  })
-)
-const tagId = tagsRes.value.find(tag => tag.name === id)?.id
-const { data: postsRes } = await useAsyncData(`tag-${id}`, () =>
-  http({
-    url: `/v1/posts?limit=100&tag=${tagId}`
-  })
-)
+const id = computed(() => String(route.params.slug))
+const { data: tagsRes, error: tagsError } = await usePublicTags()
+if (tagsError.value) throw publicPageError(tagsError.value)
+const tagId = computed(() => tagsRes.value?.find(tag => tag.name === id.value)?.id)
+if (!tagId.value) throw createError({ statusCode: 404, statusMessage: "Tag not found" })
+const { data: postsRes, error: postsError } = await useAsyncData(() => `tag:posts:${id.value}`, (_app, { signal }) => {
+  if (!tagId.value) throw createError({ statusCode: 404, statusMessage: "Tag not found" })
+  return http<PostList>({ url: "/public/posts", query: { limit: 100, tag: tagId.value }, signal })
+})
+if (postsError.value) throw publicPageError(postsError.value)
+watch(postsError, error => { if (error) showError(publicPageError(error)) })
 
-const pageUrl = `${siteUrl}/tag/${id}`
-const seoTitle = `${String(id)} 标签文章 | 朝阳的码农札记`
-const seoDescription = `查看标签 ${String(id)} 下的所有技术文章与实践记录。`
+const { posts: articles, hasMore, loading: feedLoading, error: feedError, loadMore } = usePostFeed(postsRes, () => ({ tag: tagId.value! }), () => id.value)
+
+const pageUrl = computed(() => `${siteUrl}/tag/${encodeURIComponent(id.value)}`)
+const seoTitle = computed(() => `${id.value} 标签文章 | 朝阳的码农札记`)
+const seoDescription = computed(() => `查看标签 ${id.value} 下的所有技术文章与实践记录。`)
 const seoImage = `${siteUrl}/blog.webp`
 
 useSeoMeta({
@@ -47,17 +51,17 @@ useSeoMeta({
   robots: "index, follow"
 })
 
-useHead({
+useHead(() => ({
   link: [
     {
       rel: "canonical",
-      href: pageUrl
+      href: pageUrl.value
     }
   ]
-})
+}))
 // 将文章数据转换为 UChangelogVersions 需要的格式
 const versions = computed<ChangelogVersionProps[]>(() => {
-  return postsRes.value.data.map(post => ({
+  return articles.value.map(post => ({
     // 组件内置属性
     title: post.title, // 会在 #title 插槽中被覆盖，但保留以供组件内部使用
     description: post.description, // 会在 #description 插槽中被覆盖

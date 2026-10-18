@@ -6,11 +6,11 @@ IMAGE_NAME=""
 CONTAINER_NAME=""
 LOCAL_TAR_FILE=""
 REMOTE_USER="root"
-REMOTE_HOST="sunrise1024.top"
+REMOTE_HOST="api.sunrise1024.top"
 REMOTE_DIR="/home/docker/nuxt"
 PORT_MAPPING="441:3000"
 VOLUME_MAPPING=""  # 可选：例如 "/host/path:/container/path"
-HEALTH_CHECK_ENDPOINT="/"
+HEALTH_CHECK_ENDPOINT="/api/ready"
 KEEP_IMAGE_VERSIONS=2
 
 # Nuxt 构建参数
@@ -512,7 +512,7 @@ health_check() {
     # 方式2: 检查基础连接
     if [ "$health_checked" = false ]; then
       log "检查基础连接..."
-      if ssh $REMOTE_USER@$REMOTE_HOST "curl -f -s --connect-timeout 10 http://localhost:$port/ > /dev/null 2>&1"; then
+      if ssh $REMOTE_USER@$REMOTE_HOST "curl -f -s --connect-timeout 10 http://localhost:$port/api/ready > /dev/null 2>&1"; then
         log_success "应用基础连接正常"
         health_checked=true
       fi
@@ -531,7 +531,7 @@ health_check() {
           return 1
         else
           log_warning "未在日志中发现明显错误，可能应用启动较慢"
-          return 0
+          return 1
         fi
       else
         log_error "无法获取容器日志"
@@ -564,16 +564,6 @@ cd REMOTE_DIR_PLACEHOLDER
 # 定义远程日志函数
 remote_log() { echo "[$(date +'%Y-%m-%d %H:%M:%S')] $1"; }
 
-remote_log "停止旧容器..."
-docker stop CONTAINER_NAME_PLACEHOLDER 2>/dev/null || remote_log "没有运行的容器需要停止"
-
-remote_log "删除旧容器..."
-docker rm CONTAINER_NAME_PLACEHOLDER 2>/dev/null || remote_log "没有容器需要删除"
-
-remote_log "清理旧镜像..."
-docker rmi IMAGE_NAME_PLACEHOLDER:latest 2>/dev/null || remote_log "没有 latest 镜像需要删除"
-docker rmi IMAGE_NAME_PLACEHOLDER:NEW_VERSION_PLACEHOLDER 2>/dev/null || remote_log "没有指定版本镜像需要删除"
-
 # 加载新镜像
 remote_log "加载新镜像..."
 docker load -i LOCAL_TAR_FILE_PLACEHOLDER
@@ -591,9 +581,58 @@ run_command="$run_command -e NODE_ENV=production -e NITRO_HOST=0.0.0.0 -e NITRO_
 
 run_command="$run_command IMAGE_NAME_PLACEHOLDER:NEW_VERSION_PLACEHOLDER"
 
-# 启动新容器
+# 先在临时端口验证新镜像，旧实例继续服务。
+candidate_name="CONTAINER_NAME_PLACEHOLDER-candidate"
+rollback_name="CONTAINER_NAME_PLACEHOLDER-rollback"
+docker rm -f "$candidate_name" 2>/dev/null || true
+candidate_command="${run_command/-p PORT_MAPPING_PLACEHOLDER/-p 127.0.0.1::3000}"
+candidate_command="${candidate_command/--name CONTAINER_NAME_PLACEHOLDER/--name $candidate_name}"
+eval "$candidate_command"
+candidate_port=$(docker port "$candidate_name" 3000/tcp | head -1 | sed 's/.*://')
+wait_ready() {
+  local port="$1"
+  for attempt in $(seq 1 30); do
+    if curl -f -s --max-time 10 "http://127.0.0.1:$port/api/ready" > /dev/null; then return 0; fi
+    sleep 1
+  done
+  return 1
+}
+if ! wait_ready "$candidate_port"; then
+  docker logs "$candidate_name" --tail 30
+  docker rm -f "$candidate_name"
+  remote_log "新实例未就绪，保留旧实例"
+  exit 1
+fi
+docker rm -f "$candidate_name"
+
+# 固定端口切换仍有短暂间隙；失败时恢复旧容器。
+docker rm -f "$rollback_name" 2>/dev/null || true
+previous_state="none"
+rollback() {
+  if [ "$previous_state" = "renamed" ]; then
+    docker rm -f CONTAINER_NAME_PLACEHOLDER 2>/dev/null || true
+    docker rename "$rollback_name" CONTAINER_NAME_PLACEHOLDER
+    docker start CONTAINER_NAME_PLACEHOLDER
+  elif [ "$previous_state" = "stopped" ]; then
+    docker start CONTAINER_NAME_PLACEHOLDER
+  elif [ "$previous_state" = "none" ]; then
+    docker rm -f CONTAINER_NAME_PLACEHOLDER 2>/dev/null || true
+  fi
+}
+trap rollback ERR
+if docker inspect CONTAINER_NAME_PLACEHOLDER > /dev/null 2>&1; then
+  previous_state="running"
+  docker stop CONTAINER_NAME_PLACEHOLDER
+  previous_state="stopped"
+  docker rename CONTAINER_NAME_PLACEHOLDER "$rollback_name"
+  previous_state="renamed"
+fi
 remote_log "启动新容器..."
-eval $run_command
+eval "$run_command"
+service_port=$(echo "PORT_MAPPING_PLACEHOLDER" | awk -F: '{print $(NF-1)}')
+wait_ready "$service_port"
+trap - ERR
+docker rm "$rollback_name" 2>/dev/null || true
 
 remote_log "清理远程临时文件..."
 rm -f LOCAL_TAR_FILE_PLACEHOLDER

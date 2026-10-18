@@ -9,3 +9,6 @@ README.md
 .nuxt
 .output
 dist
+
+.env
+.env.*

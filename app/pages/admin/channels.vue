@@ -28,8 +28,10 @@
 </template>
 
 <script setup lang="ts">
-definePageMeta({ layout: "admin", middleware: "admin-auth" })
+import type { RequestError } from "~/types/api"
 import { http } from "~/composables/http"
+
+definePageMeta({ layout: "admin", middleware: "admin-auth" })
 
 const form = reactive({ name: "", password: "" })
 const saving = ref(false)
@@ -43,8 +45,8 @@ async function save() {
     await http({ url: "/v1/clipboard/channel", method: "POST", body: { name: form.name, password: form.password } })
     successMsg.value = `频道「${form.name}」创建成功！`
     form.name = ""; form.password = ""
-  } catch (e: any) {
-    errorMsg.value = e?.data?.message || e?.message || "创建失败"
+  } catch (e: unknown) {
+    errorMsg.value = (e as RequestError)?.data?.message || (e as RequestError)?.message || "创建失败"
   } finally { saving.value = false }
 }
 </script>

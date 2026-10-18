@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     "@nuxt/fonts",
     "@nuxt/eslint",
     "@nuxtjs/mdc",
-    "@nuxt/content",
     "@nuxt/image",
     "@nuxtjs/device",
     "@nuxtjs/color-mode",
@@ -29,18 +28,18 @@ export default defineNuxtConfig({
     url: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
   },
   runtimeConfig: {
+    apiBase: process.env.NUXT_API_BASE || process.env.NUXT_PUBLIC_API_BASE || "https://api.sunrise1024.top/api",
+    apiTimeout: 8000,
+    apiResolveAddress: "",
+    apiNetworkInterface: "",
     public: {
-      apiBase:
-        process.env.NUXT_PUBLIC_API_BASE ||
-        (process.env.NODE_ENV === "development"
-          ? "http://127.0.0.1:3000/api"
-          : "/api"),
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
     }
   },
 
   compatibilityDate: "2025-07-15",
   nitro: {
+    compressPublicAssets: true,
     externals: {
       external: []
     },
@@ -52,8 +51,10 @@ export default defineNuxtConfig({
       "/admin/**": { ssr: false },
       // 云剪贴板 → 纯客户端（避免 SSR 访问浏览器 API 报 500）
       "/clipboard": { ssr: false },
-      // API 请求代理到后端（浏览器同源，避免跨域）
-      "/api/v1/**": { proxy: "https://api.sunrise1024.top/api/v1/**" }
+      "/api/public/**": { headers: { "cache-control": "no-store" } },
+      "/api/v1/**": { headers: { "cache-control": "no-store" } },
+      "/navigationBar": { swr: 3600 },
+      "/_nuxt/**": { headers: { "cache-control": "public, max-age=31536000, immutable" } }
     }
   },
   vite: {
@@ -66,23 +67,18 @@ export default defineNuxtConfig({
         "@nuxt/ui > prosemirror-gapcursor"
       ]
     },
-    plugins: [tailwindcss()],
-    build: {
-      rollupOptions: {
-        external: [],
-        output: {
-          manualChunks: {
-            // 确保 @vueuse 被打包进单独的 chunk
-            vueuse: ["@vueuse/core"]
-          }
-        }
-      }
-    }
+    plugins: [tailwindcss()]
   },
   eslint: {
     config: {
       stylistic: false
     }
+  },
+  image: {
+    domains: ["img.sunrise1024.top"],
+    provider: "articleImages",
+    providers: { articleImages: { provider: "~/providers/article-images" } },
+    ipx: {}
   },
   fonts: {
     provider: "local"
@@ -96,6 +92,7 @@ export default defineNuxtConfig({
     ]
   },
   sitemap: {
+    cacheMaxAgeSeconds: 0,
     sources: ["/api/__sitemap__/urls"]
   },
   umami: {
