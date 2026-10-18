@@ -1,6 +1,9 @@
 export default defineEventHandler(async (event) => {
   const origin = getHeader(event, "origin")
-  if (origin && origin !== getRequestURL(event).origin) throw createError({ statusCode: 403 })
+  if (origin) {
+    const originHost = (() => { try { return new URL(origin).hostname } catch { return "" } })()
+    if (!originHost || originHost !== getRequestURL(event).hostname) throw createError({ statusCode: 403 })
+  }
   setHeader(event, "Cache-Control", "private, no-store")
   const token = getCookie(event, "access_token")
   let revoked = true

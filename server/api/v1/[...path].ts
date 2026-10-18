@@ -1,7 +1,13 @@
 export default defineEventHandler(async (event) => {
   const origin = getHeader(event, "origin")
-  if (!["GET", "HEAD", "OPTIONS"].includes(event.method) && origin && origin !== getRequestURL(event).origin) {
-    throw createError({ statusCode: 403, statusMessage: "Cross-origin mutation denied" })
+  if (!["GET", "HEAD", "OPTIONS"].includes(event.method) && origin) {
+    // TLS is terminated by the production reverse proxy. `getRequestURL` can
+    // therefore see http while browsers correctly send https in Origin. Match
+    // the hostname instead of the scheme, while still rejecting other sites.
+    const originHost = (() => { try { return new URL(origin).hostname } catch { return "" } })()
+    if (!originHost || originHost !== getRequestURL(event).hostname) {
+      throw createError({ statusCode: 403, statusMessage: "Cross-origin mutation denied" })
+    }
   }
   const path = getRouterParam(event, "path") || ""
   const query = getRequestURL(event).search
