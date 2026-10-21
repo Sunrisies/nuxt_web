@@ -47,6 +47,49 @@ result.functional.passwordLogin = true
 const session = await expect('/api/auth/session', 'GET', undefined, 200)
 assert.deepEqual(Object.keys(session.data).sort(), ['id', 'user_name', 'uuid'])
 result.functional.sessionSanitized = true
+async function uploadDrop(name, type, content, authenticated = false) {
+  const form = new FormData()
+  form.append('file', new Blob([content], { type }), name)
+  const response = await fetch(`${base}/api/v1/drop/file`, {
+    method: 'POST',
+    headers: authenticated ? { cookie } : {},
+    body: form,
+    signal: AbortSignal.timeout(15000),
+  })
+  const body = await response.json()
+  return { status: response.status, data: body.data, response }
+}
+const anonymousText = await uploadDrop('anonymous-note.txt', 'text/plain', 'anonymous text delivery')
+assert.equal(anonymousText.status, 200)
+assert.match(anonymousText.data.code, /^\d{8}$/)
+const anonymousMedia = await uploadDrop('private-image.png', 'image/png', Uint8Array.from([137, 80, 78, 71]), false)
+assert.equal(anonymousMedia.status, 415, 'Anonymous uploads must reject images')
+for (const [name, type, content] of [
+  ['logged-in-image.png', 'image/png', Uint8Array.from([137, 80, 78, 71])],
+  ['logged-in-audio.mp3', 'audio/mpeg', Uint8Array.from([73, 68, 51])],
+  ['logged-in-video.mp4', 'video/mp4', Uint8Array.from([0, 0, 0, 24, 102, 116, 121, 112])],
+]) {
+  const uploaded = await uploadDrop(name, type, content, true)
+  assert.equal(uploaded.status, 200, `Authenticated ${type} upload must succeed`)
+  assert.match(uploaded.data.code, /^\d{8}$/)
+  const downloaded = await fetch(`${base}/api/v1/drop/${uploaded.data.code}`)
+  assert.equal(downloaded.status, 200)
+  assert.deepEqual(new Uint8Array(await downloaded.arrayBuffer()), new Uint8Array(content))
+}
+result.functional.anonymousTextAndAuthenticatedMediaDrops = { anonymousTextCode: anonymousText.data.code.length, authenticatedMediaTypes: ['image/png', 'audio/mpeg', 'video/mp4'], anonymousMediaRejected: true }
+const directApi = env.NUXT_API_BASE.replace(/\/api\/?$/, '')
+const pickupAttempts = []
+for (let attempt = 0; attempt < 31; attempt++) {
+  const response = await fetch(`${directApi}/api/v1/drop/00000000`, {
+    headers: { 'x-forwarded-for': '203.0.113.207' },
+    signal: AbortSignal.timeout(15000),
+  })
+  pickupAttempts.push(response.status)
+  await response.arrayBuffer()
+}
+assert.equal(pickupAttempts.filter(status => status === 404).length, 30)
+assert.equal(pickupAttempts.at(-1), 429, 'Pickup code guesses must be throttled')
+result.functional.pickupBruteForceLimit = { attempts: pickupAttempts.length, blocked: true }
 const stamp = Date.now()
 const category = (await expect('/api/v1/categories', 'POST', { name: `验收分类${stamp}` }, 200)).data
 const tag = (await expect('/api/v1/tags', 'POST', { name: `验收标签${stamp}` }, 200)).data
@@ -66,7 +109,7 @@ for (let round = 0; round < 5; round++) {
   viewRounds.push({ requests: 40, successful: 40 })
 }
 const viewed = (await expect(`/api/v1/posts/${post.uuid}`, 'GET', undefined, 200)).data
-assert.equal(viewed.views, 1, 'Concurrent duplicate views must increment exactly once')
+assert.equal(viewed.views, 200, 'Every article opening must increment the view count, including same-IP repeat visits')
 result.functional.concurrentViews = { rounds: viewRounds, finalCount: viewed.views }
 const uniqueViewLatencies = []
 for (let round = 0; round < 5; round++) {
@@ -78,7 +121,7 @@ for (let round = 0; round < 5; round++) {
   assert(statuses.every(status => status === 200), 'Distinct concurrent views must succeed')
 }
 const uniqueViewed = (await expect(`/api/v1/posts/${post.uuid}`, 'GET', undefined, 200)).data
-assert.equal(uniqueViewed.views, 201, 'Distinct concurrent visitors must not lose increments')
+assert.equal(uniqueViewed.views, 400, 'Distinct concurrent visitors must not lose increments')
 uniqueViewLatencies.sort((a, b) => a - b)
 result.functional.distinctConcurrentViews = { requests: 200, successful: 200, finalCount: uniqueViewed.views, p95ms: Math.round(uniqueViewLatencies[Math.ceil(uniqueViewLatencies.length * .95) - 1]) }
 await expect(`/api/v1/posts/${post.uuid}`, 'DELETE', undefined, 200)
@@ -112,7 +155,7 @@ function resources() {
 }
 result.resourcesBeforeLoad = resources()
 for (const { concurrency, seconds, phase } of [1, 10, 30, 60].map(concurrency => ({ concurrency, seconds: 8, phase: 'ramp' })).concat([{ concurrency: 30, seconds: 120, phase: 'sustained' }])) {
-  const latencies = []; const statuses = {}; let failures = 0; let bytes = 0; let counter = 0
+  const latencies = []; const statuses = {}; const errorDetails = []; let failures = 0; let bytes = 0; let counter = 0
   const started = performance.now(); const deadline = started + seconds * 1000
   await Promise.all(Array.from({ length: concurrency }, async () => {
     while (performance.now() < deadline && failures < 20) {
@@ -121,15 +164,21 @@ for (const { concurrency, seconds, phase } of [1, 10, 30, 60].map(concurrency =>
         const response = await fetch(base + path, { signal: AbortSignal.timeout(10000) })
         const body = await response.arrayBuffer(); bytes += body.byteLength
         statuses[response.status] = (statuses[response.status] || 0) + 1
-        if (response.status !== 200) failures++
-      } catch { failures++; statuses.network = (statuses.network || 0) + 1 }
+        if (response.status !== 200) {
+          failures++
+          if (errorDetails.length < 20) errorDetails.push({ path, status: response.status, body: new TextDecoder().decode(body.slice(0, 500)) })
+        }
+      } catch (error) {
+        failures++; statuses.network = (statuses.network || 0) + 1
+        if (errorDetails.length < 20) errorDetails.push({ path, error: String(error) })
+      }
       latencies.push(performance.now() - before)
     }
   }))
   latencies.sort((a, b) => a - b)
   const elapsed = performance.now() - started
   const percentile = p => Math.round(latencies[Math.min(latencies.length - 1, Math.ceil(latencies.length * p) - 1)])
-  const row = { phase, concurrency, requests: latencies.length, durationSeconds: +(elapsed / 1000).toFixed(2), rps: +(latencies.length / (elapsed / 1000)).toFixed(1), p50ms: percentile(.5), p95ms: percentile(.95), p99ms: percentile(.99), failures, statuses, bytes }
+  const row = { phase, concurrency, requests: latencies.length, durationSeconds: +(elapsed / 1000).toFixed(2), rps: +(latencies.length / (elapsed / 1000)).toFixed(1), p50ms: percentile(.5), p95ms: percentile(.95), p99ms: percentile(.99), failures, statuses, errorDetails, bytes }
   row.resourcesAfter = resources(); result.load.push(row); console.log(JSON.stringify(row))
   if (failures) {
     await writeFile(join(directory, 'results/http-and-load-failed.json'), JSON.stringify(result, null, 2))

@@ -74,7 +74,7 @@ const items = [
   { label: "归档", to: "/archives" },
   { label: "时光轴", to: "/timeline" },
   { label: "导航", to: "/navigationBar" },
-  { label: "剪贴板", to: "/clipboard" },
+  { label: "临时文件箱", to: "/clipboard" },
   { label: "关于", to: "/about" }
 ]
 

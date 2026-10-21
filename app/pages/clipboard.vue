@@ -1,606 +1,121 @@
 <template>
-  <!-- 未登录：频道输入 -->
-  <div v-if="!loggedIn" class="flex-1 flex items-center justify-center px-4">
-    <UCard class="w-full max-w-sm">
-      <template #header>
-        <div class="text-center">
-          <UIcon
-            name="i-heroicons-clipboard-document-list"
-            class="h-10 w-10 mx-auto mb-2 text-primary"
-          />
-          <h1 class="text-xl font-bold">云剪贴板</h1>
-          <p class="text-sm text-gray-500 mt-1">跨设备保存文本、图片和文件</p>
-        </div>
-      </template>
+  <main class="mx-auto flex w-full max-w-3xl flex-1 flex-col px-4 py-10 sm:px-6">
+    <header class="mb-8 text-center">
+      <div class="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+        <UIcon name="i-heroicons-inbox-arrow-down" class="h-7 w-7" />
+      </div>
+      <h1 class="text-2xl font-bold">临时文件箱</h1>
+      <p class="mt-2 text-sm text-muted">免登录可发送文本；登录后也可传图片、音频和视频。内容 24 小时后自动失效。</p>
+    </header>
 
-      <UForm :state="form" class="space-y-4" @submit="handleEnter">
-        <UButton color="primary" variant="soft" block :loading="mySpaceLoading" @click="handleOpenMySpace">
-          登录后直接打开我的空间
-        </UButton>
-        <div class="flex items-center gap-2 text-xs text-gray-400"><span class="h-px flex-1 bg-gray-200" />或使用空间码<span class="h-px flex-1 bg-gray-200" /></div>
-        <UFormField label="频道名称" required>
-          <UInput
-            v-model="form.name"
-            placeholder="输入频道名称"
-            class="w-full"
-          />
+    <UCard class="mb-6">
+      <div class="space-y-4">
+        <UFormField label="文本内容">
+          <UTextarea v-model="textContent" :rows="5" :maxlength="100000" placeholder="粘贴需要在另一台设备取用的文本" class="w-full" />
+          <template #hint>{{ textContent.length }}/100000</template>
         </UFormField>
-        <UFormField label="密码" required>
-          <UInput
-            v-model="form.password"
-            type="password"
-            placeholder="输入频道密码"
-            class="w-full"
-          />
-        </UFormField>
-
-        <p v-if="errorMsg" class="text-sm text-red-500">{{ errorMsg }}</p>
-
-        <UButton type="submit" color="primary" block :loading="authLoading"
-          >进入频道</UButton
-        >
-        <UButton color="neutral" variant="outline" block :loading="creatingSpace" @click="handleCreateSpace">创建新的存储空间</UButton>
-      </UForm>
-    </UCard>
-    <UModal v-model:open="showSpaceCode">
-      <template #content><UCard><template #header><h2 class="font-semibold">保存你的空间凭证</h2></template>
-        <p class="text-sm text-muted">在其他设备输入以下空间码和访问码即可打开同一个列表。</p>
-        <div class="mt-4 space-y-3"><div><p class="text-xs text-muted">空间码</p><code class="block rounded bg-muted px-3 py-2">{{ createdSpace.name }}</code></div><div><p class="text-xs text-muted">访问码</p><code class="block rounded bg-muted px-3 py-2">{{ createdSpace.password }}</code></div></div>
-        <template #footer><UButton block @click="showSpaceCode = false">我已保存</UButton></template>
-      </UCard></template>
-    </UModal>
-  </div>
-  <!-- 已登录：剪贴板界面 -->
-  <div v-else class="flex flex-col flex-1 min-h-0">
-    <div
-      ref="topRef"
-      class="border-b bg-white dark:bg-zinc-950 px-4 py-3 space-y-3 shrink-0"
-    >
-      <div class="flex items-center justify-between">
-        <h1 class="text-lg font-bold">云剪贴板</h1>
-        <div class="flex items-center gap-2 text-sm text-gray-500">
-          <span>共 {{ entries.length }} 条</span>
-          <UButton
-            color="neutral"
-            variant="ghost"
-            size="sm"
-            icon="i-heroicons-arrow-right-end-on-rectangle"
-            title="退出频道"
-            @click="handleLeave"
-          />
-        </div>
-      </div>
-      <div class="flex gap-2 flex-wrap">
-        <UButton
-          v-for="tab in typeTabs"
-          :key="tab.value"
-          :variant="filterType === tab.value ? 'solid' : 'soft'"
-          color="primary"
-          size="xs"
-          @click="switchFilter(tab.value)"
-          >{{ tab.label }}</UButton
-        >
-      </div>
-      <div class="flex gap-2 flex-wrap items-center">
-        <UButton
-          v-for="d in dateTabs"
-          :key="d.value"
-          :variant="activeDateTab === d.value ? 'solid' : 'soft'"
-          color="neutral"
-          size="xs"
-          @click="switchDate(d.value)"
-          >{{ d.label }}</UButton
-        >
-        <input
-          v-model="customStart"
-          type="date"
-          class="h-8 rounded-md border px-2 text-xs bg-transparent"
-          @change="applyCustomDate"
-        />
-        <span class="text-xs text-gray-400">至</span>
-        <input
-          v-model="customEnd"
-          type="date"
-          class="h-8 rounded-md border px-2 text-xs bg-transparent"
-          @change="applyCustomDate"
-        />
-      </div>
-      <UInput
-        v-model="searchQuery"
-        placeholder="搜索文本内容..."
-        class="w-full"
-        leading-icon="i-heroicons-magnifying-glass"
-        @keydown.enter="doRefresh"
-      />
-    </div>
-
-    <div
-      ref="scrollRef"
-      class="overflow-y-auto px-4 py-4 space-y-3 flex-1 min-h-0"
-      @scroll="onScroll"
-    >
-      <div
-        v-if="loading && entries.length === 0"
-        class="text-center py-20 text-gray-400"
-      >
-        <UIcon
-          name="i-heroicons-arrow-path"
-          class="h-8 w-8 mx-auto mb-2 animate-spin"
-        />
-        <p>加载中...</p>
-      </div>
-      <div
-        v-else-if="entries.length === 0"
-        class="text-center py-20 text-gray-400"
-      >
-        <UIcon
-          name="i-heroicons-clipboard-document-list"
-          class="h-12 w-12 mx-auto mb-2"
-        />
-        <p>还没有任何内容</p>
-        <p class="text-sm">从下方上传第一条</p>
-      </div>
-      <template v-else>
-        <div v-if="loading" class="text-center py-2">
-          <UIcon
-            name="i-heroicons-arrow-path"
-            class="h-5 w-5 animate-spin text-gray-400"
-          />
-        </div>
-        <div
-          v-for="entry in entries"
-          :key="entry.uuid"
-          class="flex justify-end"
-        >
-          <div class="relative max-w-[85%] sm:max-w-[65%]">
-            <div class="text-right text-xs text-gray-400 mb-1">
-              {{ formatClipboardTime(entry.created_at) }}
-            </div>
-            <div
-              class="rounded-2xl px-4 py-3 bg-primary text-primary-foreground break-words"
-            >
-              <div
-                v-if="entry.type === 'text'"
-                class="whitespace-pre-wrap text-sm leading-relaxed"
-              >
-                {{ entry.content }}
-              </div>
-              <div v-else-if="entry.type === 'image'" class="space-y-1">
-                <img
-                  :src="entry.file_url"
-                  :alt="entry.file_name"
-                  class="max-w-full rounded-lg cursor-pointer hover:opacity-90"
-                  style="max-height: 300px; object-fit: contain"
-                  @click="openPreview(entry.file_url!)"
-                />
-                <div class="text-xs opacity-75 truncate">
-                  {{ entry.file_name }}
-                </div>
-              </div>
-              <div v-else class="flex items-center gap-3">
-                <div
-                  class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/20"
-                >
-                  <UIcon name="i-heroicons-document" class="h-5 w-5" />
-                </div>
-                <div class="min-w-0 flex-1">
-                  <div class="text-sm font-medium truncate">
-                    {{ entry.file_name }}
-                  </div>
-                  <div class="text-xs opacity-75">
-                    {{ formatClipboardSize(entry.file_size || 0) }}
-                  </div>
-                </div>
-                <a :href="entry.file_url" target="_blank" download
-                  ><UButton
-                    color="neutral"
-                    variant="ghost"
-                    size="xs"
-                    icon="i-heroicons-arrow-down-tray"
-                    class="text-white hover:text-white/80"
-                /></a>
-              </div>
-            </div>
-            <div class="flex justify-end gap-1 mt-1">
-              <UButton
-                color="neutral"
-                variant="ghost"
-                size="2xs"
-                icon="i-heroicons-document-duplicate"
-                title="复制"
-                @click="handleCopy(entry)"
-              />
-              <UButton
-                color="red"
-                variant="ghost"
-                size="2xs"
-                icon="i-heroicons-trash"
-                title="删除"
-                @click="handleDelete(entry.uuid)"
-              />
-            </div>
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <p class="text-xs text-muted">{{ loggedIn ? "支持文本及图片、音频、视频文件（最大 100 MB）" : "也可上传 .txt、.md、.log、.json、.csv 等文本文件（最大 10 MB）" }}</p>
+          <div class="flex gap-2">
+            <UButton color="neutral" variant="soft" icon="i-heroicons-document-arrow-up" :loading="uploadingFile" @click="fileInput?.click()">{{ loggedIn ? "选择文件" : "选择文本文件" }}</UButton>
+            <UButton icon="i-heroicons-paper-airplane" :disabled="!textContent.trim()" :loading="uploadingText" @click="sendText">生成取件码</UButton>
           </div>
         </div>
-        <div ref="bottomRef" />
-      </template>
-    </div>
-
-    <UModal v-model:open="showPreview" fullscreen>
-      <template #body
-        ><div class="flex items-center justify-center h-full min-h-[80vh]">
-          <img
-            v-if="previewImage"
-            :src="previewImage"
-            class="max-w-full max-h-full object-contain p-4"
-            alt="preview"
-          /></div
-      ></template>
-    </UModal>
-
-    <div
-      ref="bottomRef"
-      class="border-t bg-white dark:bg-zinc-950 px-4 py-3 shrink-0"
-    >
-      <div class="flex items-end gap-2">
-        <div class="flex shrink-0 gap-1">
-          <UButton
-            color="neutral"
-            variant="soft"
-            size="sm"
-            icon="i-heroicons-photo"
-            :disabled="uploading"
-            @click="triggerUpload('image')"
-          />
-          <UButton
-            color="neutral"
-            variant="soft"
-            size="sm"
-            icon="i-heroicons-paper-clip"
-            :disabled="uploading"
-            @click="triggerUpload('file')"
-          />
-        </div>
-        <div class="flex-1">
-          <UTextarea
-            v-model="inputText"
-            placeholder="输入内容，Enter 发送"
-            :rows="1"
-            class="w-full resize-none text-sm py-1 leading-tight"
-            @keydown.enter.exact="handleSendText"
-            @paste="handlePaste"
-          />
-        </div>
-        <UButton
-          color="primary"
-          :loading="uploading"
-          icon="i-heroicons-paper-airplane"
-          class="shrink-0"
-          @click="handleSendText"
-        />
-        <input
-          ref="fileInputRef"
-          type="file"
-          class="hidden"
-          :accept="uploadType === 'image' ? 'image/*' : '*/*'"
-          @change="handleFileSelected"
-        />
+        <input ref="fileInput" type="file" :accept="fileAccept" class="hidden" @change="uploadFile">
       </div>
-    </div>
-  </div>
+    </UCard>
+
+    <UCard class="mb-6">
+      <div class="flex flex-col gap-3 sm:flex-row">
+        <UInput v-model="pickupCode" inputmode="numeric" maxlength="8" placeholder="输入 8 位取件码下载文件" class="min-w-0 flex-1" @keydown.enter="pickup" />
+        <UButton icon="i-heroicons-arrow-down-tray" :disabled="!pickupCode.trim()" @click="pickup">取件下载</UButton>
+      </div>
+    </UCard>
+
+    <UCard v-if="created.length" class="mb-6">
+      <template #header><h2 class="font-semibold">已生成的取件信息</h2></template>
+      <div class="space-y-4">
+        <div v-for="item in created" :key="item.id" class="rounded-lg border p-4">
+          <div class="flex flex-wrap items-start justify-between gap-3">
+            <div class="min-w-0"><p class="truncate font-medium">{{ item.name }}</p><p class="mt-1 text-xs text-muted">{{ item.kind }} · {{ prettySize(item.size) }} · 有效至 {{ formatExpiry(item.expiresAt) }}</p></div>
+            <UButton size="sm" variant="soft" icon="i-heroicons-clipboard-document" @click="copyLink(item)">复制取件链接</UButton>
+          </div>
+          <div class="mt-3 grid gap-2 sm:grid-cols-[1fr_auto]">
+            <code class="break-all rounded bg-muted px-3 py-2 text-xs">{{ item.code }}</code>
+            <UButton size="sm" variant="outline" icon="i-heroicons-arrow-down-tray" :to="downloadUrl(item)" target="_blank">浏览器取件</UButton>
+          </div>
+          <div class="mt-2 flex flex-wrap items-center justify-between gap-2">
+            <p class="break-all text-xs text-muted">终端下载：<code>curl -L "{{ downloadUrl(item) }}" -o "{{ shellName(item.name) }}"</code></p>
+            <UButton size="xs" color="neutral" variant="ghost" icon="i-heroicons-clipboard" @click="copyCommand(item)">复制命令</UButton>
+          </div>
+        </div>
+      </div>
+    </UCard>
+
+    <section v-if="items.length" class="space-y-3">
+      <div class="flex items-center justify-between"><h2 class="font-semibold">本设备最近创建</h2><UButton size="xs" color="neutral" variant="ghost" @click="clearItems">清空列表</UButton></div>
+      <div v-for="item in items" :key="item.id" class="flex items-center justify-between gap-3 rounded-lg border bg-white p-3 dark:bg-zinc-950">
+        <div class="min-w-0"><p class="truncate text-sm font-medium">{{ item.name }}</p><p class="text-xs text-muted">取件码 {{ item.code }} · 有效至 {{ formatExpiry(item.expiresAt) }}</p></div>
+        <UButton size="xs" variant="soft" icon="i-heroicons-arrow-down-tray" :to="downloadUrl(item)" target="_blank">下载</UButton>
+      </div>
+    </section>
+    <p class="mt-auto pt-8 text-center text-xs text-muted">取件码同时也是下载凭证，请只分享给需要接收的人。链接过期后文件会自动清理。</p>
+  </main>
 </template>
 
 <script setup lang="ts">
-import {
-  authChannel,
-  createChannel,
-  clearToken,
-  daysAgoStr,
-  deleteClipboardEntry,
-  fetchClipboardList,
-  formatClipboardSize,
-  formatClipboardTime,
-  hasToken,
-  setStoredToken,
-  openMyClipboard,
-  todayStr,
-  uploadClipboardFile,
-  uploadClipboardText
-} from "~/composables/useClipboard"
-import type { ClipboardEntry } from "~/types/clipboard"
+interface DropItem { id: string; code: string; name: string; kind: string; size: number; expiresAt: string; }
+const API = "/api/v1/drop"
+const STORAGE = "sunrise-drop-items-v1"
+const textContent = ref("")
+const pickupCode = ref("")
+const fileInput = ref<HTMLInputElement>()
+const uploadingText = ref(false)
+const uploadingFile = ref(false)
+const loggedIn = ref(false)
+const items = ref<DropItem[]>([])
+const created = ref<DropItem[]>([])
+const toast = useToast()
+const fileAccept = computed(() => loggedIn.value
+  ? ".txt,.md,.markdown,.log,.json,.csv,.yaml,.yml,.xml,.html,.css,.js,.ts,.py,.rs,.sh,.toml,.ini,.conf,.sql,image/*,audio/*,video/*"
+  : ".txt,.md,.markdown,.log,.json,.csv,.yaml,.yml,.xml,.html,.css,.js,.ts,.py,.rs,.sh,.toml,.ini,.conf,.sql,text/*,application/json")
 
-const loggedIn = ref(hasToken())
-const form = reactive({ name: "", password: "" })
-const authLoading = ref(false)
-const mySpaceLoading = ref(false)
-const creatingSpace = ref(false)
-const showSpaceCode = ref(false)
-const createdSpace = reactive({ name: "", password: "" })
-const errorMsg = ref("")
-
-async function handleEnter() {
-  if (!form.name || !form.password) {
-    errorMsg.value = "请输入频道名称和密码"
-    return
-  }
-  authLoading.value = true
-  errorMsg.value = ""
-  const token = await authChannel(form.name, form.password)
-  if (!token) {
-    errorMsg.value = "频道名或密码错误"
-    authLoading.value = false
-    return
-  }
-  setStoredToken(token)
-  loggedIn.value = true
-  await loadInitialData()
-  scrollToBottom()
-  authLoading.value = false
+function readItems(): DropItem[] {
+  try { return JSON.parse(localStorage.getItem(STORAGE) || "[]") as DropItem[] } catch { return [] }
 }
-
-async function handleOpenMySpace() {
-  mySpaceLoading.value = true
-  const space = await openMyClipboard()
-  mySpaceLoading.value = false
-  if (!space) { errorMsg.value = "请先登录管理端，或先创建一个存储空间"; return }
-  setStoredToken(space.token)
-  loggedIn.value = true
-  await loadInitialData()
-  scrollToBottom()
+onMounted(async () => {
+  items.value = readItems().filter(item => Date.parse(item.expiresAt) > Date.now())
+  try { loggedIn.value = await useAdminSession().check() } catch { loggedIn.value = false }
+})
+function persist(item: DropItem) { items.value = [item, ...items.value.filter(value => value.id !== item.id)].slice(0, 20); localStorage.setItem(STORAGE, JSON.stringify(items.value)); created.value = [item, ...created.value] }
+function prettySize(bytes: number) { return bytes < 1024 ? `${bytes} B` : bytes < 1024 * 1024 ? `${(bytes / 1024).toFixed(1)} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB` }
+function shellName(value: string) { return value.replace(/["\\$`]/g, "_") }
+function downloadUrl(item: DropItem) { return `${window.location.origin}/api/v1/drop/${encodeURIComponent(item.code)}` }
+function formatExpiry(value: string) { return new Date(value).toLocaleString("zh-CN", { timeZone: "Asia/Shanghai", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", hour12: false }) }
+function pickup() { const code = pickupCode.value.trim(); if (!/^\d{8}$/.test(code)) { toast.add({ title: "请输入 8 位数字取件码", color: "error" }); return }; window.location.assign(`${window.location.origin}/api/v1/drop/${encodeURIComponent(code)}`) }
+async function copy(value: string) { await navigator.clipboard.writeText(value); toast.add({ title: "已复制", color: "success" }) }
+async function copyLink(item: DropItem) { await copy(downloadUrl(item)) }
+async function copyCommand(item: DropItem) { await copy(`curl -L "${downloadUrl(item)}" -o "${shellName(item.name)}"`) }
+function clearItems() { items.value = []; localStorage.removeItem(STORAGE); toast.add({ title: "本机记录已清除", color: "success" }) }
+async function sendText() {
+  const content = textContent.value.trim()
+  if (!content || uploadingText.value) return
+  uploadingText.value = true
+  try { const result = await $fetch<{ data: DropItem }>(`${API}/text`, { method: "POST", body: { content } }); persist(result.data); textContent.value = "" }
+  catch { toast.add({ title: "发送失败，请稍后重试", color: "error" }) } finally { uploadingText.value = false }
 }
-
-function makeCode(prefix: string, length: number) {
-  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
-  return prefix + Array.from({ length }, () => chars[Math.floor(Math.random() * chars.length)]).join("")
-}
-
-async function handleCreateSpace() {
-  creatingSpace.value = true
-  errorMsg.value = ""
-  const name = makeCode("BOX-", 6)
-  const password = makeCode("", 8)
-  const space = await createChannel(name, password)
-  creatingSpace.value = false
-  if (!space) { errorMsg.value = "请先登录管理端后再创建空间"; return }
-  createdSpace.name = name
-  createdSpace.password = password
-  setStoredToken(space.token)
-  loggedIn.value = true
-  showSpaceCode.value = true
-  await loadInitialData()
-}
-
-function handleLeave() {
-  clearToken()
-  loggedIn.value = false
-  entries.value = []
-}
-
-// ─── 剪贴板 ─────────────────────────────────────────
-const entries = ref<ClipboardEntry[]>([])
-const loading = ref(false)
-const uploading = ref(false)
-const hasMore = ref(true)
-const page = ref(1)
-const limit = 20
-const filterType = ref("")
-const searchQuery = ref("")
-const activeDateTab = ref("all")
-const customStart = ref("")
-const customEnd = ref("")
-const typeTabs = [
-  { label: "全部", value: "" },
-  { label: "文本", value: "text" },
-  { label: "图片", value: "image" },
-  { label: "文件", value: "file" }
-]
-const dateTabs = [
-  { label: "全部", value: "all" },
-  { label: "今天", value: "today" },
-  { label: "最近 3 天", value: "3d" },
-  { label: "最近 7 天", value: "7d" },
-  { label: "最近 30 天", value: "30d" }
-]
-const scrollRef = ref<HTMLElement>()
-const inputText = ref("")
-const showPreview = ref(false)
-const previewImage = ref("")
-const fileInputRef = ref<HTMLInputElement>()
-const uploadType = ref<"image" | "file">("file")
-
-function buildFilter() {
-  let start = "",
-    end = ""
-  if (activeDateTab.value === "today") {
-    const t = todayStr()
-    start = t
-    end = t
-  } else if (activeDateTab.value === "3d") {
-    start = daysAgoStr(3)
-    end = todayStr()
-  } else if (activeDateTab.value === "7d") {
-    start = daysAgoStr(7)
-    end = todayStr()
-  } else if (activeDateTab.value === "30d") {
-    start = daysAgoStr(30)
-    end = todayStr()
-  } else if (customStart.value) {
-    start = customStart.value
-    end = customEnd.value || customStart.value
-  }
-  return { type: filterType.value, q: searchQuery.value, start, end }
-}
-
-async function loadInitialData() {
-  page.value = 1
-  hasMore.value = true
-  entries.value = []
-  const f = buildFilter()
-  const res = await fetchClipboardList(1, limit, f.type, f.q, f.start, f.end)
-  if (res) {
-    entries.value = (res.data || []).reverse()
-    hasMore.value = (res.pagination?.total || 0) > entries.value.length
-    page.value = 2
-  }
-}
-
-async function loadMore() {
-  if (loading.value || !hasMore.value) return
-  loading.value = true
-  const f = buildFilter()
-  const res = await fetchClipboardList(
-    page.value,
-    limit,
-    f.type,
-    f.q,
-    f.start,
-    f.end
-  )
-  if (res) {
-    entries.value = [...(res.data || []).reverse(), ...entries.value]
-    hasMore.value = (res.pagination?.total || 0) > entries.value.length
-    page.value++
-  } else hasMore.value = false
-  loading.value = false
-}
-
-async function doRefresh() {
-  await loadInitialData()
-  scrollToBottom()
-}
-async function switchFilter(val: string) {
-  filterType.value = val
-  await doRefresh()
-}
-async function switchDate(val: string) {
-  activeDateTab.value = val
-  customStart.value = ""
-  customEnd.value = ""
-  await doRefresh()
-}
-function applyCustomDate() {
-  if (customStart.value) {
-    activeDateTab.value = ""
-    doRefresh()
-  }
-}
-function triggerUpload(type: "image" | "file") {
-  uploadType.value = type
-  fileInputRef.value?.click()
-}
-
-async function handleFileSelected(e: Event) {
-  const input = e.target as HTMLInputElement
+async function uploadFile(event: Event) {
+  const input = event.target as HTMLInputElement
   const file = input.files?.[0]
   if (!file) return
-  if (file.size > 50 * 1024 * 1024) {
-    toast.add({ title: "文件不能超过 50MB", color: "red" })
-    return
-  }
-  uploading.value = true
-  const res = await uploadClipboardFile(file)
-  if (res) {
-    entries.value.push(res)
-    scrollToBottom()
-  }
-  uploading.value = false
-  input.value = ""
+  const isText = /^(text\/|application\/(json|xml|javascript|yaml|toml|x-www-form-urlencoded))/.test(file.type) || /\.(txt|md|markdown|log|json|csv|ya?ml|xml|html|css|js|ts|py|rs|sh|toml|ini|conf|sql)$/i.test(file.name)
+  const isMedia = /^(image|audio|video)\//.test(file.type) || /\.(jpg|jpeg|png|gif|webp|avif|heic|mp3|wav|ogg|m4a|aac|flac|opus|mp4|webm|mov|m4v|mkv|avi)$/i.test(file.name)
+  if (!isText && !(loggedIn.value && isMedia)) { toast.add({ title: loggedIn.value ? "只支持文本、图片、音频或视频文件" : "免登录仅支持文本；登录后可上传图片、音频或视频", color: "error" }); input.value = ""; return }
+  const maxSize = isMedia ? 100 * 1024 * 1024 : 10 * 1024 * 1024
+  if (file.size > maxSize) { toast.add({ title: isMedia ? "图片、音频或视频不能超过 100 MB" : "文本文件不能超过 10 MB", color: "error" }); input.value = ""; return }
+  uploadingFile.value = true
+  try { const form = new FormData(); form.append("file", file); const result = await $fetch<{ data: DropItem }>(`${API}/file`, { method: "POST", body: form }); persist(result.data) }
+  catch { toast.add({ title: "上传失败，请稍后重试", color: "error" }) } finally { uploadingFile.value = false; input.value = "" }
 }
-
-async function handlePaste(e: ClipboardEvent) {
-  const items = e.clipboardData?.items
-  if (!items) return
-  for (const item of items) {
-    if (item.type.startsWith("image/")) {
-      e.preventDefault()
-      const file = item.getAsFile()
-      if (file) {
-        uploading.value = true
-        const r = await uploadClipboardFile(file)
-        if (r) entries.value.push(r)
-        uploading.value = false
-      }
-    }
-    return
-  }
-}
-
-async function handleSendText() {
-  const text = inputText.value.trim()
-  if (!text || uploading.value) return
-  inputText.value = ""
-  uploading.value = true
-  const res = await uploadClipboardText(text)
-  if (res) {
-    entries.value.push(res)
-    scrollToBottom()
-  }
-  uploading.value = false
-}
-
-async function handleCopy(entry: ClipboardEntry) {
-  const text =
-    entry.type === "text" ? entry.content || "" : entry.file_url || ""
-  try {
-    await navigator.clipboard.writeText(text)
-  } catch {
-    const ta = document.createElement("textarea")
-    ta.value = text
-    ta.style.position = "fixed"
-    ta.style.left = "-9999px"
-    document.body.appendChild(ta)
-    ta.select()
-    document.execCommand("copy")
-    document.body.removeChild(ta)
-  }
-  toast.add({ title: "已复制", color: "green" })
-}
-
-async function handleDelete(uuid: string) {
-  const ok = await deleteClipboardEntry(uuid)
-  if (ok) {
-    entries.value = entries.value.filter((e) => e.uuid !== uuid)
-    toast.add({ title: "已删除", color: "green" })
-  }
-}
-
-function openPreview(url: string) {
-  previewImage.value = url
-  showPreview.value = true
-}
-function scrollToBottom() {
-  nextTick(() => {
-    if (scrollRef.value)
-      scrollRef.value.scrollTop = scrollRef.value.scrollHeight
-  })
-}
-function onScroll() {
-  const el = scrollRef.value
-  if (!el || loading.value || !hasMore.value) return
-  if (el.scrollTop < 100) {
-    const prev = el.scrollHeight
-    loadMore().then(() => {
-      nextTick(() => {
-        if (scrollRef.value)
-          scrollRef.value.scrollTop = scrollRef.value.scrollHeight - prev
-      })
-    })
-  }
-}
-onMounted(() => {
-  if (loggedIn.value) {
-    loadInitialData().then(scrollToBottom)
-  }
-})
-
-const toast = useToast()
+useHead({ title: "临时文件箱", meta: [{ name: "robots", content: "noindex,nofollow" }] })
 </script>
-<style scoped>
-/* 隐藏滚动条但保留滚动功能 */
-.overflow-y-auto {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-.overflow-y-auto::-webkit-scrollbar {
-  display: none;
-}
-</style>

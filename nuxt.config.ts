@@ -25,7 +25,7 @@ export default defineNuxtConfig({
   },
   css: ["./app/assets/css/tailwind.css", "./app/assets/css/main.css"],
   site: {
-    url: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
+    url: process.env.NUXT_PUBLIC_SITE_URL || "https://blog.sunrise1024.top"
   },
   runtimeConfig: {
     apiBase: process.env.NUXT_API_BASE || process.env.NUXT_PUBLIC_API_BASE || "https://api.sunrise1024.top/api",
@@ -33,7 +33,7 @@ export default defineNuxtConfig({
     apiResolveAddress: "",
     apiNetworkInterface: "",
     public: {
-      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://sunrise1024.top"
+      siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://blog.sunrise1024.top"
     }
   },
 
