@@ -32,6 +32,7 @@ export default defineNuxtConfig({
     apiTimeout: 8000,
     apiResolveAddress: "",
     apiNetworkInterface: "",
+    csdnCookie: process.env.NUXT_CSDN_COOKIE || "",
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://blog.sunrise1024.top"
     }
