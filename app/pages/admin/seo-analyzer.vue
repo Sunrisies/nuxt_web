@@ -434,15 +434,26 @@ function startProgress(steps: string[]) {
   currentSteps.value = steps
   currentStepIndex.value = 0
   currentStep.value = steps[0]
-  progressPercent.value = 5
+  progressPercent.value = 0
 
+  // 前几步快速推进，最后一步（AI 调用）缓慢增长
   progressTimer = setInterval(() => {
     if (currentStepIndex.value < steps.length - 1) {
+      // 快速完成非 AI 步骤（每 800ms 一步）
       currentStepIndex.value++
       currentStep.value = steps[currentStepIndex.value]
-      progressPercent.value = Math.min(95, 5 + (currentStepIndex.value / (steps.length - 1)) * 90)
+      progressPercent.value = Math.min(30, (currentStepIndex.value / (steps.length - 1)) * 30)
+    } else {
+      // 最后一步：缓慢增长到 95%，模拟等待 AI 响应
+      if (progressPercent.value < 95) {
+        // 越接近 95 越慢
+        const remaining = 95 - progressPercent.value
+        const increment = Math.max(0.3, remaining * 0.05)
+        progressPercent.value = Math.min(95, progressPercent.value + increment)
+        currentStep.value = `${steps[currentStepIndex.value]}... (${Math.round(progressPercent.value)}%)`
+      }
     }
-  }, 2000)
+  }, 800)
 }
 
 function stopProgress() {
