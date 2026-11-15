@@ -86,6 +86,7 @@ const navItems = [
   { label: "链接管理",   icon: "i-heroicons-link",              to: "/admin/links" },
   { label: "频道管理",   icon: "i-heroicons-clipboard-document", to: "/admin/channels" },
   { label: "CSDN 同步", icon: "i-heroicons-arrow-down-circle",  to: "/admin/csdn-sync" },
+  { label: "SEO 分析",   icon: "i-heroicons-magnifying-glass",  to: "/admin/seo-analyzer" },
 ]
 
 function isActive(path: string) {

@@ -55,7 +55,7 @@ const blogs = computed(() => (postRes.value?.data || []).map(blog => ({
   date: blog.publish_time,
   authors: [{ name: blog.author }],
   badge: blog.is_top ? "置顶" : blog.category?.name,
-  views: blog.views
+  views: (blog.views || 0) + (blog.csdn_views || 0)
 })))
 const pagination = computed(() => postRes.value?.pagination || { total: 0, limit: 9, page: id.value })
 const categories = computed(() => (categoriesRes.value || []).map(item => ({ value: String(item.id), label: item.name })))

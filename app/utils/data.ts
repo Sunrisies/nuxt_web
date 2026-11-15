@@ -1,6 +1,6 @@
 export const formatChineseDateTime = (dateString: string): string => {
   if (!dateString) return "—"
-  // 兼容 "2026-04-01 13:46:38" 和 "2026-04-01T13:46:38Z" 两种格式
+  // 后端返回的已经是北京时间，直接格式化即可
   const cleaned = dateString.replace("T", " ").split(".")[0]
   const [datePart, timePart] = cleaned.split(" ")
   if (!datePart) return dateString

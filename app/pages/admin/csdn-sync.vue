@@ -165,7 +165,7 @@ async function syncSelected() {
       method: "POST",
       body: { articles: selectedIds.value.map(id => {
         const a = articles.value.find(x => x.articleId === id)
-        return { id, postTime: a?.postTime || "" }
+        return { id, postTime: a?.postTime || "", viewCount: a?.viewCount || 0 }
       }) },
       timeout: 300000
     })

@@ -72,6 +72,9 @@
         <template #views-cell="{ row }">
           <span class="text-sm">{{ row.original.views || 0 }}</span>
         </template>
+        <template #csdn_views-cell="{ row }">
+          <span class="text-sm">{{ row.original.csdn_views || 0 }}</span>
+        </template>
         <template #publish_time-cell="{ row }">
           <span class="text-sm text-gray-500">{{
             formatDate(row.original.publish_time)
@@ -89,6 +92,16 @@
               icon="i-heroicons-eye"
               target="_blank"
             >查看</UButton>
+            <UButton
+              v-if="!row.original.is_publish && !row.original.is_hide"
+              color="success"
+              variant="ghost"
+              size="sm"
+              icon="i-heroicons-cloud-arrow-up"
+              aria-label="发布文章"
+              :loading="publishingId === row.original.uuid"
+              @click="handlePublish(row.original)"
+            >发布</UButton>
             <UButton
               color="neutral"
               variant="ghost"
@@ -167,7 +180,8 @@ const columns = [
   { id: "status", key: "status", accessorKey: "status", header: "状态" },
   { id: "category", accessorKey: "category", header: "分类" },
   { id: "tags", accessorKey: "tags", header: "标签" },
-  { id: "views", key: "views", accessorKey: "views", header: "浏览" },
+  { id: "views", key: "views", accessorKey: "views", header: "本站观看" },
+  { id: "csdn_views", key: "csdn_views", accessorKey: "csdn_views", header: "CSDN观看" },
   {
     id: "publish_time",
     key: "publish_time",
@@ -198,6 +212,7 @@ const statusOptions = [
 const showDeleteModal = ref(false)
 const deletingPost = ref<AdminPost | null>(null)
 const deleting = ref(false)
+const publishingId = ref<string | null>(null)
 // ─── 方法 ────────────────────────────────────────────────
 async function fetchPosts() {
   const version = ++listVersion
@@ -261,6 +276,23 @@ async function handleDelete() {
     toast.add({ title: requestErrorMessage(e, "删除文章失败，请重试"), color: "error" })
   } finally {
     deleting.value = false
+  }
+}
+
+async function handlePublish(post: AdminPost) {
+  publishingId.value = post.uuid
+  try {
+    await http({
+      url: `/v1/posts/${post.uuid}`,
+      method: "PUT",
+      body: { status: 1 }
+    })
+    toast.add({ title: "文章发布成功", color: "success" })
+    await fetchPosts()
+  } catch (e) {
+    toast.add({ title: requestErrorMessage(e, "发布文章失败，请重试"), color: "error" })
+  } finally {
+    publishingId.value = null
   }
 }
 

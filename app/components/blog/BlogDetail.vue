@@ -56,7 +56,14 @@
         :ui="{
           description: 'line-clamp-2'
         }"
-      />
+      >
+        <template #footer>
+          <div class="flex items-center gap-1 text-sm text-muted">
+            <UIcon name="i-heroicons-eye" class="size-4" />
+            <span>{{ post.views || 0 }} 次浏览</span>
+          </div>
+        </template>
+      </UBlogPost>
     </UBlogPosts>
 
     <div class="mt-8 flex justify-center">

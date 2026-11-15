@@ -12,7 +12,7 @@
           <span class="text-muted">&middot;</span>
           <span class="text-muted">{{ readingTime }}</span>
           <span class="text-muted">&middot;</span>
-          <span class="text-muted">{{ article.views || 0 }} 次观看</span>
+          <span class="text-muted">{{ (article.views || 0) + (article.csdn_views || 0) }} 次观看</span>
         </template>
 
         <div class="flex flex-wrap items-center gap-3 mt-4">
@@ -38,7 +38,7 @@
 
           <section v-if="relatedPosts.length" class="border-t pt-8" aria-label="相关文章">
             <div class="mb-4 flex items-center justify-between"><h2 class="text-xl font-semibold">相关文章</h2><NuxtLink :to="`/blog/1?category=${article?.category?.id}`" class="text-sm text-primary">查看同分类文章</NuxtLink></div>
-            <div class="grid gap-3 sm:grid-cols-2"><NuxtLink v-for="post in relatedPosts" :key="post.uuid" :to="`/article/${post.uuid}`" class="rounded-lg border p-4 transition hover:border-primary hover:bg-muted/30"><p class="line-clamp-1 font-medium">{{ post.title }}</p><p class="mt-1 line-clamp-2 text-sm text-muted">{{ post.description }}</p><p class="mt-2 text-xs text-muted">{{ post.views || 0 }} 浏览</p></NuxtLink></div>
+            <div class="grid gap-3 sm:grid-cols-2"><NuxtLink v-for="post in relatedPosts" :key="post.uuid" :to="`/article/${post.uuid}`" class="rounded-lg border p-4 transition hover:border-primary hover:bg-muted/30"><p class="line-clamp-1 font-medium">{{ post.title }}</p><p class="mt-1 line-clamp-2 text-sm text-muted">{{ post.description }}</p><p class="mt-2 text-xs text-muted">{{ (post.views || 0) + (post.csdn_views || 0) }} 浏览</p></NuxtLink></div>
           </section>
           <section class="rounded-xl border bg-muted/20 p-5" aria-label="读者反馈">
             <h2 class="font-semibold">这篇文章对你有帮助吗？</h2>

@@ -18,6 +18,7 @@ export interface AdminPost {
   title: string
   publish_time: string
   views: number
+  csdn_views: number
   summary?: string | null
   description?: string | null
   content?: string | null

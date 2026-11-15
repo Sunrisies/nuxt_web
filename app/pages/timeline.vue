@@ -96,7 +96,7 @@ const versions = computed<ChangelogVersionProps[]>(() => {
     date: article.publish_time, // 重要：组件会据此排序
     to: `/article/${article.uuid}`, // 用于生成链接
     // 你需要的自定义数据
-    views: article.views || 0,
+    views: (article.views || 0) + (article.csdn_views || 0),
     tags: article.tags || [],
     // 可以在这里配置组件的一些UI属性
     ui: {

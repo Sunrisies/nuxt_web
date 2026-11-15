@@ -33,6 +33,9 @@ export default defineNuxtConfig({
     apiResolveAddress: "",
     apiNetworkInterface: "",
     csdnCookie: process.env.NUXT_CSDN_COOKIE || "",
+    aiApiBase: process.env.NUXT_AI_API_BASE || "",
+    aiApiKey: process.env.NUXT_AI_API_KEY || "",
+    aiModel: process.env.NUXT_AI_MODEL || "gpt-4o-mini",
     public: {
       siteUrl: process.env.NUXT_PUBLIC_SITE_URL || "https://blog.sunrise1024.top"
     }
