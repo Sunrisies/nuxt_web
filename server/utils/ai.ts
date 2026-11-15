@@ -56,7 +56,7 @@ export async function callAI(
         max_tokens: options.maxTokens ?? 2000,
         ...(options.responseFormat && { response_format: options.responseFormat })
       }),
-      signal: AbortSignal.timeout(60000)
+      signal: AbortSignal.timeout(120000) // 增加到 120 秒
     })
 
     if (!response.ok) {
@@ -65,14 +65,23 @@ export async function callAI(
     }
 
     const data = await response.json() as AICompletionResponse
-    const message = data.choices[0]?.message
-    // 某些模型可能将内容放在 reasoning 字段
-    const content = message?.content || message?.reasoning || ""
+    const choice = data.choices[0]
+    const message = choice?.message
+
+    // 优先使用 content 字段（正式返回内容），fallback 到 reasoning（思考过程）
+    let content = ""
+    if (message?.content && message.content.trim()) {
+      content = message.content
+    } else if (message?.reasoning && message.reasoning.trim()) {
+      content = message.reasoning
+    }
 
     if (!content) {
+      console.error("[AI Service] AI 返回内容为空, 完整响应:", JSON.stringify(data).substring(0, 500))
       throw new Error("AI 返回内容为空")
     }
 
+    console.log(`[AI Service] 调用成功, 使用字段: ${message?.content?.trim() ? 'content' : 'reasoning'}, 长度: ${content.length}`)
     return content
   } catch (error) {
     console.error("[AI Service] 调用失败:", error)
@@ -106,36 +115,43 @@ export async function callAIJSON<T>(
     maxTokens: options.maxTokens ?? 4000
   })
 
-  console.log("[AI Service] 返回内容:", content.substring(0, 500))
+  console.log("[AI Service] 原始返回:", content.substring(0, 300))
 
-  try {
-    // 尝试直接解析
-    return JSON.parse(content) as T
-  } catch {
-    // 尝试从 markdown 代码块中提取
-    const codeBlockMatch = content.match(/```json\s*([\s\S]*?)\s*```/)
-    if (codeBlockMatch) {
-      try {
-        return JSON.parse(codeBlockMatch[1]) as T
-      } catch {
-        console.error("[AI Service] 代码块 JSON 解析失败")
-      }
+  const strategies: Array<() => T> = [
+    () => JSON.parse(content) as T,
+    () => {
+      const m = content.match(/```json\s*([\s\S]*?)\s*```/)
+      if (!m) throw new Error("no json block")
+      return JSON.parse(m[1]) as T
+    },
+    () => {
+      const m = content.match(/```\s*([\s\S]*?)\s*```/)
+      if (!m) throw new Error("no code block")
+      return JSON.parse(m[1]) as T
+    },
+    () => {
+      const s = content.indexOf("{")
+      const e = content.lastIndexOf("}")
+      if (s === -1 || e <= s) throw new Error("no braces")
+      return JSON.parse(content.slice(s, e + 1)) as T
     }
+  ]
 
-    // 尝试提取第一个 JSON 对象
-    const jsonMatch = content.match(/\{[\s\S]*\}/)
-    if (jsonMatch) {
-      try {
-        return JSON.parse(jsonMatch[0]) as T
-      } catch {
-        console.error("[AI Service] JSON 对象提取失败")
+  for (let i = 0; i < strategies.length; i++) {
+    try {
+      const r = strategies[i]()
+      if (r && typeof r === "object") {
+        console.log(`[AI Service] JSON 解析成功（策略 ${i + 1}）`)
+        return r
       }
+    } catch {
+      console.log(`[AI Service] 策略 ${i + 1} 失败`)
     }
-
-    console.error("[AI Service] 无法解析 AI 返回内容:", content)
-    throw createError({
-      statusCode: 500,
-      message: "AI 返回数据格式错误，请重试"
-    })
   }
+
+  console.error("[AI Service] 所有解析策略失败，原始内容:", content)
+  throw createError({
+    statusCode: 500,
+    message: "AI 返回数据格式错误，请重试"
+  })
 }
