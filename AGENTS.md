@@ -17,6 +17,8 @@ pnpm lint       # eslint
 - `NUXT_API_BASE`：后端地址，统一带 `/api` 前缀（如 `https://api.sunrise1024.top/api`）
 - `NUXT_PUBLIC_SITE_URL`：站点公网地址
 - `NUXT_CSDN_COOKIE`（可选）：CSDN 同步用的 Cookie；不配置时在同步页手动粘贴
+- `NUXT_AI_API_BASE` / `NUXT_AI_API_KEY` / `NUXT_AI_MODEL`：SEO 分析/优化用的 OpenAI 兼容接口
+  （base 到 `/v1` 为止，代码拼 `/chat/completions`）；不配时 SEO 分析退化为规则分析
 - `NUXT_API_TIMEOUT` / `NUXT_API_RESOLVE_ADDRESS` / `NUXT_API_NETWORK_INTERFACE`：见文件内注释
 
 ## 结构
