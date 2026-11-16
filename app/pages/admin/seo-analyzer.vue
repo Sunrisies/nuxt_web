@@ -34,13 +34,16 @@
             :disabled="analyzing || optimizing"
           />
         </div>
-        <UButton color="primary" size="sm" icon="i-heroicons-magnifying-glass" :loading="analyzing" :disabled="!selectedPostId || optimizing" @click="analyzePost">
-          {{ analyzing ? "分析中..." : "🔍 开始分析" }}
+        <UButton color="primary" size="sm" icon="i-heroicons-rocket-launch" :loading="analyzing || optimizing" :disabled="!selectedPostId" @click="oneClickOptimize">
+          {{ analyzing ? "分析中..." : optimizing ? "生成建议中..." : "🚀 一键优化" }}
         </UButton>
-        <UButton v-if="analysisResult" color="success" size="sm" icon="i-heroicons-sparkles" :loading="optimizing" :disabled="analyzing" @click="generateSuggestions">
-          {{ optimizing ? "生成中..." : "⚡ 生成建议" }}
+        <UButton v-if="analysisResult" color="neutral" variant="outline" size="sm" icon="i-heroicons-arrow-path" :loading="analyzing" :disabled="optimizing" @click="analyzePost">
+          重新分析
         </UButton>
-        <UButton v-if="analysisResult && suggestions && suggestionCount > 0" color="warning" size="sm" variant="soft" icon="i-heroicons-arrows-right-left" @click="showComparison = true">
+        <UButton v-if="analysisResult" color="success" variant="ghost" size="sm" icon="i-heroicons-sparkles" :loading="optimizing" :disabled="analyzing" @click="generateSuggestions">
+          重新生成建议
+        </UButton>
+        <UButton v-if="originalAnalysis && analysisResult" color="warning" size="sm" variant="soft" icon="i-heroicons-arrows-right-left" @click="showComparison = true">
           📊 优化对比
         </UButton>
       </div>
@@ -197,11 +200,41 @@
 
       <!-- 建议列表 -->
       <div v-show="showSuggestions && suggestionCount > 0" class="space-y-3">
+        <!-- 勾选 + 预计分数 -->
+        <div v-if="applyableSuggestions.length > 0" class="rounded-lg border border-primary/30 bg-primary/5 p-3 space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="text-xs">
+              预计分数：
+              <span class="font-semibold">{{ preview?.before.totalScore ?? analysisResult?.totalScore ?? 0 }}</span>
+              <span class="mx-1">→</span>
+              <span class="font-semibold text-primary">{{ preview?.after.totalScore ?? "—" }}</span>
+              <UBadge v-if="preview" :color="preview.delta > 0 ? 'success' : preview.delta < 0 ? 'error' : 'neutral'" variant="soft" size="xs" class="ml-1">
+                {{ preview.delta > 0 ? "+" : "" }}{{ preview.delta }}
+              </UBadge>
+            </div>
+            <UButton color="primary" size="xs" icon="i-heroicons-check-badge" :loading="applyingSelected" :disabled="selectedTypes.size === 0 || previewLoading" @click="applySelectedAndReanalyze">
+              应用所选并重新分析
+            </UButton>
+          </div>
+          <p class="text-[10px] text-muted">
+            勾选要应用的标题/描述建议；预计分数由同一套评分规则计算，应用后会自动重新分析确认。
+          </p>
+        </div>
+
         <div v-for="(suggestion, index) in suggestionList" :key="index" class="border rounded-lg p-3">
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center gap-2">
+              <UCheckbox
+                v-if="canApply(suggestion.type)"
+                :model-value="selectedTypes.has(suggestion.type)"
+                aria-label="选择该建议"
+                @update:model-value="toggleType(suggestion.type)"
+              />
               <UIcon :name="suggestion.icon" class="size-4 text-primary" />
               <span class="text-sm font-semibold">{{ suggestion.title }}</span>
+              <UBadge v-if="typeDeltas[suggestion.type] !== undefined" color="primary" variant="subtle" size="xs">
+                预计 {{ typeDeltas[suggestion.type] > 0 ? "+" : "" }}{{ typeDeltas[suggestion.type] }}
+              </UBadge>
             </div>
             <UBadge :color="suggestion.priority === 'high' ? 'error' : suggestion.priority === 'medium' ? 'warning' : 'neutral'" variant="soft" size="xs">
               {{ suggestion.priority === 'high' ? '高优先级' : suggestion.priority === 'medium' ? '中优先级' : '低优先级' }}
@@ -221,17 +254,19 @@
           </div>
 
           <div class="flex gap-2 mt-2 pl-14">
+            <span v-if="canApply(suggestion.type)" class="text-[10px] text-muted">
+              勾选后点上方「应用所选并重新分析」
+            </span>
             <UButton
-              v-if="canApply(suggestion.type)"
+              v-else-if="suggestion.type === 'headings' || suggestion.type === 'contentStructure'"
               color="primary"
               variant="soft"
               size="xs"
-              icon="i-heroicons-check"
-              :loading="applyingOptimization === suggestion.type"
-              :disabled="appliedTypes.has(suggestion.type)"
-              @click="applyOptimization(suggestion.type, suggestion.suggested)"
+              icon="i-heroicons-arrow-path-rounded-square"
+              :loading="rewriting"
+              @click="openRewrite"
             >
-              {{ appliedTypes.has(suggestion.type) ? "已应用" : "应用此优化" }}
+              AI 改写正文
             </UButton>
             <span v-else class="text-[10px] text-muted">
               该项需要到文章编辑器里手动调整
@@ -331,6 +366,41 @@
       </template>
     </UModal>
 
+    <!-- AI 改写正文预览 -->
+    <UModal v-model:open="showRewrite" title="✍️ AI 改写正文预览" size="xl">
+      <template #body>
+        <div class="space-y-3">
+          <p class="text-xs text-muted">
+            AI 会按「小标题结构 / 内容结构」建议调整正文层级和段落，不刻意增删事实内容。请先预览，确认后再应用。
+          </p>
+          <div v-if="rewritePreview" class="text-xs">
+            预计分数：
+            <b>{{ rewritePreview.before.totalScore }}</b>
+            <span class="mx-1">→</span>
+            <b class="text-primary">{{ rewritePreview.after.totalScore }}</b>
+            <UBadge :color="rewritePreview.delta > 0 ? 'success' : rewritePreview.delta < 0 ? 'error' : 'neutral'" variant="soft" size="xs" class="ml-1">
+              {{ rewritePreview.delta > 0 ? "+" : "" }}{{ rewritePreview.delta }}
+            </UBadge>
+          </div>
+          <textarea
+            v-model="rewriteContent"
+            class="h-80 w-full resize-y rounded-md border border-muted bg-transparent p-3 font-mono text-xs leading-6 outline-none"
+            aria-label="AI 改写后的正文"
+          />
+        </div>
+      </template>
+      <template #footer>
+        <div class="flex w-full justify-end gap-2">
+          <UButton variant="ghost" color="neutral" @click="showRewrite = false">
+            取消
+          </UButton>
+          <UButton color="primary" :loading="applyingRewrite" :disabled="!rewriteContent.trim()" @click="applyRewrite">
+            应用正文并重新分析
+          </UButton>
+        </div>
+      </template>
+    </UModal>
+
     <UAlert v-if="error" color="error" variant="soft" :title="error" class="mt-3" @close="error = ''" />
   </div>
 </template>
@@ -373,8 +443,16 @@ const optimizing = ref(false)
 const analysisResult = ref<SeoAnalysisResult | null>(null)
 const originalAnalysis = ref<SeoAnalysisResult | null>(null)
 const suggestions = ref<OptimizationSuggestions | null>(null)
-const applyingOptimization = ref<string | null>(null)
-const appliedTypes = ref<Set<string>>(new Set())
+const selectedTypes = ref<Set<string>>(new Set())
+const typeDeltas = ref<Record<string, number>>({})
+const preview = ref<{ before: SeoAnalysisResult, after: SeoAnalysisResult, delta: number } | null>(null)
+const previewLoading = ref(false)
+const applyingSelected = ref(false)
+const showRewrite = ref(false)
+const rewriteContent = ref("")
+const rewritePreview = ref<{ before: SeoAnalysisResult, after: SeoAnalysisResult, delta: number } | null>(null)
+const rewriting = ref(false)
+const applyingRewrite = ref(false)
 const showComparison = ref(false)
 const showScoreGuide = ref(false)
 const showSuggestions = ref(true)
@@ -392,6 +470,7 @@ const currentStepIndex = ref(0)
 const currentStep = ref("")
 const progressPercent = ref(0)
 let progressTimer: ReturnType<typeof setInterval> | null = null
+let progressResetTimer: ReturnType<typeof setTimeout> | null = null
 
 // 计算属性
 const postOptions = computed(() => posts.value.map(post => ({ label: post.title, value: post.id })))
@@ -442,6 +521,7 @@ const suggestionList = computed(() => {
 })
 
 const suggestionCount = computed(() => suggestionList.value.length)
+const applyableSuggestions = computed(() => suggestionList.value.filter(suggestion => canApply(suggestion.type)))
 
 // 方法
 async function fetchPosts() {
@@ -453,6 +533,7 @@ async function fetchPosts() {
 }
 
 function startProgress(steps: string[]) {
+  if (progressResetTimer) { clearTimeout(progressResetTimer); progressResetTimer = null }
   currentSteps.value = steps
   currentStepIndex.value = 0
   currentStep.value = steps[0]
@@ -476,6 +557,16 @@ function startProgress(steps: string[]) {
       }
     }
   }, 800)
+}
+
+function scheduleProgressReset() {
+  if (progressResetTimer) clearTimeout(progressResetTimer)
+  progressResetTimer = setTimeout(() => {
+    if (analyzing.value || optimizing.value) return
+    progressPercent.value = 0
+    currentStep.value = ""
+    streamText.value = ""
+  }, 2000)
 }
 
 function stopProgress() {
@@ -565,7 +656,9 @@ async function analyzePost() {
     originalAnalysis.value = { ...analysisResult.value }
   }
   suggestions.value = null
-  appliedTypes.value = new Set()
+  selectedTypes.value = new Set()
+  typeDeltas.value = {}
+  preview.value = null
   showSuggestions.value = true
   fallbackUsed.value = false
   fallbackReason.value = ""
@@ -590,7 +683,7 @@ async function analyzePost() {
     error.value = e?.message || "分析失败"
   } finally {
     analyzing.value = false
-    setTimeout(() => { progressPercent.value = 0; currentStep.value = ""; streamText.value = "" }, 2000)
+    scheduleProgressReset()
   }
 }
 
@@ -599,7 +692,6 @@ async function generateSuggestions() {
   optimizing.value = true
   error.value = ""
   startProgress(optimizeSteps)
-  appliedTypes.value = new Set()
   try {
     streamText.value = ""
     const res = await streamPost<OptimizationSuggestions>("/api/seo/optimize", {
@@ -614,6 +706,11 @@ async function generateSuggestions() {
       showSuggestions.value = true
       streamText.value = ""
       stopProgress()
+      selectedTypes.value = new Set(applyableSuggestions.value.map(suggestion => suggestion.type))
+      preview.value = null
+      typeDeltas.value = {}
+      void loadTypeDeltas()
+      void refreshPreview()
       if (res.message) {
         toast.add({ title: res.message, color: "info", icon: "i-heroicons-check-circle" })
       } else {
@@ -625,25 +722,160 @@ async function generateSuggestions() {
     error.value = e?.message || "生成优化建议失败"
   } finally {
     optimizing.value = false
-    setTimeout(() => { progressPercent.value = 0; currentStep.value = ""; streamText.value = "" }, 2000)
+    scheduleProgressReset()
   }
 }
 
-async function applyOptimization(type: string, value: string) {
-  if (!selectedPostId.value) return
-  if (!canApply(type)) return
-  applyingOptimization.value = type
-  try {
-    const post = posts.value.find(p => p.id === selectedPostId.value)
-    if (!post) return
-    // 目前只有标题和描述能安全地回写到文章；关键词/结构类建议需要手动改正文
-    const updateData = type === "title" ? { title: value.slice(0, 255) } : { summary: value.slice(0, 500) }
-    await http({ url: `/v1/posts/${post.uuid}`, method: "PUT", body: updateData })
-    if (type === "title") post.title = value.slice(0, 255)
-    appliedTypes.value = new Set(appliedTypes.value).add(type)
-    toast.add({ title: "已应用；需要最新评分时再点「开始分析」", color: "success" })
-  } catch (e: any) { toast.add({ title: e.data?.message || "应用优化失败", color: "error" }) } finally { applyingOptimization.value = null }
+/** 当前勾选的标题/描述建议 → PUT 请求体。 */
+function buildSelectedChanges(): Record<string, string> {
+  const changes: Record<string, string> = {}
+  const byType = new Map(suggestionList.value.map(suggestion => [suggestion.type, suggestion.suggested]))
+  if (selectedTypes.value.has("title")) changes.title = (byType.get("title") || "").slice(0, 255)
+  if (selectedTypes.value.has("description")) changes.summary = (byType.get("description") || "").slice(0, 500)
+  return changes
 }
+
+async function refreshPreview() {
+  if (!selectedPostId.value || !analysisResult.value) {
+    preview.value = null
+    return
+  }
+  const changes = buildSelectedChanges()
+  if (Object.keys(changes).length === 0) {
+    preview.value = null
+    return
+  }
+  previewLoading.value = true
+  try {
+    const res = await $fetch<{ code: number, data: { before: SeoAnalysisResult, after: SeoAnalysisResult, delta: number } }>(
+      "/api/seo/preview",
+      { method: "POST", body: { postId: selectedPostId.value, changes } }
+    )
+    preview.value = res.data
+  } catch {
+    preview.value = null
+  } finally {
+    previewLoading.value = false
+  }
+}
+
+/** 逐条计算「只应用这一条」能涨多少分，显示在建议卡片上。 */
+async function loadTypeDeltas() {
+  typeDeltas.value = {}
+  if (!selectedPostId.value) return
+  for (const suggestion of applyableSuggestions.value) {
+    const changes = suggestion.type === "title"
+      ? { title: suggestion.suggested.slice(0, 255) }
+      : { summary: suggestion.suggested.slice(0, 500) }
+    try {
+      const res = await $fetch<{ code: number, data: { delta: number } }>(
+        "/api/seo/preview",
+        { method: "POST", body: { postId: selectedPostId.value, changes } }
+      )
+      typeDeltas.value = { ...typeDeltas.value, [suggestion.type]: res.data.delta }
+    } catch { /* 单条预估失败不影响主流程 */ }
+  }
+}
+
+function toggleType(type: string) {
+  const next = new Set(selectedTypes.value)
+  if (next.has(type)) next.delete(type)
+  else next.add(type)
+  selectedTypes.value = next
+  void refreshPreview()
+}
+
+/** 一键：分析 → 生成建议 → 预估分数（默认勾选可应用项）。 */
+async function oneClickOptimize() {
+  if (!selectedPostId.value) return
+  selectedTypes.value = new Set()
+  typeDeltas.value = {}
+  preview.value = null
+  await analyzePost()
+  if (!analysisResult.value) return
+  await generateSuggestions()
+}
+
+async function applySelectedAndReanalyze() {
+  const changes = buildSelectedChanges()
+  if (!selectedPostId.value || Object.keys(changes).length === 0) return
+  const post = posts.value.find(item => item.id === selectedPostId.value)
+  if (!post) return
+  applyingSelected.value = true
+  try {
+    await http({ url: `/v1/posts/${post.uuid}`, method: "PUT", body: changes })
+    if (changes.title) post.title = changes.title
+    toast.add({ title: "已应用所选优化，正在重新分析…", color: "success" })
+    selectedTypes.value = new Set()
+    preview.value = null
+    typeDeltas.value = {}
+    await analyzePost()
+    if (originalAnalysis.value && analysisResult.value) showComparison.value = true
+  } catch (e: any) {
+    toast.add({ title: e.data?.message || "应用优化失败", color: "error" })
+  } finally {
+    applyingSelected.value = false
+  }
+}
+
+/** 调 AI 改写正文（H2/H3、段落结构），先预览再应用。 */
+async function openRewrite() {
+  if (!selectedPostId.value) return
+  rewriting.value = true
+  error.value = ""
+  try {
+    const suggestionTexts = [
+      suggestions.value?.headings
+        ? `标题结构：当前「${suggestions.value.headings.current}」，建议「${suggestions.value.headings.suggested}」。${suggestions.value.headings.reason}`
+        : "",
+      ...(suggestions.value?.contentStructure?.suggestions || []),
+      suggestions.value?.contentStructure?.reason || ""
+    ].filter(Boolean)
+
+    const res = await $fetch<{ code: number, data: { markdowncontent: string } }>(
+      "/api/seo/rewrite",
+      {
+        method: "POST",
+        body: { postId: selectedPostId.value, suggestions: suggestionTexts },
+        timeout: 300000
+      }
+    )
+    rewriteContent.value = res.data.markdowncontent
+    rewritePreview.value = null
+    showRewrite.value = true
+
+    try {
+      const pv = await $fetch<{ code: number, data: { before: SeoAnalysisResult, after: SeoAnalysisResult, delta: number } }>(
+        "/api/seo/preview",
+        { method: "POST", body: { postId: selectedPostId.value, changes: { markdowncontent: rewriteContent.value } } }
+      )
+      rewritePreview.value = pv.data
+    } catch { /* 预计分数失败不阻塞预览 */ }
+  } catch (e: any) {
+    error.value = e?.data?.message || e?.message || "AI 改写失败，请重试"
+  } finally {
+    rewriting.value = false
+  }
+}
+
+async function applyRewrite() {
+  if (!selectedPostId.value || !rewriteContent.value.trim()) return
+  const post = posts.value.find(item => item.id === selectedPostId.value)
+  if (!post) return
+  applyingRewrite.value = true
+  try {
+    await http({ url: `/v1/posts/${post.uuid}`, method: "PUT", body: { markdowncontent: rewriteContent.value } })
+    showRewrite.value = false
+    toast.add({ title: "正文已更新，正在重新分析…", color: "success" })
+    await analyzePost()
+    if (originalAnalysis.value && analysisResult.value) showComparison.value = true
+  } catch (e: any) {
+    toast.add({ title: e.data?.message || "应用正文失败", color: "error" })
+  } finally {
+    applyingRewrite.value = false
+  }
+}
+
 
 /** 只有标题/描述建议能通过 PUT /v1/posts 直接回写。 */
 function canApply(type: string) {
@@ -654,7 +886,12 @@ function resetAll() {
   analysisResult.value = null
   originalAnalysis.value = null
   suggestions.value = null
-  appliedTypes.value = new Set()
+  selectedTypes.value = new Set()
+  typeDeltas.value = {}
+  preview.value = null
+  showRewrite.value = false
+  rewriteContent.value = ""
+  rewritePreview.value = null
   fallbackUsed.value = false
   fallbackReason.value = ""
   showSuggestions.value = true
