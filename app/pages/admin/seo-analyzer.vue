@@ -57,6 +57,10 @@
             {{ step }}
           </span>
         </div>
+        <div v-if="streamText" class="mt-2 rounded-md bg-elevated/60 p-2 max-h-32 overflow-y-auto">
+          <div class="text-[10px] font-medium text-muted mb-1">AI 实时输出</div>
+          <pre class="text-[10px] leading-relaxed whitespace-pre-wrap break-all text-muted">{{ streamText }}</pre>
+        </div>
       </div>
     </UCard>
 
@@ -361,6 +365,7 @@ const showScoreGuide = ref(false)
 const showSuggestions = ref(true)
 const showDetails = ref(false)
 const error = ref("")
+const streamText = ref("")
 
 // 进度状态
 const analysisSteps = ["获取文章", "分析标题", "分析描述", "分析关键词", "分析结构", "生成报告"]
@@ -465,6 +470,73 @@ function stopProgress() {
   progressPercent.value = 100
 }
 
+async function streamPost<T>(
+  url: string,
+  body: unknown,
+  onDelta: (text: string) => void
+): Promise<{ code: number, data: T, message?: string }> {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+    signal: AbortSignal.timeout(300000)
+  })
+
+  if (!res.ok) {
+    let message = `请求失败（${res.status}）`
+    try {
+      const json = await res.json()
+      message = json?.statusMessage || json?.message || message
+    } catch { /* ignore */ }
+    throw new Error(message)
+  }
+
+  const contentType = res.headers.get("content-type") || ""
+  if (!contentType.includes("text/event-stream") || !res.body) {
+    return await res.json() as { code: number, data: T, message?: string }
+  }
+
+  const reader = res.body.getReader()
+  const decoder = new TextDecoder()
+  let buffer = ""
+  let result: { code: number, data: T, message?: string } | null = null
+
+  const handleEvent = (raw: string) => {
+    const line = raw.split("\n").find(l => l.startsWith("data:"))
+    if (!line) return
+    let event: any
+    try {
+      event = JSON.parse(line.slice(5).trim())
+    } catch {
+      return
+    }
+    if (event.type === "delta" && typeof event.text === "string") {
+      streamText.value += event.text
+      onDelta(event.text)
+    } else if (event.type === "result") {
+      result = event.data
+    } else if (event.type === "error") {
+      throw new Error(event.message || "AI 处理失败，请重试")
+    }
+  }
+
+  while (true) {
+    const { done, value } = await reader.read()
+    if (done) break
+    buffer += decoder.decode(value, { stream: true })
+    let idx: number
+    while ((idx = buffer.indexOf("\n\n")) >= 0) {
+      const raw = buffer.slice(0, idx)
+      buffer = buffer.slice(idx + 2)
+      handleEvent(raw)
+    }
+  }
+  if (buffer.trim()) handleEvent(buffer)
+
+  if (!result) throw new Error("AI 未返回结果，请重试")
+  return result
+}
+
 async function analyzePost() {
   if (!selectedPostId.value) return
   analyzing.value = true
@@ -479,21 +551,24 @@ async function analyzePost() {
   showSuggestions.value = true
 
   try {
-    const res = await $fetch<{ code: number, data: SeoAnalysisResult }>("/api/seo/analyze", {
-      method: "POST", body: { postId: selectedPostId.value }, timeout: 120000
+    streamText.value = ""
+    const res = await streamPost<SeoAnalysisResult>("/api/seo/analyze", { postId: selectedPostId.value }, () => {
+      currentStep.value = `AI 正在生成分析（${streamText.value.length} 字）`
+      progressPercent.value = Math.min(95, 30 + streamText.value.length / 20)
     })
     if (res.code === 200) {
       if (!originalAnalysis.value) originalAnalysis.value = res.data
       analysisResult.value = res.data
+      streamText.value = ""
       stopProgress()
       toast.add({ title: "分析完成", color: "success", icon: "i-heroicons-check-circle" })
     }
   } catch (e: any) {
     stopProgress()
-    error.value = e.data?.message || "分析失败"
+    error.value = e?.message || "分析失败"
   } finally {
     analyzing.value = false
-    setTimeout(() => { progressPercent.value = 0; currentStep.value = "" }, 2000)
+    setTimeout(() => { progressPercent.value = 0; currentStep.value = ""; streamText.value = "" }, 2000)
   }
 }
 
@@ -503,12 +578,18 @@ async function generateSuggestions() {
   error.value = ""
   startProgress(optimizeSteps)
   try {
-    const res = await $fetch<{ code: number, data: OptimizationSuggestions, message?: string }>("/api/seo/optimize", {
-      method: "POST", body: { postId: selectedPostId.value, analysisResult: analysisResult.value }, timeout: 120000
+    streamText.value = ""
+    const res = await streamPost<OptimizationSuggestions>("/api/seo/optimize", {
+      postId: selectedPostId.value,
+      analysisResult: analysisResult.value
+    }, () => {
+      currentStep.value = `AI 正在生成建议（${streamText.value.length} 字）`
+      progressPercent.value = Math.min(95, 30 + streamText.value.length / 20)
     })
     if (res.code === 200) {
       suggestions.value = res.data
       showSuggestions.value = true
+      streamText.value = ""
       stopProgress()
       if (res.message) {
         toast.add({ title: res.message, color: "info", icon: "i-heroicons-check-circle" })
@@ -518,10 +599,10 @@ async function generateSuggestions() {
     }
   } catch (e: any) {
     stopProgress()
-    error.value = e.data?.message || "生成优化建议失败"
+    error.value = e?.message || "生成优化建议失败"
   } finally {
     optimizing.value = false
-    setTimeout(() => { progressPercent.value = 0; currentStep.value = "" }, 2000)
+    setTimeout(() => { progressPercent.value = 0; currentStep.value = ""; streamText.value = "" }, 2000)
   }
 }
 

@@ -1,5 +1,6 @@
+import { createEventStream } from "h3"
 import { backendBase } from "../../utils/backend"
-import { callAIJSON } from "../../utils/ai"
+import { callAIStream, parseAIJson, withJsonInstruction } from "../../utils/ai"
 
 interface OptimizationSuggestions {
   title?: { current: string, suggested: string, reason: string }
@@ -56,13 +57,21 @@ export default defineEventHandler(async (event) => {
   if (seo.headings.score < 12) lowScoreItems.push(`标题结构（当前${seo.headings.score}/15分）`)
   if (seo.contentLength.score < 12) lowScoreItems.push(`内容长度（当前${seo.contentLength.score}/15分，${seo.contentLength.wordCount}字）`)
 
+  const stream = createEventStream(event)
+  let closed = false
+  stream.onClosed(() => { closed = true })
+
+  const send = (payload: unknown) => {
+    if (!closed) stream.push(JSON.stringify(payload))
+  }
+
   // 如果所有项目都得分很高，返回空建议
   if (lowScoreItems.length === 0) {
-    return {
-      code: 200,
-      data: {},
-      message: "文章 SEO 优化已经很好，无需优化！"
-    }
+    void (async () => {
+      send({ type: "result", data: { code: 200, data: {}, message: "文章 SEO 优化已经很好，无需优化！" } })
+      await stream.close()
+    })()
+    return stream.send()
   }
 
   // 调用 AI 生成优化建议
@@ -116,37 +125,56 @@ ${JSON.stringify(body.analysisResult, null, 2)}
     }
   ]
 
-  const suggestions = await callAIJSON<OptimizationSuggestions>(event, messages, {
-    temperature: 0.4,
-    maxTokens: 3000
-  })
+  void (async () => {
+    try {
+      try {
+        const raw = await callAIStream(event, withJsonInstruction(messages), {
+          temperature: 0.4,
+          maxTokens: 3000,
+          onDelta: (text, kind) => send({ type: "delta", text, kind })
+        })
 
-  // 过滤掉当前和建议相同的项目
-  const filteredSuggestions: OptimizationSuggestions = {}
+        const suggestions = parseAIJson<OptimizationSuggestions>(raw)
 
-  if (suggestions.title && suggestions.title.current !== suggestions.title.suggested) {
-    filteredSuggestions.title = suggestions.title
-  }
-  if (suggestions.description && suggestions.description.current !== suggestions.description.suggested) {
-    filteredSuggestions.description = suggestions.description
-  }
-  if (suggestions.keywords) {
-    const currentKw = suggestions.keywords.current.sort().join(",")
-    const suggestedKw = suggestions.keywords.suggested.sort().join(",")
-    if (currentKw !== suggestedKw) {
-      filteredSuggestions.keywords = suggestions.keywords
+        // 过滤掉当前和建议相同的项目
+        const filteredSuggestions: OptimizationSuggestions = {}
+
+        if (suggestions.title && suggestions.title.current !== suggestions.title.suggested) {
+          filteredSuggestions.title = suggestions.title
+        }
+        if (suggestions.description && suggestions.description.current !== suggestions.description.suggested) {
+          filteredSuggestions.description = suggestions.description
+        }
+        if (suggestions.keywords) {
+          const currentKw = suggestions.keywords.current.sort().join(",")
+          const suggestedKw = suggestions.keywords.suggested.sort().join(",")
+          if (currentKw !== suggestedKw) {
+            filteredSuggestions.keywords = suggestions.keywords
+          }
+        }
+        if (suggestions.headings && suggestions.headings.current !== suggestions.headings.suggested) {
+          filteredSuggestions.headings = suggestions.headings
+        }
+        if (suggestions.contentStructure?.suggestions?.length) {
+          filteredSuggestions.contentStructure = suggestions.contentStructure
+        }
+
+        send({
+          type: "result",
+          data: {
+            code: 200,
+            data: filteredSuggestions,
+            message: Object.keys(filteredSuggestions).length === 0 ? "文章 SEO 已经很好，无需优化" : undefined
+          }
+        })
+      } catch (aiError) {
+        console.log("[SEO Optimize] AI 生成建议失败:", aiError instanceof Error ? aiError.message : "未知错误")
+        send({ type: "error", message: "AI 生成建议失败，请重试" })
+      }
+    } finally {
+      await stream.close()
     }
-  }
-  if (suggestions.headings && suggestions.headings.current !== suggestions.headings.suggested) {
-    filteredSuggestions.headings = suggestions.headings
-  }
-  if (suggestions.contentStructure?.suggestions?.length) {
-    filteredSuggestions.contentStructure = suggestions.contentStructure
-  }
+  })()
 
-  return {
-    code: 200,
-    data: filteredSuggestions,
-    message: Object.keys(filteredSuggestions).length === 0 ? "文章 SEO 已经很好，无需优化" : undefined
-  }
+  return stream.send()
 })

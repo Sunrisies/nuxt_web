@@ -1,5 +1,6 @@
+import { createEventStream } from "h3"
 import { backendBase } from "../../utils/backend"
-import { callAIJSON } from "../../utils/ai"
+import { callAIStream, parseAIJson, withJsonInstruction } from "../../utils/ai"
 
 interface SeoAnalysisResult {
   seo: {
@@ -142,10 +143,43 @@ export default defineEventHandler(async (event) => {
     }
   }
 
+  // 校验并补齐 AI 返回的数据
+  function normalizeAnalysis(analysis: SeoAnalysisResult, actualWordCount: number): SeoAnalysisResult {
+    if (!analysis.seo || typeof analysis.totalScore !== "number") {
+      throw new Error("AI 返回数据不完整")
+    }
+
+    if (!analysis.seo.maxScore) analysis.seo.maxScore = 100
+
+    const ensureItem = (item: any, maxScore: number) => {
+      if (!item) return { score: 0, status: "bad", message: "无数据" }
+      if (!item.score && item.score !== 0) item.score = 0
+      if (!item.status) {
+        const ratio = item.score / maxScore
+        item.status = ratio >= 0.8 ? "good" : ratio >= 0.5 ? "warning" : "bad"
+      }
+      if (!item.message) item.message = ""
+      return item
+    }
+
+    analysis.seo.title = ensureItem(analysis.seo.title, 25)
+    analysis.seo.description = ensureItem(analysis.seo.description, 20)
+    analysis.seo.keywords = ensureItem(analysis.seo.keywords, 25)
+    analysis.seo.headings = ensureItem(analysis.seo.headings, 15)
+    analysis.seo.contentLength = ensureItem(analysis.seo.contentLength, 15)
+
+    analysis.seo.score = analysis.seo.title.score + analysis.seo.description.score + analysis.seo.keywords.score + analysis.seo.headings.score + analysis.seo.contentLength.score
+    analysis.totalScore = analysis.seo.score
+
+    if (!analysis.seo.keywords.density) analysis.seo.keywords.density = 0
+    if (!analysis.seo.keywords.keywords) analysis.seo.keywords.keywords = []
+    if (!analysis.seo.contentLength.wordCount) analysis.seo.contentLength.wordCount = actualWordCount
+
+    return analysis
+  }
+
   // 尝试调用 AI 分析，失败则使用规则分析
-  let analysis: SeoAnalysisResult
-  try {
-    const messages = [
+  const messages = [
       {
         role: "system" as const,
         content: `你是专业的 SEO 分析专家。只分析 SEO，不分析 GEO。
@@ -209,59 +243,49 @@ status标准：score/max >= 0.8 为 good，>= 0.5 为 warning，否则为 bad。
 内容预览（前1500字符）：
 ${content.substring(0, 1500)}`
       }
-    ]
+  ]
 
-    analysis = await callAIJSON<SeoAnalysisResult>(event, messages, {
-      temperature: 0.2,
-      maxTokens: 3000
-    })
+  const stream = createEventStream(event)
+  let closed = false
+  stream.onClosed(() => { closed = true })
 
-    // 验证和修复 AI 返回的数据
-    if (!analysis.seo || typeof analysis.totalScore !== "number") {
-      throw new Error("AI 返回数据不完整")
-    }
+  const send = (payload: unknown) => {
+    if (!closed) stream.push(JSON.stringify(payload))
+  }
 
-    // 确保 maxScore 存在
-    if (!analysis.seo.maxScore) analysis.seo.maxScore = 100
-
-    // 确保所有子项存在
-    const ensureItem = (item: any, maxScore: number) => {
-      if (!item) return { score: 0, status: "bad", message: "无数据" }
-      if (!item.score && item.score !== 0) item.score = 0
-      if (!item.status) {
-        const ratio = item.score / maxScore
-        item.status = ratio >= 0.8 ? "good" : ratio >= 0.5 ? "warning" : "bad"
+  void (async () => {
+    try {
+      try {
+        const raw = await callAIStream(event, withJsonInstruction(messages), {
+          temperature: 0.2,
+          maxTokens: 3000,
+          onDelta: (text, kind) => send({ type: "delta", text, kind })
+        })
+        const analysis = normalizeAnalysis(parseAIJson<SeoAnalysisResult>(raw), wordCount)
+        send({
+          type: "result",
+          data: {
+            code: 200,
+            data: analysis,
+            post: { id: post.id, uuid: post.uuid, title: post.title }
+          }
+        })
+      } catch (aiError) {
+        console.log("[SEO Analyze] AI 分析失败，使用规则分析:", aiError instanceof Error ? aiError.message : "未知错误")
+        send({
+          type: "result",
+          data: {
+            code: 200,
+            data: ruleBasedAnalysis(),
+            post: { id: post.id, uuid: post.uuid, title: post.title },
+            fallback: true
+          }
+        })
       }
-      if (!item.message) item.message = ""
-      return item
+    } finally {
+      await stream.close()
     }
+  })()
 
-    analysis.seo.title = ensureItem(analysis.seo.title, 25)
-    analysis.seo.description = ensureItem(analysis.seo.description, 20)
-    analysis.seo.keywords = ensureItem(analysis.seo.keywords, 25)
-    analysis.seo.headings = ensureItem(analysis.seo.headings, 15)
-    analysis.seo.contentLength = ensureItem(analysis.seo.contentLength, 15)
-
-    // 重新计算总分，确保一致性
-    analysis.seo.score = analysis.seo.title.score + analysis.seo.description.score + analysis.seo.keywords.score + analysis.seo.headings.score + analysis.seo.contentLength.score
-    analysis.totalScore = analysis.seo.score
-
-    // 确保 keywords 字段存在
-    if (!analysis.seo.keywords.density) analysis.seo.keywords.density = 0
-    if (!analysis.seo.keywords.keywords) analysis.seo.keywords.keywords = []
-    if (!analysis.seo.contentLength.wordCount) analysis.seo.contentLength.wordCount = wordCount
-  } catch (aiError) {
-    console.log("[SEO Analyze] AI 分析失败，使用规则分析:", aiError instanceof Error ? aiError.message : "未知错误")
-    analysis = ruleBasedAnalysis()
-  }
-
-  return {
-    code: 200,
-    data: analysis,
-    post: {
-      id: post.id,
-      uuid: post.uuid,
-      title: post.title
-    }
-  }
+  return stream.send()
 })
