@@ -61,82 +61,80 @@ export default defineEventHandler(async (event) => {
   const wordCount = content.replace(/\s/g, "").length
   const description = post.description || post.summary || ""
 
-  // 基于规则的分析（备用方案）
+  // 基于规则的分析（AI 不可用时的兜底，固定 100 分制，与前端展示口径一致）
   function ruleBasedAnalysis(): SeoAnalysisResult {
-    // SEO 分析 - 只分析 SEO，不包含 GEO
-    const titleLength = post.title.length
-    // 标题优化：10-60字符得10分，包含关键词+3分，有吸引力+2分
-    let titleScore = titleLength >= 10 && titleLength <= 60 ? 10 : titleLength < 10 ? 5 : 7
-    const titleKeywords = ["Rust", "Python", "JavaScript", "教程", "指南", "详解", "如何", "什么是"]
-    if (titleKeywords.some(kw => post.title.includes(kw))) titleScore += 3
-    if (/\d|为什么|如何|什么|指南|教程/.test(post.title)) titleScore += 2
-    titleScore = Math.min(15, titleScore)
+    const maxScores = { title: 25, description: 20, keywords: 25, headings: 15, contentLength: 15 }
+    const titleLen = post.title.length
+    const keywordPool = [
+      ...post.tags.map(t => t.name).filter(Boolean),
+      ...["Rust", "Python", "JavaScript", "教程", "指南", "详解", "如何", "什么是"]
+    ]
+    const hasTitleKeyword = keywordPool.some(k => post.title.includes(k))
+    const hasAttraction = /\d|为什么|如何|什么|指南|教程/.test(post.title)
 
-    // 描述优化：有描述5分，100-160字符+3分，包含关键词+2分
-    const descLength = description.length
-    let descScore = descLength > 0 ? 5 : 0
-    if (descLength >= 100 && descLength <= 160) descScore += 3
-    else if (descLength >= 50 && descLength < 100) descScore += 2
-    if (titleKeywords.some(kw => description.includes(kw))) descScore += 2
-    descScore = Math.min(10, descScore)
+    let titleScore = titleLen >= 10 && titleLen <= 60 ? 15 : titleLen < 10 ? 8 : 10
+    if (hasTitleKeyword) titleScore += 5
+    if (hasAttraction) titleScore += 5
+    titleScore = Math.min(maxScores.title, titleScore)
 
-    // 关键词密度：1%-3%得15分
-    const keywords = [
-      ...post.title.split(/\s+/).filter(w => w.length > 2),
-      ...post.tags.map(t => t.name)
-    ].slice(0, 10)
-    const keywordDensity = wordCount > 0 ? ((keywords.join(" ").length / wordCount) * 100) : 0
-    let keywordScore = 5
-    if (keywordDensity >= 1 && keywordDensity <= 3) keywordScore = 15
-    else if (keywordDensity >= 0.5 && keywordDensity < 1) keywordScore = 10
-    else if (keywordDensity > 3 && keywordDensity <= 5) keywordScore = 10
-    else if (keywordDensity < 0.5 || keywordDensity > 5) keywordScore = 5
+    const descLen = description.length
+    let descScore = 0
+    if (descLen > 0) {
+      descScore = 10
+      if (descLen >= 100 && descLen <= 160) descScore += 6
+      else if (descLen >= 50 && descLen < 100) descScore += 3
+      if (keywordPool.some(k => description.includes(k))) descScore += 4
+      descScore = Math.min(maxScores.description, descScore)
+    }
 
-    // 标题标签：文章标题就是H1，内容中有H2/H3即可
+    const densityKeywords = [...new Set(keywordPool)].slice(0, 10)
+    const density = wordCount > 0 ? (densityKeywords.join("").length / wordCount) * 100 : 0
+    const keywordScore = density >= 1 && density <= 3 ? 25 : (density >= 0.5 && density < 1) || (density > 3 && density <= 5) ? 15 : 5
+
     const h2Count = (content.match(/^##\s+/gm) || []).length
     const h3Count = (content.match(/^###\s+/gm) || []).length
-    let headingsScore = 5 // 有文章标题作为H1
-    if (h2Count >= 1) headingsScore += 3
-    if (h3Count >= 1 || h2Count >= 3) headingsScore += 2
-    headingsScore = Math.min(10, headingsScore)
+    let headingsScore = h2Count >= 1 ? 8 : 0
+    if (h3Count >= 1 || h2Count >= 3) headingsScore += 4
+    if (h2Count >= 2 && h3Count >= 1) headingsScore += 3
+    headingsScore = Math.min(maxScores.headings, headingsScore)
 
-    // 内容长度
-    const contentScore = wordCount >= 1000 ? 10 : wordCount >= 500 ? 8 : wordCount >= 300 ? 5 : 2
+    const contentScore = wordCount >= 1000 ? 15 : wordCount >= 500 ? 12 : wordCount >= 300 ? 8 : 4
 
-    const seoScore = titleScore + descScore + keywordScore + headingsScore + contentScore
-    const totalScore = seoScore // 不再包含 GEO
+    const ratioStatus = (score: number, max: number) => score / max >= 0.8 ? "good" : score / max >= 0.5 ? "warning" : "bad"
+    const totalScore = titleScore + descScore + keywordScore + headingsScore + contentScore
 
     return {
       seo: {
-        score: seoScore,
-        maxScore: 60,
+        score: totalScore,
+        maxScore: 100,
         title: {
           score: titleScore,
-          status: titleScore >= 12 ? "good" : titleScore >= 8 ? "warning" : "bad",
-          message: `标题长度 ${titleLength} 字符${titleLength < 10 ? "，过短" : titleLength > 60 ? "，过长" : "，长度合适"}`
+          status: ratioStatus(titleScore, maxScores.title),
+          message: `标题 ${titleLen} 字符${titleLen < 10 ? "，过短" : titleLen > 60 ? "，过长" : "，长度合适"}；${hasTitleKeyword ? "包含核心关键词" : "建议包含核心关键词"}；${hasAttraction ? "有数字/疑问等吸引力元素" : "建议增加数字或疑问元素"}`
         },
         description: {
           score: descScore,
-          status: descScore >= 8 ? "good" : descScore >= 5 ? "warning" : "bad",
-          message: descLength === 0 ? "缺少描述" : `描述长度 ${descLength} 字符${descLength < 50 ? "，过短" : descLength > 160 ? "，过长" : "，长度合适"}`
+          status: ratioStatus(descScore, maxScores.description),
+          message: descLen === 0
+            ? "缺少描述，建议补 100-160 字符的摘要"
+            : `描述 ${descLen} 字符${descLen < 50 ? "，过短（建议 100-160 字符）" : descLen < 100 ? "，略短（建议 100-160 字符）" : descLen <= 160 ? "，长度合适" : "，过长（建议 100-160 字符）"}；${keywordPool.some(k => description.includes(k)) ? "包含关键词" : "建议包含关键词"}`
         },
         keywords: {
           score: keywordScore,
-          status: keywordScore >= 12 ? "good" : keywordScore >= 8 ? "warning" : "bad",
-          message: `关键词密度 ${keywordDensity.toFixed(2)}%${keywordDensity < 1 ? "，偏低" : keywordDensity > 3 ? "，偏高" : "，适中"}`,
-          density: parseFloat(keywordDensity.toFixed(2)),
-          keywords
+          status: ratioStatus(keywordScore, maxScores.keywords),
+          message: `关键词密度 ${density.toFixed(2)}%${density < 0.5 ? "，过低" : density < 1 ? "，偏低" : density <= 3 ? "，处于 1%-3% 最佳区间" : density <= 5 ? "，偏高" : "，过高"}`,
+          density: parseFloat(density.toFixed(2)),
+          keywords: densityKeywords
         },
         headings: {
           score: headingsScore,
-          status: headingsScore >= 8 ? "good" : headingsScore >= 5 ? "warning" : "bad",
-          message: `文章标题作为 H1，${h2Count} 个 H2，${h3Count} 个 H3${h2Count === 0 ? "，建议添加小标题" : "，结构良好"}`
+          status: ratioStatus(headingsScore, maxScores.headings),
+          message: `H2 ${h2Count} 个，H3 ${h3Count} 个${h2Count === 0 ? "，建议至少添加 1 个 H2" : "，结构良好"}`
         },
         contentLength: {
           score: contentScore,
-          status: contentScore >= 8 ? "good" : contentScore >= 5 ? "warning" : "bad",
-          message: `内容 ${wordCount} 字${wordCount < 300 ? "，过短" : wordCount < 1000 ? "，可以更长" : "，长度良好"}`,
-          wordCount
+          status: ratioStatus(contentScore, maxScores.contentLength),
+          message: `内容 ${wordCount} 字${wordCount < 300 ? "，过短" : wordCount < 500 ? "，偏短" : wordCount < 1000 ? "，建议扩到 1000 字以上" : "，长度良好"}`
         }
       },
       totalScore
@@ -145,21 +143,24 @@ export default defineEventHandler(async (event) => {
 
   // 校验并补齐 AI 返回的数据
   function normalizeAnalysis(analysis: SeoAnalysisResult, actualWordCount: number): SeoAnalysisResult {
-    if (!analysis.seo || typeof analysis.totalScore !== "number") {
+    // totalScore 不强制要求：下面会用各项分数重算，避免模型漏字段就直接回退到规则评分
+    if (!analysis.seo || typeof analysis.seo !== "object") {
       throw new Error("AI 返回数据不完整")
     }
 
     if (!analysis.seo.maxScore) analysis.seo.maxScore = 100
 
+    const clampScore = (value: unknown, maxScore: number) => {
+      const num = Number(value)
+      return Number.isFinite(num) ? Math.max(0, Math.min(maxScore, Math.round(num))) : 0
+    }
+
     const ensureItem = (item: any, maxScore: number) => {
-      if (!item) return { score: 0, status: "bad", message: "无数据" }
-      if (!item.score && item.score !== 0) item.score = 0
-      if (!item.status) {
-        const ratio = item.score / maxScore
-        item.status = ratio >= 0.8 ? "good" : ratio >= 0.5 ? "warning" : "bad"
-      }
-      if (!item.message) item.message = ""
-      return item
+      const result = item && typeof item === "object" ? item : { score: 0, message: "无数据" }
+      result.score = clampScore(result.score, maxScore)
+      result.status = result.score / maxScore >= 0.8 ? "good" : result.score / maxScore >= 0.5 ? "warning" : "bad"
+      if (!result.message) result.message = ""
+      return result
     }
 
     analysis.seo.title = ensureItem(analysis.seo.title, 25)
@@ -273,7 +274,7 @@ ${content.substring(0, 1500)}`
       try {
         const raw = await callAIStream(event, withJsonInstruction(messages), {
           temperature: 0.2,
-          maxTokens: 3000,
+          maxTokens: 4000,
           onDelta: (text, kind) => send({ type: "delta", text, kind })
         })
         const analysis = normalizeAnalysis(parseAIJson<SeoAnalysisResult>(raw), wordCount)
@@ -293,7 +294,8 @@ ${content.substring(0, 1500)}`
             code: 200,
             data: ruleBasedAnalysis(),
             post: { id: post.id, uuid: post.uuid, title: post.title },
-            fallback: true
+            fallback: true,
+            fallbackReason: aiError instanceof Error ? aiError.message : "未知错误"
           }
         })
       }

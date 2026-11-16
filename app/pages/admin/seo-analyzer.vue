@@ -7,6 +7,9 @@
         <UBadge v-if="analysisResult" :color="getBadgeColor(analysisResult.totalScore)" variant="soft" size="sm">
           {{ getScoreLevel(analysisResult.totalScore) }} · {{ analysisResult.totalScore }}/100
         </UBadge>
+        <UBadge v-if="analysisResult && fallbackUsed" color="neutral" variant="soft" size="sm" :title="fallbackReason || 'AI 分析不可用，本次使用固定规则评分'">
+          规则评分
+        </UBadge>
       </div>
       <div class="flex items-center gap-2">
         <UButton v-if="analysisResult" variant="ghost" color="neutral" size="sm" icon="i-heroicons-question-mark-circle" @click="showScoreGuide = true">
@@ -378,6 +381,8 @@ const showSuggestions = ref(true)
 const showDetails = ref(false)
 const error = ref("")
 const streamText = ref("")
+const fallbackUsed = ref(false)
+const fallbackReason = ref("")
 
 // 进度状态
 const analysisSteps = ["获取文章", "分析标题", "分析描述", "分析关键词", "分析结构", "生成报告"]
@@ -486,7 +491,7 @@ async function streamPost<T>(
   url: string,
   body: unknown,
   onDelta: (text: string) => void
-): Promise<{ code: number, data: T, message?: string }> {
+): Promise<{ code: number, data: T, message?: string, fallback?: boolean, fallbackReason?: string }> {
   const res = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -505,13 +510,13 @@ async function streamPost<T>(
 
   const contentType = res.headers.get("content-type") || ""
   if (!contentType.includes("text/event-stream") || !res.body) {
-    return await res.json() as { code: number, data: T, message?: string }
+    return await res.json() as { code: number, data: T, message?: string, fallback?: boolean, fallbackReason?: string }
   }
 
   const reader = res.body.getReader()
   const decoder = new TextDecoder()
   let buffer = ""
-  let result: { code: number, data: T, message?: string } | null = null
+  let result: { code: number, data: T, message?: string, fallback?: boolean, fallbackReason?: string } | null = null
 
   const handleEvent = (raw: string) => {
     const line = raw.split("\n").find(l => l.startsWith("data:"))
@@ -562,6 +567,8 @@ async function analyzePost() {
   suggestions.value = null
   appliedTypes.value = new Set()
   showSuggestions.value = true
+  fallbackUsed.value = false
+  fallbackReason.value = ""
 
   try {
     streamText.value = ""
@@ -570,6 +577,8 @@ async function analyzePost() {
       progressPercent.value = Math.min(95, 30 + streamText.value.length / 20)
     })
     if (res.code === 200) {
+      fallbackUsed.value = Boolean(res.fallback)
+      fallbackReason.value = res.fallbackReason || ""
       if (!originalAnalysis.value) originalAnalysis.value = res.data
       analysisResult.value = res.data
       streamText.value = ""
@@ -646,6 +655,8 @@ function resetAll() {
   originalAnalysis.value = null
   suggestions.value = null
   appliedTypes.value = new Set()
+  fallbackUsed.value = false
+  fallbackReason.value = ""
   showSuggestions.value = true
   showDetails.value = false
   error.value = ""
