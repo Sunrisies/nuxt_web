@@ -57,9 +57,8 @@
             {{ step }}
           </span>
         </div>
-        <div v-if="streamText" class="mt-2 rounded-md bg-elevated/60 p-2 max-h-32 overflow-y-auto">
-          <div class="text-[10px] font-medium text-muted mb-1">AI 实时输出</div>
-          <pre class="text-[10px] leading-relaxed whitespace-pre-wrap break-all text-muted">{{ streamText }}</pre>
+        <div v-if="streamText" class="mt-2 text-[10px] text-muted">
+          AI 正在生成…（已接收 {{ streamText.length }} 字）
         </div>
       </div>
     </UCard>
@@ -219,9 +218,21 @@
           </div>
 
           <div class="flex gap-2 mt-2 pl-14">
-            <UButton color="primary" variant="soft" size="xs" icon="i-heroicons-check" :loading="applyingOptimization === suggestion.type" @click="applyOptimization(suggestion.type, suggestion.suggested)">
-              应用此优化
+            <UButton
+              v-if="canApply(suggestion.type)"
+              color="primary"
+              variant="soft"
+              size="xs"
+              icon="i-heroicons-check"
+              :loading="applyingOptimization === suggestion.type"
+              :disabled="appliedTypes.has(suggestion.type)"
+              @click="applyOptimization(suggestion.type, suggestion.suggested)"
+            >
+              {{ appliedTypes.has(suggestion.type) ? "已应用" : "应用此优化" }}
             </UButton>
+            <span v-else class="text-[10px] text-muted">
+              该项需要到文章编辑器里手动调整
+            </span>
           </div>
         </div>
       </div>
@@ -360,6 +371,7 @@ const analysisResult = ref<SeoAnalysisResult | null>(null)
 const originalAnalysis = ref<SeoAnalysisResult | null>(null)
 const suggestions = ref<OptimizationSuggestions | null>(null)
 const applyingOptimization = ref<string | null>(null)
+const appliedTypes = ref<Set<string>>(new Set())
 const showComparison = ref(false)
 const showScoreGuide = ref(false)
 const showSuggestions = ref(true)
@@ -548,6 +560,7 @@ async function analyzePost() {
     originalAnalysis.value = { ...analysisResult.value }
   }
   suggestions.value = null
+  appliedTypes.value = new Set()
   showSuggestions.value = true
 
   try {
@@ -577,6 +590,7 @@ async function generateSuggestions() {
   optimizing.value = true
   error.value = ""
   startProgress(optimizeSteps)
+  appliedTypes.value = new Set()
   try {
     streamText.value = ""
     const res = await streamPost<OptimizationSuggestions>("/api/seo/optimize", {
@@ -608,29 +622,30 @@ async function generateSuggestions() {
 
 async function applyOptimization(type: string, value: string) {
   if (!selectedPostId.value) return
+  if (!canApply(type)) return
   applyingOptimization.value = type
   try {
     const post = posts.value.find(p => p.id === selectedPostId.value)
     if (!post) return
-    const updateData: any = {}
-    if (type === "title") updateData.title = value
-    else if (type === "description") updateData.summary = value
-    else if (type === "keywords") {
-      // 关键词优化更新描述
-      if (suggestions.value?.keywords) {
-        updateData.summary = `${value} - ${post.title}`
-      }
-    }
+    // 目前只有标题和描述能安全地回写到文章；关键词/结构类建议需要手动改正文
+    const updateData = type === "title" ? { title: value.slice(0, 255) } : { summary: value.slice(0, 500) }
     await http({ url: `/v1/posts/${post.uuid}`, method: "PUT", body: updateData })
-    toast.add({ title: "优化已应用，重新分析中...", color: "success" })
-    await analyzePost()
+    if (type === "title") post.title = value.slice(0, 255)
+    appliedTypes.value = new Set(appliedTypes.value).add(type)
+    toast.add({ title: "已应用；需要最新评分时再点「开始分析」", color: "success" })
   } catch (e: any) { toast.add({ title: e.data?.message || "应用优化失败", color: "error" }) } finally { applyingOptimization.value = null }
+}
+
+/** 只有标题/描述建议能通过 PUT /v1/posts 直接回写。 */
+function canApply(type: string) {
+  return type === "title" || type === "description"
 }
 
 function resetAll() {
   analysisResult.value = null
   originalAnalysis.value = null
   suggestions.value = null
+  appliedTypes.value = new Set()
   showSuggestions.value = true
   showDetails.value = false
   error.value = ""

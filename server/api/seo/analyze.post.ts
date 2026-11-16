@@ -1,6 +1,6 @@
 import { createEventStream } from "h3"
 import { backendBase } from "../../utils/backend"
-import { callAIStream, parseAIJson, withJsonInstruction } from "../../utils/ai"
+import { callAIStream, cleanAIText, parseAIJson, withJsonInstruction } from "../../utils/ai"
 
 interface SeoAnalysisResult {
   seo: {
@@ -174,6 +174,21 @@ export default defineEventHandler(async (event) => {
     if (!analysis.seo.keywords.density) analysis.seo.keywords.density = 0
     if (!analysis.seo.keywords.keywords) analysis.seo.keywords.keywords = []
     if (!analysis.seo.contentLength.wordCount) analysis.seo.contentLength.wordCount = actualWordCount
+
+    // 模型有时会在 message 里带 Markdown 标记，清理掉再返回，避免前端显示 **...**
+    for (const item of [
+      analysis.seo.title,
+      analysis.seo.description,
+      analysis.seo.keywords,
+      analysis.seo.headings,
+      analysis.seo.contentLength
+    ]) {
+      item.message = cleanAIText(item.message)
+    }
+    analysis.seo.keywords.keywords = (Array.isArray(analysis.seo.keywords.keywords) ? analysis.seo.keywords.keywords : [])
+      .map((keyword: unknown) => cleanAIText(keyword))
+      .filter((keyword: string) => keyword.length > 0)
+      .slice(0, 20)
 
     return analysis
   }

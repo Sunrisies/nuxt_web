@@ -58,6 +58,33 @@ export function withJsonInstruction(messages: ChatMessage[]): ChatMessage[] {
 }
 
 /**
+ * 去掉模型输出里常见的 Markdown 标记，避免把 **加粗**、``` 代码块、列表符号
+ * 直接显示到页面上，也避免把这些标记写进数据库。
+ */
+export function cleanAIText(input: unknown): string {
+  if (typeof input !== "string") return ""
+  return input
+    .replace(/```[a-zA-Z]*\n?/g, "")
+    .replace(/`([^`]*)`/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/^\s{0,3}#{1,6}\s+/gm, "")
+    .replace(/^\s{0,3}[-*+]\s+/gm, "")
+    .replace(/^\s{0,3}>\s?/gm, "")
+    .replace(/\*\*([^*]+)\*\*/g, "$1")
+    .replace(/__([^_]+)__/g, "$1")
+    .replace(/~~([^~]+)~~/g, "$1")
+    .replace(/\*([^*\n]+)\*/g, "$1")
+    .replace(/[ \t]+/g, " ")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim()
+}
+
+/** 单行版本：用于标题、描述这类不允许换行的字段。 */
+export function cleanAITextLine(input: unknown): string {
+  return cleanAIText(input).replace(/\s*\n+\s*/g, " ").trim()
+}
+
+/**
  * 从模型输出中尽力解析出 JSON 对象（兼容纯 JSON、代码块、带前后缀等情况）。
  */
 export function parseAIJson<T>(content: string): T {

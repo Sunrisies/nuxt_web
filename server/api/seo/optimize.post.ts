@@ -1,6 +1,6 @@
 import { createEventStream } from "h3"
 import { backendBase } from "../../utils/backend"
-import { callAIStream, parseAIJson, withJsonInstruction } from "../../utils/ai"
+import { callAIStream, cleanAIText, cleanAITextLine, parseAIJson, withJsonInstruction } from "../../utils/ai"
 
 interface OptimizationSuggestions {
   title?: { current: string, suggested: string, reason: string }
@@ -135,6 +135,25 @@ ${JSON.stringify(body.analysisResult, null, 2)}
         })
 
         const suggestions = parseAIJson<OptimizationSuggestions>(raw)
+
+        // 模型可能带 Markdown 标记，先清理，避免页面显示 **...** 或把这些标记写进数据库
+        for (const key of ["title", "description", "headings"] as const) {
+          const item = suggestions[key]
+          if (item) {
+            item.current = cleanAITextLine(item.current)
+            item.suggested = cleanAITextLine(item.suggested)
+            item.reason = cleanAIText(item.reason)
+          }
+        }
+        if (suggestions.keywords) {
+          suggestions.keywords.current = (suggestions.keywords.current || []).map(k => cleanAITextLine(k)).filter(Boolean)
+          suggestions.keywords.suggested = (suggestions.keywords.suggested || []).map(k => cleanAITextLine(k)).filter(Boolean)
+          suggestions.keywords.reason = cleanAIText(suggestions.keywords.reason)
+        }
+        if (suggestions.contentStructure) {
+          suggestions.contentStructure.suggestions = (suggestions.contentStructure.suggestions || []).map(s => cleanAIText(s)).filter(Boolean)
+          suggestions.contentStructure.reason = cleanAIText(suggestions.contentStructure.reason)
+        }
 
         // 过滤掉当前和建议相同的项目
         const filteredSuggestions: OptimizationSuggestions = {}
