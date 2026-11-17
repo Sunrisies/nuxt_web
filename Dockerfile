@@ -3,6 +3,10 @@ WORKDIR /app
 # Nitro bundles the server graph during the production build. Its default
 # 2 GiB Node heap is insufficient for this application under Linux/amd64.
 ENV NODE_OPTIONS=--max-old-space-size=4096
+# better-sqlite3 的预编译包默认从 GitHub 下载；pnpm 并发拉包时带宽被占满，
+# 30 秒超时后会退回 node-gyp 源码编译，而 alpine 基础镜像没有 Python，安装必然失败。
+# 指到 npmmirror 的二进制镜像（境内直连，实测 17 秒完成），不再需要编译工具链。
+ENV npm_config_better_sqlite3_binary_host_mirror=https://registry.npmmirror.com/-/binary/better-sqlite3
 RUN npm install --global pnpm@12.6.0
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --frozen-lockfile
